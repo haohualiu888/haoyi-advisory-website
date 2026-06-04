@@ -50,3 +50,5 @@ For custom production domains, set `NEXT_PUBLIC_SITE_URL` in Vercel so social me
 GitHub is the single source of truth. Future website changes must be made in this codebase, committed to GitHub, pushed to `main`, and deployed through Vercel auto-deployment.
 
 See [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md).
+
+For the first GitHub and Vercel setup runbook, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
