@@ -2,6 +2,10 @@
 
 This repository is the single source of truth for the Haoyi Advisory website.
 
+Production URL: `https://haoyi-advisory-website.vercel.app`
+
+GitHub repository: `https://github.com/haohualiu888/haoyi-advisory-website`
+
 ## Required Workflow
 
 All future website modifications must be made in the local/project codebase first.

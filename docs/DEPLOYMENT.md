@@ -1,43 +1,39 @@
 # Deployment Setup
 
-This document records the intended first-time setup for the Haoyi Advisory website.
+This document records the GitHub and Vercel setup for the Haoyi Advisory website.
 
 ## Current Local Repo
 
-- Local path: `C:\Users\haohu\Documents\haoyi-advisory-website`
+- Local path: `C:\Users\haohu\Desktop\Haoyi website`
 - Branch: `main`
-- Initial commit: `cf49308 Initial Haoyi Advisory website`
+- GitHub remote: `https://github.com/haohualiu888/haoyi-advisory-website.git`
+- Production URL: `https://haoyi-advisory-website.vercel.app`
 
 ## GitHub Setup
 
-Create an empty GitHub repository:
+GitHub repository:
 
 - Owner: `haohualiu888`
 - Repository: `haoyi-advisory-website`
-- Suggested visibility: private until public launch
-- Do not initialize with README, `.gitignore`, or license because this local repo already has those files.
+- URL: `https://github.com/haohualiu888/haoyi-advisory-website`
+- Default branch: `main`
 
-After the empty repo exists, run from the project root:
-
-```bash
-git remote add origin https://github.com/haohualiu888/haoyi-advisory-website.git
-git push -u origin main
-```
-
-If `origin` already exists, update it instead:
+The local repository is connected with:
 
 ```bash
 git remote set-url origin https://github.com/haohualiu888/haoyi-advisory-website.git
-git push -u origin main
+git push
 ```
+
+Do not create content directly in GitHub's web editor. Edit locally, commit, and push from this codebase.
 
 ## Vercel Setup
 
-Use the Vercel dashboard or CLI to import the GitHub repository.
-
-Recommended settings:
+Vercel project:
 
 - Vercel team: `Haohua` / `haohua1`
+- Project: `haoyi-advisory-website`
+- Production URL: `https://haoyi-advisory-website.vercel.app`
 - Git repository: `haohualiu888/haoyi-advisory-website`
 - Production branch: `main`
 - Framework preset: Next.js
@@ -49,29 +45,31 @@ Recommended settings:
 Optional environment variable:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://<final-production-domain>
+NEXT_PUBLIC_SITE_URL=https://haoyi-advisory-website.vercel.app
 ```
 
-Set `NEXT_PUBLIC_SITE_URL` after the final production domain is known so Open Graph metadata uses the production URL.
+Set or update `NEXT_PUBLIC_SITE_URL` if a custom production domain is added later.
 
 ## Verification
 
-After import and first production deployment:
+Verified on 2026-06-04:
 
-1. Open the Vercel production URL.
-2. Confirm these routes load:
+1. Vercel production deployment reached `READY`.
+2. These routes returned HTTP 200:
    - `/`
    - `/about`
    - `/focus`
    - `/services`
    - `/partners`
    - `/contact`
-3. Confirm removed routes are not present:
+3. Vercel deployment metadata points to GitHub `main`:
+   - Repository: `haohualiu888/haoyi-advisory-website`
+   - Branch: `main`
+4. Removed routes must remain absent:
    - `/china-entry-european-medtech`
    - `/overseas-bd-chinese-healthcare`
    - `/insights`
-4. Confirm the Vercel project shows GitHub integration enabled.
-5. Make a small future commit to `main` and confirm Vercel auto-deploys.
+5. Future commits pushed to `main` should trigger Vercel auto-deployment.
 
 ## Operating Rule
 

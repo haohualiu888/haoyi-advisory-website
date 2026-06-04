@@ -2,12 +2,17 @@
 
 Official independent website codebase for Haoyi Advisory, a cross-border medical device and healthcare commercialization platform connecting Europe and China.
 
+## Live Links
+
+- Production: https://haoyi-advisory-website.vercel.app
+- GitHub: https://github.com/haohualiu888/haoyi-advisory-website
+
 ## Stack
 
 - Next.js App Router
 - TypeScript
 - Tailwind CSS
-- Vercel deployment target
+- Vercel production deployment
 
 ## Main Sections
 
@@ -36,7 +41,7 @@ npm.cmd run lint
 npm.cmd run build
 ```
 
-For custom production domains, set `NEXT_PUBLIC_SITE_URL` in Vercel so social metadata resolves to the final domain.
+The default production URL is `https://haoyi-advisory-website.vercel.app`. For a custom production domain, set `NEXT_PUBLIC_SITE_URL` in Vercel so social metadata resolves to the final domain.
 
 ## Content Rules
 
