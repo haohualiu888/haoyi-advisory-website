@@ -404,19 +404,19 @@ export const contactCategories = [
 
 export const workflowPrinciples = [
   {
-    title: "Evidence first",
+    title: "Evidence",
     description:
-      "Claims, partner discussions, and market assumptions are organized around available evidence and clearly marked gaps.",
+      "AI-assisted research and human review organize public sources, company materials, policy documents, and visible evidence gaps.",
   },
   {
-    title: "AI-enabled workflow",
+    title: "Pathway",
     description:
-      "AI-assisted research, evidence organization, and structured execution support help accelerate preparation without replacing expert review.",
+      "Market fit, regulatory logic, clinical relevance, and partner readiness are assessed together before commercial outreach.",
   },
   {
-    title: "Execution focused",
+    title: "Execution",
     description:
-      "The objective is a practical pathway: defined stakeholders, clear next steps, and commercially realistic options.",
+      "Target mapping, outreach preparation, opportunity qualification, meeting support, and structured follow-up are kept tied to clear next steps.",
   },
 ];
 
