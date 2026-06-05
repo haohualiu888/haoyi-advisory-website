@@ -2,7 +2,6 @@ import {
   Activity,
   ArrowRight,
   BadgeCheck,
-  BarChart3,
   Brain,
   BriefcaseBusiness,
   Building2,
@@ -12,12 +11,11 @@ import {
   Globe2,
   Handshake,
   HeartPulse,
+  House,
   Landmark,
   LineChart,
   Map,
   Network,
-  ShieldCheck,
-  Stethoscope,
   Target,
   University,
   Users,
@@ -34,46 +32,28 @@ export const navItems = [
 
 export const focusAreas = [
   {
-    title: "Rehabilitation",
+    title: "Neurorehabilitation",
     description:
-      "Preferred focus on technologies supporting functional restoration, neurorehabilitation, and musculoskeletal rehabilitation.",
-    icon: Activity,
-  },
-  {
-    title: "Recovery",
-    description:
-      "Post-operative recovery, chronic recovery pathways, pain management, and practical tools for measurable improvement.",
-    icon: HeartPulse,
-  },
-  {
-    title: "Diagnostics",
-    description:
-      "Diagnostic and assessment technologies where clinical value, adoption pathway, and market access can be clearly evaluated.",
-    icon: Stethoscope,
-  },
-  {
-    title: "Digital Health",
-    description:
-      "Software-enabled healthcare, clinical workflow tools, AI-assisted assessment, and connected-care models.",
+      "Technologies supporting neurological recovery, mobility, motor function, and functional independence.",
     icon: Brain,
   },
   {
-    title: "Home Care",
+    title: "Musculoskeletal & Pain",
     description:
-      "Home-use devices and care models that extend clinical support beyond hospitals and rehabilitation centers.",
-    icon: Building2,
+      "Devices and care technologies focused on movement, strength, musculoskeletal function, and pain management.",
+    icon: Activity,
   },
   {
-    title: "Monitoring",
+    title: "Post-operative Recovery",
     description:
-      "Remote monitoring, wearable sensing, patient tracking, and data-enabled care coordination technologies.",
-    icon: BarChart3,
+      "Solutions supporting early mobilization, therapy adherence, recovery progression, and return to function.",
+    icon: HeartPulse,
   },
   {
-    title: "Medical Devices",
+    title: "Home & Continuing Care",
     description:
-      "Broader medical device and healthcare product commercialization where cross-border execution matters.",
-    icon: ShieldCheck,
+      "Home-use and connected technologies that extend rehabilitation and recovery beyond hospitals and clinics.",
+    icon: House,
   },
 ];
 
