@@ -1,11 +1,7 @@
 import {
   Activity,
-  ArrowRight,
   BadgeCheck,
-  BriefcaseBusiness,
   Building2,
-  ClipboardCheck,
-  Crosshair,
   FileSearch,
   Globe2,
   Handshake,
@@ -59,52 +55,28 @@ export const focusAreas = [
 
 export const services = [
   {
-    title: "Market Entry",
+    title: "Market Assessment",
     description:
-      "Market structure, user pathway, payment logic, competitor pressure, and practical entry route assessment.",
-    icon: Globe2,
+      "Evaluate market demand, clinical use, competition, payment logic, and product-market fit.",
+    icon: LineChart,
   },
   {
-    title: "Partner Mapping",
+    title: "Entry Pathway",
     description:
-      "Target partner mapping across clinical, commercial, industrial, capital, and advisory ecosystems.",
+      "Define the regulatory, clinical, localization, and market-entry route for the target geography.",
+    icon: Map,
+  },
+  {
+    title: "Partner Development",
+    description:
+      "Map targets, prepare outreach, qualify opportunities, support meetings, and maintain structured follow-up.",
     icon: Network,
   },
   {
-    title: "BD Execution",
+    title: "Commercial Execution",
     description:
-      "We support target partner mapping, outreach preparation, opportunity qualification, meeting support, negotiation coordination, and structured follow-up until a clear commercial next step is reached.",
+      "Coordinate negotiations, cooperation structures, commercial terms, launch planning, and agreed next steps.",
     icon: Handshake,
-  },
-  {
-    title: "Regulatory Pathway",
-    description:
-      "Preliminary pathway framing, evidence gap mapping, registration considerations, and expert coordination.",
-    icon: ClipboardCheck,
-  },
-  {
-    title: "Clinical Access",
-    description:
-      "Clinical stakeholder mapping, pilot pathway design, evidence discussion support, and access planning.",
-    icon: HeartPulse,
-  },
-  {
-    title: "Commercial Strategy",
-    description:
-      "Positioning, channel logic, pricing considerations, market prioritization, and launch sequencing.",
-    icon: Crosshair,
-  },
-  {
-    title: "Transaction Support",
-    description:
-      "Support for cooperation structures, qualification materials, commercial terms, and cross-border coordination.",
-    icon: BriefcaseBusiness,
-  },
-  {
-    title: "Overseas Expansion",
-    description:
-      "Support for Chinese healthcare companies evaluating overseas markets, partners, and commercialization pathways.",
-    icon: ArrowRight,
   },
 ];
 
