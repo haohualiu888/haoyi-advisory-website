@@ -2,7 +2,6 @@ import {
   Activity,
   ArrowRight,
   BadgeCheck,
-  Brain,
   BriefcaseBusiness,
   Building2,
   ClipboardCheck,
@@ -16,6 +15,7 @@ import {
   LineChart,
   Map,
   Network,
+  Stethoscope,
   Target,
   University,
   Users,
@@ -32,21 +32,21 @@ export const navItems = [
 
 export const focusAreas = [
   {
-    title: "Neurorehabilitation",
+    title: "Assessment & Diagnostics",
     description:
-      "Technologies supporting neurological recovery, mobility, motor function, and functional independence.",
-    icon: Brain,
+      "Functional, biomechanical, and neuromuscular assessment technologies that establish needs and guide rehabilitation decisions.",
+    icon: Stethoscope,
   },
   {
-    title: "Musculoskeletal & Pain",
+    title: "Therapeutic Rehabilitation",
     description:
-      "Devices and care technologies focused on movement, strength, musculoskeletal function, and pain management.",
+      "Neurorehabilitation and musculoskeletal technologies supporting movement, strength, motor function, and independence.",
     icon: Activity,
   },
   {
-    title: "Post-operative Recovery",
+    title: "Recovery & Pain Management",
     description:
-      "Solutions supporting early mobilization, therapy adherence, recovery progression, and return to function.",
+      "Post-operative recovery, pain management, early mobilization, and return-to-function technologies.",
     icon: HeartPulse,
   },
   {

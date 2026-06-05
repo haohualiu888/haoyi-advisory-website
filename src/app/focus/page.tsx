@@ -4,7 +4,7 @@ import { focusAreas } from "@/lib/site-content";
 export const metadata = {
   title: "Focus",
   description:
-    "Haoyi Advisory's preferred focus areas in neurorehabilitation, musculoskeletal rehabilitation, pain management, post-operative recovery, and home care.",
+    "Haoyi Advisory's rehabilitation technology focus across assessment and diagnostics, therapeutic rehabilitation, recovery, pain management, and continuing care.",
 };
 
 export default function FocusPage() {
@@ -12,18 +12,18 @@ export default function FocusPage() {
     <PageShell>
       <PageHero
         title="Focus"
-        description="We concentrate on rehabilitation and recovery technologies where clinical need, functional value, and commercialization pathways can be assessed clearly."
+        description="We focus on technologies across the rehabilitation pathway, from assessment and treatment to recovery and continuing care."
       />
 
       <section className="bg-slate-50">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 lg:grid-cols-[0.7fr_1.3fr] lg:px-8 lg:py-20">
           <div>
             <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-              Four preferred areas.
+              Four parts of the pathway.
             </h2>
             <p className="mt-4 max-w-lg text-base leading-7 text-slate-600">
-              A tighter scope helps us evaluate products, clinical pathways, partners, and market
-              entry options with greater relevance.
+              One consistent structure keeps the focus simple, complete, and relevant to
+              rehabilitation commercialization.
             </p>
           </div>
 
@@ -58,9 +58,9 @@ export default function FocusPage() {
           <div className="border-l-4 border-cyan-500 bg-slate-50 px-5 py-4 sm:flex sm:items-start sm:gap-8">
             <h2 className="flex-none text-base font-semibold text-slate-950">Selection rule</h2>
             <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-600 sm:mt-0">
-              Other medical devices and digital technologies are considered selectively when they
-              directly support rehabilitation, recovery, functional improvement, pain management,
-              or care continuity.
+              Products are evaluated when their primary role fits one of these four rehabilitation
+              functions. Digital tools, monitoring, robotics, and home-use devices sit within the
+              relevant function rather than becoming separate categories.
             </p>
           </div>
         </div>
