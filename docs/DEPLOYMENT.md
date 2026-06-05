@@ -50,6 +50,9 @@ NEXT_PUBLIC_SITE_URL=https://haoyi-advisory-website.vercel.app
 
 Set or update `NEXT_PUBLIC_SITE_URL` if a custom production domain is added later.
 
+Project assessment environment variables and activation checks are documented in
+`docs/PROJECT_ASSESSMENT_SETUP.md`.
+
 ## Verification
 
 Verified on 2026-06-04:
@@ -62,6 +65,7 @@ Verified on 2026-06-04:
    - `/services`
    - `/partners`
    - `/contact`
+   - `/contact/project`
 3. Vercel deployment metadata points to GitHub `main`:
    - Repository: `haohualiu888/haoyi-advisory-website`
    - Branch: `main`

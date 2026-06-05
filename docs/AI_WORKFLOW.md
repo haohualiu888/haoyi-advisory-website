@@ -14,6 +14,7 @@ All future website modifications must be made in the local/project codebase firs
 2. Run local checks:
 
 ```bash
+npm.cmd run test
 npm.cmd run lint
 npm.cmd run build
 ```
@@ -33,6 +34,7 @@ Allowed Vercel-side actions:
 - Environment variable configuration
 - Emergency rollback
 - Account, team, or project settings that cannot live in code
+- Secret configuration for Resend, Turnstile, and project assessment delivery
 
 Content, design, routing, and code changes must be made in GitHub-tracked source code and deployed through the GitHub-to-Vercel workflow.
 
@@ -41,3 +43,4 @@ Content, design, routing, and code changes must be made in GitHub-tracked source
 - Do not publish fake clients, fake hospitals, fake logos, fake government commitments, fake certifications, or unsupported claims.
 - Use `To be confirmed` where public information has not been approved.
 - Keep approved partner names and representative examples out of the site until they are explicitly cleared for public use.
+- Keep `PROJECT_ASSESSMENT_ENABLED=false` until email DNS, Resend, Turnstile, and mailbox delivery have been verified.

@@ -37,6 +37,7 @@ Open `http://localhost:3000`.
 ## Checks
 
 ```bash
+npm.cmd run test
 npm.cmd run lint
 npm.cmd run build
 ```
@@ -50,6 +51,17 @@ The default production URL is `https://haoyi-advisory-website.vercel.app`. For a
 - Mark missing or unverified public information as `To be confirmed`.
 - Keep BD content inside the Services section only.
 - Record government-region and image sources in [docs/GOVERNMENT_REGION_SOURCES.md](docs/GOVERNMENT_REGION_SOURCES.md).
+- Do not collect confidential technical, clinical, financial, or IP-sensitive information through the public project assessment form.
+
+## Project Assessment
+
+The Contact page links to `/contact/project`, where overseas medical-device companies can submit
+basic non-confidential project information.
+
+Submissions are disabled by default. Copy `.env.example` to an ignored local environment file and
+configure Resend and Cloudflare Turnstile before enabling the endpoint.
+
+Required activation steps are documented in [docs/PROJECT_ASSESSMENT_SETUP.md](docs/PROJECT_ASSESSMENT_SETUP.md).
 
 ## Deployment Workflow
 

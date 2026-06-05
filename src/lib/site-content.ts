@@ -304,13 +304,11 @@ export const governmentProfiles: GovernmentProfile[] = [
   },
 ];
 
-export const contactCategories = [
-  "European company entering China",
-  "Chinese company expanding overseas",
-  "Distributor or commercial partner",
-  "Investor or strategic partner",
-  "Government or industrial platform",
-  "General enquiry",
+export const generalEnquiryTopics = [
+  "Services and capabilities",
+  "China market entry and strategy",
+  "Partnership opportunities",
+  "General enquiries",
 ];
 
 export const workflowPrinciples = [
@@ -336,7 +334,7 @@ export const factsToConfirm = [
   "Registered office address: To be confirmed",
   "Approved public partner names: To be confirmed",
   "Representative project examples: To be confirmed",
-  "Primary contact email and phone: To be confirmed",
+  "Primary phone number: To be confirmed",
 ];
 
 export const differentiators = [
