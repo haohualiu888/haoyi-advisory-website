@@ -2,8 +2,6 @@ import {
   Activity,
   BadgeCheck,
   Building2,
-  FileSearch,
-  Globe2,
   Handshake,
   HeartPulse,
   House,
@@ -13,8 +11,6 @@ import {
   Network,
   Stethoscope,
   Target,
-  University,
-  Users,
 } from "lucide-react";
 
 export const navItems = [
@@ -82,52 +78,28 @@ export const services = [
 
 export const partnerGroups = [
   {
-    title: "European medical device companies",
+    title: "Medical device companies",
     description:
-      "Companies assessing China entry, partner strategy, localization pathways, or broader Asia opportunities.",
-    icon: Globe2,
-  },
-  {
-    title: "Chinese medical device companies",
-    description:
-      "Companies preparing for overseas expansion, commercial partnership, market validation, or strategic positioning.",
+      "European companies evaluating China and Chinese companies preparing for overseas growth.",
     icon: Building2,
   },
   {
-    title: "Hospitals and clinical experts",
+    title: "Clinical & commercial partners",
     description:
-      "Clinical stakeholders and expert networks relevant to evidence, workflow, adoption, and access discussions.",
+      "Hospitals, clinical experts, distributors, and specialist operators relevant to evidence, adoption, and market access.",
     icon: HeartPulse,
-  },
-  {
-    title: "Distributors",
-    description:
-      "Commercial channel partners, regional distributors, and specialist operators in healthcare markets.",
-    icon: Users,
   },
   {
     title: "Industrial parks",
     description:
-      "Healthcare and medical technology platforms supporting landing, localization, and industry development.",
+      "Medical technology landing platforms supporting localization, operations, manufacturing, and ecosystem access.",
     icon: Landmark,
   },
   {
-    title: "Investors",
+    title: "Capital & specialist network",
     description:
-      "Strategic and financial investors evaluating medical device and healthcare commercialization opportunities.",
-    icon: LineChart,
-  },
-  {
-    title: "Universities and innovation offices",
-    description:
-      "Research, translation, and innovation offices linked to healthcare technology development.",
-    icon: University,
-  },
-  {
-    title: "Legal, regulatory, and IP advisors",
-    description:
-      "Professional advisors supporting compliant, evidence-based, and defensible cross-border execution.",
-    icon: FileSearch,
+      "Investors, universities, innovation offices, and legal, regulatory, and IP advisors supporting execution.",
+    icon: Network,
   },
 ];
 
@@ -142,8 +114,6 @@ export type GovernmentProfile = {
   image: {
     src: string;
     alt: string;
-    sourceLabel: string;
-    sourceUrl: string;
   };
   sources: Array<{
     label: string;
@@ -170,10 +140,8 @@ export const governmentProfiles: GovernmentProfile[] = [
       "Clinical use, pricing, data collection, and national registration value require case-specific legal and regulatory review.",
     ],
     image: {
-      src: "/images/governments/boao-lecheng.jpg",
-      alt: "Boao Lecheng International Medical Tourism Pilot Zone building sign",
-      sourceLabel: "Boao Lecheng International Medicines and Medical Devices",
-      sourceUrl: "https://www.lczxyf.com/",
+      src: "/images/governments/boao-lecheng-park.jpg",
+      alt: "Aerial view of Boao Lecheng International Medical Tourism Pilot Zone",
     },
     sources: [
       {
@@ -208,10 +176,8 @@ export const governmentProfiles: GovernmentProfile[] = [
       "Any clinical collaboration must be separately validated with hospitals or clinical institutions.",
     ],
     image: {
-      src: "/images/governments/wuhan-east-lake-medical-device-park.jpg",
-      alt: "Wuhan Gaoke Medical Device Park building",
-      sourceLabel: "Wuhan Gaoke Medical Device Park",
-      sourceUrl: "https://www.whgk.com/index_map/84.html",
+      src: "/images/governments/wuhan-gaoke-medical-device-park-campus.jpg",
+      alt: "Wuhan Gaoke Medical Device Park campus",
     },
     sources: [
       {
@@ -246,10 +212,8 @@ export const governmentProfiles: GovernmentProfile[] = [
       "Incentives and regulatory service access require direct current confirmation.",
     ],
     image: {
-      src: "/images/governments/taizhou-china-medical-city.jpg",
-      alt: "China Medical City planning and investment discussion scene",
-      sourceLabel: "China Medical City official website",
-      sourceUrl: "https://www.cmc.gov.cn/",
+      src: "/images/governments/taizhou-china-medical-city-aerial.jpg",
+      alt: "Aerial view of China Medical City in Taizhou",
     },
     sources: [
       {
@@ -284,10 +248,8 @@ export const governmentProfiles: GovernmentProfile[] = [
       "Healthcare scenario access needs separate stakeholder validation.",
     ],
     image: {
-      src: "/images/governments/shenzhen-luohu.jpg",
-      alt: "Luohu District city view in Shenzhen",
-      sourceLabel: "Luohu District Government English portal",
-      sourceUrl: "https://www.szlh.gov.cn/English/about/overview/content/mpost_9380767.html",
+      src: "/images/governments/shenzhen-luohu-software-industrial-park.jpg",
+      alt: "Luohu Investment Holding Software Industrial Park in Shenzhen",
     },
     sources: [
       {
@@ -322,11 +284,8 @@ export const governmentProfiles: GovernmentProfile[] = [
       "Rehabilitation-device fit should be verified against the product's technical category and local platform capacity.",
     ],
     image: {
-      src: "/images/governments/changchun-economic-zone.jpeg",
-      alt: "Changchun Economic and Technological Development Zone industrial landscape",
-      sourceLabel: "China Daily / Invest in China",
-      sourceUrl:
-        "https://investinchina.chinadaily.com.cn/s/201810/24/WS5c8766af498e27e33803a206/changchun-economic-technological-development-zone.html",
+      src: "/images/governments/changchun-xinglong-bonded-zone.jpg",
+      alt: "Aerial view of Changchun Xinglong Comprehensive Bonded Zone",
     },
     sources: [
       {

@@ -21,7 +21,7 @@ export default function PartnersPage() {
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
           <SectionIntro
             title="Ecosystem"
-            description="Partner categories are described by role rather than unapproved names, logos, hospitals, government commitments, or unsupported relationships."
+            description="Four roles define the operating ecosystem around cross-border medical device commercialization."
           />
           <div className="mt-10">
             <CardGrid items={partnerGroups} columns="four" />
@@ -32,8 +32,8 @@ export default function PartnersPage() {
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
           <SectionIntro
-            title="Regions"
-            description="Publicly sourced China landing-region profiles for European rehabilitation and medical-device companies. These profiles are informational and do not represent confirmed government partnerships."
+            title="Parks"
+            description="Five public-sector industrial parks and landing platforms selected for their relevance to rehabilitation and medical-device commercialization."
           />
           <div className="mt-12 space-y-8">
             {governmentProfiles.map((profile, index) => (
@@ -54,17 +54,6 @@ export default function PartnersPage() {
                       sizes="(min-width: 1024px) 50vw, 100vw"
                       className="object-cover"
                     />
-                    <div className="absolute inset-x-0 bottom-0 bg-slate-950/80 px-4 py-3 text-xs text-slate-100">
-                      Image source:{" "}
-                      <a
-                        href={profile.image.sourceUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="font-medium text-cyan-200 underline-offset-4 hover:underline"
-                      >
-                        {profile.image.sourceLabel}
-                      </a>
-                    </div>
                   </div>
                   <div className="p-6 sm:p-8 lg:p-10">
                     <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-700">
@@ -139,8 +128,8 @@ export default function PartnersPage() {
             </h2>
             <p className="mt-4 max-w-4xl text-base leading-8 text-slate-600">
               Approved public partner names, logos, hospitals, local government relationships, and
-              representative project examples are To be confirmed. The region profiles above use
-              official public information and real source images for market-entry orientation only.
+              representative project examples are To be confirmed. The profiles above use public
+              information and verified real-location photography for market-entry orientation only.
               They do not state or imply confirmed government commitments.
             </p>
           </div>
