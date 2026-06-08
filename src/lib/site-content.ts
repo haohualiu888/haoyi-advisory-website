@@ -2,11 +2,9 @@ import {
   Activity,
   BadgeCheck,
   Building2,
-  Handshake,
   HeartPulse,
   House,
   Landmark,
-  LineChart,
   Map,
   Network,
   Stethoscope,
@@ -51,28 +49,22 @@ export const focusAreas = [
 
 export const services = [
   {
-    title: "Market Assessment",
+    title: "Market & Entry Strategy",
     description:
-      "Evaluate market demand, clinical use, competition, payment logic, and product-market fit.",
-    icon: LineChart,
-  },
-  {
-    title: "Entry Pathway",
-    description:
-      "Define the regulatory, clinical, localization, and market-entry route for the target geography.",
-    icon: Map,
+      "Assess demand, clinical relevance, competition, regulatory feasibility, localization needs, and the right market-entry model.",
+    outcome: "A clear market and entry decision.",
   },
   {
     title: "Partner Development",
     description:
-      "Map targets, prepare outreach, qualify opportunities, support meetings, and maintain structured follow-up.",
-    icon: Network,
+      "Map and prioritize clinical, distribution, strategic, industrial park, and investment partners; prepare outreach and qualify opportunities.",
+    outcome: "A focused pipeline of relevant partners.",
   },
   {
     title: "Commercial Execution",
     description:
-      "Coordinate negotiations, cooperation structures, commercial terms, launch planning, and agreed next steps.",
-    icon: Handshake,
+      "Support meetings, coordinate negotiations and partnership structures, and maintain structured follow-up until a defined next step is reached.",
+    outcome: "An actionable commercial next step.",
   },
 ];
 
