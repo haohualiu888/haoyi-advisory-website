@@ -1,13 +1,10 @@
 import {
-  Activity,
   BadgeCheck,
   Building2,
   HeartPulse,
-  House,
   Landmark,
   Map,
   Network,
-  Stethoscope,
   Target,
 } from "lucide-react";
 
@@ -22,28 +19,34 @@ export const navItems = [
 
 export const focusAreas = [
   {
-    title: "Assessment & Diagnostics",
+    title: "Diagnostics, Imaging & IVD",
     description:
-      "Functional, biomechanical, and neuromuscular assessment technologies that establish needs and guide rehabilitation decisions.",
-    icon: Stethoscope,
+      "Imaging, laboratory, point-of-care, screening, and clinical assessment technologies.",
   },
   {
-    title: "Therapeutic Rehabilitation",
+    title: "Surgical, Interventional & Implantable",
     description:
-      "Neurorehabilitation and musculoskeletal technologies supporting movement, strength, motor function, and independence.",
-    icon: Activity,
+      "Instruments, robotics, implants, minimally invasive systems, and procedure-support technologies.",
   },
   {
-    title: "Recovery & Pain Management",
+    title: "Therapeutic & Life Support",
     description:
-      "Post-operative recovery, pain management, early mobilization, and return-to-function technologies.",
-    icon: HeartPulse,
+      "Respiratory, renal, infusion, wound care, pain management, and treatment systems.",
   },
   {
-    title: "Home & Continuing Care",
+    title: "Monitoring & Digital Health",
     description:
-      "Home-use and connected technologies that extend rehabilitation and recovery beyond hospitals and clinics.",
-    icon: House,
+      "Patient monitoring, wearables, connected devices, SaMD, and AI-enabled clinical tools.",
+  },
+  {
+    title: "Rehabilitation & Assistive Technologies",
+    description:
+      "Neurorehabilitation, musculoskeletal recovery, mobility, prosthetics, and functional support.",
+  },
+  {
+    title: "Hospital, Home Care & Consumables",
+    description:
+      "Hospital equipment, critical-care systems, home-use devices, and medical consumables.",
   },
 ];
 

@@ -1,72 +1,71 @@
-import { CtaBand, PageHero, PageShell } from "@/components/layout";
+import { PageShell } from "@/components/layout";
 import { focusAreas } from "@/lib/site-content";
 
 export const metadata = {
   title: "Focus",
   description:
-    "Haoyi Advisory's rehabilitation technology focus across assessment and diagnostics, therapeutic rehabilitation, recovery, pain management, and continuing care.",
+    "Haoyi Advisory supports commercialization across diagnostics, imaging, surgery, intervention, treatment, monitoring, digital health, rehabilitation, hospital equipment, home care, and medical consumables.",
 };
 
 export default function FocusPage() {
   return (
     <PageShell>
-      <PageHero
-        title="Focus"
-        description="We focus on technologies across the rehabilitation pathway, from assessment and treatment to recovery and continuing care."
-      />
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+          <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
+            Focus
+          </h1>
+          <p className="mt-5 max-w-4xl text-lg leading-8 text-slate-600">
+            We work across the medical device landscape, from diagnostics and intervention to
+            treatment, monitoring, rehabilitation, and care delivery.
+          </p>
+        </div>
+      </section>
 
       <section className="bg-slate-50">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 lg:grid-cols-[0.7fr_1.3fr] lg:px-8 lg:py-20">
-          <div>
-            <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-              Four parts of the pathway.
-            </h2>
-            <p className="mt-4 max-w-lg text-base leading-7 text-slate-600">
-              One consistent structure keeps the focus simple, complete, and relevant to
-              rehabilitation commercialization.
-            </p>
-          </div>
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+            <div>
+              <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+                Medical device sectors.
+              </h2>
+              <p className="mt-4 max-w-lg text-base leading-7 text-slate-600">
+                Six broad product groups define the technologies we evaluate and support across
+                Europe and China.
+              </p>
+            </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            {focusAreas.map((area, index) => {
-              const Icon = area.icon;
-
-              return (
+            <div className="grid border-t border-slate-300 sm:grid-cols-2">
+              {focusAreas.map((area, index) => (
                 <article
                   key={area.title}
-                  className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
+                  className={`border-b border-slate-300 py-7 sm:min-h-52 sm:px-7 ${
+                    index % 2 === 0 ? "sm:border-r sm:pl-0" : "sm:pr-0"
+                  }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="grid h-11 w-11 place-items-center rounded-lg bg-cyan-50 text-cyan-700">
-                      <Icon className="h-5 w-5" strokeWidth={1.8} />
-                    </div>
-                    <span className="text-sm font-semibold text-slate-400">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <h3 className="mt-6 text-xl font-semibold text-slate-950">{area.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{area.description}</p>
+                  <p className="text-sm font-semibold text-cyan-700">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-4 max-w-md text-xl font-semibold tracking-tight text-slate-950">
+                    {area.title}
+                  </h3>
+                  <p className="mt-3 max-w-md text-sm leading-6 text-slate-600">
+                    {area.description}
+                  </p>
                 </article>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
 
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
-          <div className="border-l-4 border-cyan-500 bg-slate-50 px-5 py-4 sm:flex sm:items-start sm:gap-8">
-            <h2 className="flex-none text-base font-semibold text-slate-950">Selection rule</h2>
-            <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-600 sm:mt-0">
-              Products are evaluated when their primary role fits one of these four rehabilitation
-              functions. Digital tools, monitoring, robotics, and home-use devices sit within the
-              relevant function rather than becoming separate categories.
+          <div className="mt-12 border-t border-slate-300 pt-6 lg:ml-[calc(36%+2.5rem)] lg:flex lg:items-start lg:gap-10">
+            <h2 className="flex-none text-base font-semibold text-slate-950">Commercial lens</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600 lg:mt-0">
+              Each opportunity is assessed by intended use, clinical pathway, regulatory status,
+              evidence, and commercial model.
             </p>
           </div>
         </div>
       </section>
-
-      <CtaBand />
     </PageShell>
   );
 }
