@@ -1,12 +1,11 @@
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
 import { CardGrid, CtaBand, PageHero, PageShell, SectionIntro } from "@/components/layout";
 import { governmentProfiles, partnerGroups } from "@/lib/site-content";
 
 export const metadata = {
   title: "Partners",
   description:
-    "Partner ecosystem and public-sector region profiles for Haoyi Advisory's Europe-China medical device commercialization work.",
+    "Partner ecosystem and six strategic China landing regions for Haoyi Advisory's Europe-China medical device commercialization work.",
 };
 
 export default function PartnersPage() {
@@ -14,7 +13,7 @@ export default function PartnersPage() {
     <PageShell>
       <PageHero
         title="Partners"
-        description="Haoyi Advisory works across a category-based ecosystem relevant to medical device and healthcare commercialization. Public names are shown only after approval."
+        description="Haoyi Advisory connects medical device companies with clinical, commercial, industrial, and specialist networks across Europe and China."
       />
 
       <section className="bg-slate-50">
@@ -33,17 +32,14 @@ export default function PartnersPage() {
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
           <SectionIntro
             title="Parks"
-            description="Five public-sector industrial parks and landing platforms selected for their relevance to rehabilitation and medical-device commercialization."
+            description="Six strategic China landing regions with distinct roles across clinical access, product development, manufacturing, digital health, and commercialization."
           />
-          <div className="mt-12 space-y-8">
+          <div className="mt-12 space-y-16">
             {governmentProfiles.map((profile, index) => (
-              <article
-                key={profile.title}
-                className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
-              >
-                <div className="grid lg:grid-cols-2">
+              <article key={profile.title} className="border-t border-slate-300 pt-8">
+                <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12">
                   <div
-                    className={`relative min-h-[260px] bg-slate-100 ${
+                    className={`relative aspect-video overflow-hidden bg-slate-100 ${
                       index % 2 === 1 ? "lg:order-2" : ""
                     }`}
                   >
@@ -55,7 +51,7 @@ export default function PartnersPage() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="p-6 sm:p-8 lg:p-10">
+                  <div className="flex flex-col justify-center">
                     <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-700">
                       {profile.location}
                     </p>
@@ -68,49 +64,34 @@ export default function PartnersPage() {
                     <p className="mt-5 text-base font-semibold text-slate-900">{profile.role}</p>
                     <p className="mt-3 text-sm leading-6 text-slate-600">{profile.summary}</p>
 
-                    <div className="mt-6 grid gap-6 md:grid-cols-2">
-                      <div>
-                        <h3 className="text-sm font-semibold text-slate-950">Potential fit</h3>
-                        <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-600">
-                          {profile.fitPoints.map((point) => (
-                            <li key={point} className="flex gap-2">
-                              <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-cyan-600" />
-                              <span>{point}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-semibold text-slate-950">To be confirmed</h3>
-                        <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-600">
-                          {profile.uncertainties.map((point) => (
-                            <li key={point} className="flex gap-2">
-                              <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-slate-400" />
-                              <span>{point}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                    <div className="mt-7 grid border-y border-slate-200 sm:grid-cols-3">
+                      {profile.verifiedFacts.map((fact, factIndex) => (
+                        <div
+                          key={`${profile.title}-${fact.label}`}
+                          className={`py-5 sm:px-5 ${
+                            factIndex > 0 ? "border-t border-slate-200 sm:border-t-0 sm:border-l" : ""
+                          }`}
+                        >
+                          <p className="text-2xl font-semibold tracking-tight text-slate-950">
+                            {fact.value}
+                          </p>
+                          <p className="mt-2 text-xs leading-5 text-slate-600">{fact.label}</p>
+                          <p className="mt-2 text-xs font-medium text-cyan-700">{fact.period}</p>
+                        </div>
+                      ))}
                     </div>
 
-                    <div className="mt-6 border-t border-slate-200 pt-5">
-                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                        Public sources
-                      </p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {profile.sources.map((source) => (
-                          <a
-                            key={source.url}
-                            href={source.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-cyan-300 hover:text-cyan-700"
-                          >
-                            {source.label}
-                            <ArrowUpRight className="h-3.5 w-3.5" />
-                          </a>
+                    <div className="mt-6">
+                      <h3 className="text-sm font-semibold text-slate-950">Relevant projects</h3>
+                      <ul className="mt-3 grid gap-x-8 gap-y-2 text-sm leading-6 text-slate-600 md:grid-cols-2">
+                        {profile.relevance.map((point) => (
+                          <li key={point} className="flex gap-2">
+                            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-cyan-600" />
+                            <span>{point}</span>
+                          </li>
                         ))}
-                      </div>
+                      </ul>
+                      <p className="mt-5 text-xs text-slate-500">Data reference: {profile.asOf}.</p>
                     </div>
                   </div>
                 </div>
@@ -122,15 +103,14 @@ export default function PartnersPage() {
 
       <section className="bg-slate-50">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
-          <div className="rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
+          <div className="border-l-4 border-cyan-500 bg-white px-6 py-5">
             <h2 className="text-2xl font-semibold tracking-tight text-slate-950">
-              Publication note
+              Project qualification
             </h2>
             <p className="mt-4 max-w-4xl text-base leading-8 text-slate-600">
-              Approved public partner names, logos, hospitals, local government relationships, and
-              representative project examples are To be confirmed. The profiles above use public
-              information and verified real-location photography for market-entry orientation only.
-              They do not state or imply confirmed government commitments.
+              Location relevance depends on the product, regulatory status, clinical pathway,
+              operating model, and local project requirements. Incentives, approvals, hospital
+              access, investment, and commercial terms require current project-specific confirmation.
             </p>
           </div>
         </div>

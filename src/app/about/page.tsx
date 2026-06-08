@@ -1,16 +1,16 @@
 import { CtaBand, PageShell } from "@/components/layout";
-import { governmentProfiles, services, workflowPrinciples } from "@/lib/site-content";
+import {
+  focusAreas,
+  governmentProfiles,
+  services,
+  workflowPrinciples,
+} from "@/lib/site-content";
 
 export const metadata = {
   title: "About",
   description:
     "About Haoyi Advisory, a Europe-China medical device and healthcare commercialization platform.",
 };
-
-const publicSourceCount = governmentProfiles.reduce(
-  (total, profile) => total + profile.sources.length,
-  0,
-);
 
 const aboutStats = [
   {
@@ -20,19 +20,18 @@ const aboutStats = [
   },
   {
     value: String(governmentProfiles.length),
-    label: "China landing regions researched",
-    description: "Boao Lecheng, Wuhan East Lake, Taizhou CMC, Shenzhen Luohu, Changchun.",
+    label: "Strategic China landing regions",
+    description: "Boao, Wuhan, Taizhou, Tongxiang, Shenzhen, and Changchun.",
+  },
+  {
+    value: String(focusAreas.length),
+    label: "Medical device sectors",
+    description: "Coverage across six broad medical-device and healthcare technology groups.",
   },
   {
     value: String(services.length),
-    label: "Service modules",
-    description:
-      "Market entry, partner mapping, BD execution, regulatory, clinical, strategy, transactions, and expansion.",
-  },
-  {
-    value: String(publicSourceCount),
-    label: "Public sources recorded",
-    description: "Official and public references used for current partner-region research.",
+    label: "Commercialization capabilities",
+    description: "Strategy, partner development, and commercial execution.",
   },
 ];
 
@@ -43,7 +42,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
           <div className="max-w-2xl">
             <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-              Evidence-led Europe-China commercialization.
+              Europe-China medical device commercialization.
             </h1>
             <p className="mt-6 text-lg leading-8 text-slate-600">
               Haoyi Advisory connects European and Chinese medical device and healthcare companies
@@ -95,19 +94,6 @@ export default function AboutPage() {
                 </article>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
-          <div className="border-l-4 border-cyan-500 bg-slate-50 px-5 py-4">
-            <h2 className="text-base font-semibold text-slate-950">Publication discipline</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Legal entity details, registered address, approved public partner names,
-              representative project examples, and primary contact details remain To be confirmed
-              before publication.
-            </p>
           </div>
         </div>
       </section>

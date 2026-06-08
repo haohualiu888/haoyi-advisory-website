@@ -50,7 +50,7 @@ The default production URL is `https://haoyi-advisory-website.vercel.app`. For a
 - Use category-based partner descriptions unless public names have been approved.
 - Mark missing or unverified public information as `To be confirmed`.
 - Keep BD content inside the Services section only.
-- Record government-region and image sources in [docs/GOVERNMENT_REGION_SOURCES.md](docs/GOVERNMENT_REGION_SOURCES.md).
+- Record government-region facts and image provenance in [docs/PARK_EVIDENCE.md](docs/PARK_EVIDENCE.md).
 - Do not collect confidential technical, clinical, financial, or IP-sensitive information through the public project assessment form.
 
 ## Project Assessment

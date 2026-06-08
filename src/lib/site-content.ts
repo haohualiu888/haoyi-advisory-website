@@ -104,16 +104,17 @@ export type GovernmentProfile = {
   location: string;
   role: string;
   summary: string;
-  fitPoints: string[];
-  uncertainties: string[];
+  verifiedFacts: Array<{
+    value: string;
+    label: string;
+    period: string;
+  }>;
+  relevance: string[];
+  asOf: string;
   image: {
     src: string;
     alt: string;
   };
-  sources: Array<{
-    label: string;
-    url: string;
-  }>;
 };
 
 export const governmentProfiles: GovernmentProfile[] = [
@@ -121,181 +122,211 @@ export const governmentProfiles: GovernmentProfile[] = [
     title: "Boao Lecheng",
     officialName: "Hainan Boao Lecheng International Medical Tourism Pilot Zone",
     location: "Qionghai, Hainan",
-    role: "Special medical access and real-world evidence pathway",
+    role: "Clinical access & real-world evidence",
     summary:
-      "A China landing option for eligible overseas medical devices where public sources describe policy mechanisms around clinically urgent imported drugs and devices, controlled clinical use, and real-world data application.",
-    fitPoints: [
-      "Potential first-use and evidence-generation route for eligible imported technologies.",
-      "Relevant to rehabilitation, recovery, orthopaedic, pain-management, and advanced care devices when clinical demand and eligibility are confirmed.",
-      "Useful for early China market feedback before broader national registration planning.",
+      "A specialist medical pilot zone for eligible overseas-approved products, controlled clinical use, and China-focused real-world evidence planning.",
+    verifiedFacts: [
+      {
+        value: "476",
+        label: "International innovative medicines and devices introduced",
+        period: "2025 official materials",
+      },
+      {
+        value: "301",
+        label: "Medical devices within the introduced product total",
+        period: "2025 official materials",
+      },
+      {
+        value: "21",
+        label: "Products approved using Lecheng real-world data",
+        period: "By March 2025",
+      },
     ],
-    uncertainties: [
-      "Product-by-product eligibility must be confirmed with the competent authorities and medical institutions.",
-      "Public information does not mean Haoyi has a confirmed government cooperation relationship.",
-      "Clinical use, pricing, data collection, and national registration value require case-specific legal and regulatory review.",
+    relevance: [
+      "Eligible overseas-approved medical devices seeking an initial China clinical pathway.",
+      "Real-world evidence strategy linked to a wider NMPA registration plan.",
+      "Specialist hospital, clinician, and patient-access assessment.",
     ],
+    asOf: "2025 official materials and March 2025 government updates",
     image: {
-      src: "/images/governments/boao-lecheng-park.jpg",
+      src: "/images/governments/boao-lecheng.webp",
       alt: "Aerial view of Boao Lecheng International Medical Tourism Pilot Zone",
     },
-    sources: [
-      {
-        label: "Boao Lecheng international medicines and devices platform",
-        url: "https://www.lczxyf.com/",
-      },
-      {
-        label: "Hainan Free Trade Port Lecheng profile",
-        url: "https://www.hnftp.gov.cn/yshj/yqzt/hnzymygbalcgjyllyxxq/index.html",
-      },
-      {
-        label: "Hainan government article on Lecheng development",
-        url: "https://www.hainan.gov.cn/hainan/zmgtpxwe/202503/6d7ca40cab72443cad480571ece6b4cb.shtml",
-      },
-    ],
   },
   {
-    title: "Wuhan East Lake",
-    officialName: "Wuhan East Lake High-tech Development Zone / Optics Valley",
+    title: "Wuhan Optics Valley",
+    officialName: "Wuhan Hi-tech Medical Devices Park",
     location: "Wuhan, Hubei",
-    role: "Medical device R&D, incubation, manufacturing, and clinical-adjacent ecosystem",
+    role: "Device R&D & industrialization",
     summary:
-      "A medical-device industrial ecosystem around Optics Valley and Biolake, with a dedicated medical device park, technical service platforms, incubator resources, and supporting clinical and regulatory-adjacent infrastructure.",
-    fitPoints: [
-      "Relevant for European rehabilitation hardware, imaging, sensing, smart-health, and device manufacturing discussions.",
-      "Potential base for product localization, partner mapping, pilot manufacturing, and technical service coordination.",
-      "Useful where a company needs both device-sector infrastructure and broader life-science innovation resources.",
+      "A dedicated medical-device park in Optics Valley combining incubation, R&D, production, technical services, and advanced manufacturing capacity.",
+    verifiedFacts: [
+      {
+        value: "2.0m sqm",
+        label: "Planned gross floor area across the medical-device park",
+        period: "Official park profile",
+      },
+      {
+        value: "400+",
+        label: "Registered enterprises in the park",
+        period: "Official park profile",
+      },
+      {
+        value: "300+",
+        label: "Class II and above medical-device certificates",
+        period: "Official park profile",
+      },
     ],
-    uncertainties: [
-      "Specific incentives, site availability, and eligibility conditions need current confirmation.",
-      "Public park information does not imply a confirmed Haoyi partnership.",
-      "Any clinical collaboration must be separately validated with hospitals or clinical institutions.",
+    relevance: [
+      "Medical-device R&D, incubation, testing, and product industrialization.",
+      "Imaging, smart healthcare, medical materials, and advanced equipment projects.",
+      "Central China manufacturing and technical-service partner development.",
     ],
+    asOf: "Official park profile accessed June 2026",
     image: {
-      src: "/images/governments/wuhan-gaoke-medical-device-park-campus.jpg",
-      alt: "Wuhan Gaoke Medical Device Park campus",
+      src: "/images/governments/wuhan-medical-device-park.webp",
+      alt: "Wuhan Hi-tech Medical Devices Incubator building",
     },
-    sources: [
-      {
-        label: "Wuhan Gaoke Medical Device Park profile",
-        url: "https://www.whgk.com/index_map/84.html",
-      },
-      {
-        label: "Optics Valley official profile",
-        url: "https://www.wehdz.gov.cn/2022/sjgg_68763/",
-      },
-      {
-        label: "Biolake park profile",
-        url: "https://www.ibiolake.com/Into-park.html",
-      },
-    ],
   },
   {
     title: "Taizhou CMC",
     officialName: "China Medical City / Taizhou Medical High-tech Zone",
     location: "Taizhou, Jiangsu",
-    role: "Biopharma and medical-device industrialization platform",
+    role: "Regulatory services & manufacturing",
     summary:
-      "A Yangtze River Delta life-science platform with public materials describing China Medical City as a national medical high-tech zone with biopharma, diagnostics, high-end medical device, and industrial service capacity.",
-    fitPoints: [
-      "Relevant for device industrialization, diagnostics, high-end medical device commercialization, and service-platform matching.",
-      "Potential fit for companies needing inspection, testing, regulatory service, public platform, and manufacturing resources.",
-      "Useful where a European device company wants a Yangtze River Delta landing option with life-science specialization.",
+      "A Yangtze River Delta medical-industry platform with regulatory service infrastructure, medical-device testing, industrial space, and investment capacity.",
+    verifiedFacts: [
+      {
+        value: "1,300+",
+        label: "Medical and pharmaceutical companies located in CMC",
+        period: "March 2026 presentation",
+      },
+      {
+        value: "2.2m sqm",
+        label: "Completed standard factories and medical-device zone space",
+        period: "March 2026 presentation",
+      },
+      {
+        value: "RMB 20bn",
+        label: "Approximate registered scale across 24 industry funds",
+        period: "March 2026 presentation",
+      },
     ],
-    uncertainties: [
-      "The practical relevance of each public platform depends on product type and project stage.",
-      "Named companies and institutions from public materials are not presented as Haoyi partners.",
-      "Incentives and regulatory service access require direct current confirmation.",
+    relevance: [
+      "China entity setup, registration services, testing, and manufacturing localization.",
+      "Diagnostics, high-end medical devices, and hardware-led projects.",
+      "Industrial fund and long-term Yangtze River Delta landing discussions.",
     ],
+    asOf: "March 2026 China Medical City presentation",
     image: {
-      src: "/images/governments/taizhou-china-medical-city-aerial.jpg",
+      src: "/images/governments/taizhou-cmc.webp",
       alt: "Aerial view of China Medical City in Taizhou",
     },
-    sources: [
+  },
+  {
+    title: "Tongxiang / Wuzhen",
+    officialName: "Tongxiang City / Wuzhen High-tech Industrial Park",
+    location: "Tongxiang, Zhejiang",
+    role: "Smart sensing, digital health & equipment",
+    summary:
+      "A Yangtze River Delta location combining digital infrastructure, smart sensing, high-end equipment, and explicitly identified life-health and medical-equipment development directions.",
+    verifiedFacts: [
       {
-        label: "China Medical City park profile",
-        url: "https://www.cmc.gov.cn/qj/yq/art/2023/art_00829813cef14bc6b06dbb94ad74fafd.html",
+        value: "4,326",
+        label: "Digital-economy enterprises operating in Tongxiang",
+        period: "2024",
       },
       {
-        label: "China Medical City official website",
-        url: "https://www.cmc.gov.cn/",
+        value: "RMB 29.6bn",
+        label: "Core digital manufacturing output",
+        period: "2024",
       },
       {
-        label: "Taizhou UDI and medical device service context",
-        url: "https://scjgj.taizhou.gov.cn/xwzx/sjdt/art/2023/art_2e40046fcbfb475ba2d23cf3dfcfe65b.html",
+        value: "2",
+        label: "Local platforms naming life-health or medical equipment as a focus",
+        period: "2025 investment report",
       },
     ],
+    relevance: [
+      "Digital health, connected devices, smart sensing, and data-enabled care models.",
+      "High-end equipment and precision manufacturing discussions.",
+      "Projects seeking access to the Shanghai-Hangzhou innovation corridor.",
+    ],
+    asOf: "2024 economic data published in the 2025 investment report",
+    image: {
+      src: "/images/governments/tongxiang.webp",
+      alt: "Aerial view of Tongxiang in Zhejiang Province",
+    },
   },
   {
     title: "Shenzhen Luohu",
-    officialName: "Luohu District, Shenzhen",
+    officialName: "Luohu Shenzhen-Hong Kong Life & Health Industrial Park",
     location: "Shenzhen, Guangdong",
-    role: "Greater Bay Area health services, smart healthcare, and clinical scenario access",
+    role: "Greater Bay Area health innovation",
     summary:
-      "A Shenzhen urban district with public investment materials positioning Luohu around life-health, high-end medical devices, smart healthcare, clinical scenarios, and health-service innovation.",
-    fitPoints: [
-      "Relevant for digital rehabilitation, home-care, smart-health, monitoring, and health-service models.",
-      "Potential fit for companies that need Greater Bay Area access, healthcare service scenarios, and Shenzhen-Hong Kong proximity.",
-      "Useful for partner mapping across clinical services, innovation centers, and health-technology operators.",
+      "An urban Greater Bay Area landing option connecting Shenzhen-Hong Kong commercial access with life-health, digital technology, and healthcare service ecosystems.",
+    verifiedFacts: [
+      {
+        value: "RMB 120bn+",
+        label: "Life-health industry output in Luohu",
+        period: "2024",
+      },
+      {
+        value: "106",
+        label: "Life-health companies above designated size",
+        period: "2024",
+      },
+      {
+        value: "300,000 sqm",
+        label: "Planned area of the industrial park's Plot B1",
+        period: "2025 investment materials",
+      },
     ],
-    uncertainties: [
-      "Product landing feasibility depends on regulatory status, clinical partner interest, and local commercial pathway.",
-      "Public district profile does not mean a confirmed Haoyi government relationship.",
-      "Healthcare scenario access needs separate stakeholder validation.",
+    relevance: [
+      "Digital health, monitoring, home care, AI-enabled devices, and service models.",
+      "Greater Bay Area commercial development and Shenzhen-Hong Kong connectivity.",
+      "China BD, investor engagement, demonstration, and headquarters functions.",
     ],
+    asOf: "2024 industry data and 2025 investment materials",
     image: {
-      src: "/images/governments/shenzhen-luohu-software-industrial-park.jpg",
-      alt: "Luohu Investment Holding Software Industrial Park in Shenzhen",
+      src: "/images/governments/shenzhen-luohu.webp",
+      alt: "Industrial park campus in Shenzhen Luohu District",
     },
-    sources: [
-      {
-        label: "Shenzhen government Luohu health industry profile",
-        url: "https://www.sz.gov.cn/szzt2010/sarczdnl/hyys/content/post_12180280.html",
-      },
-      {
-        label: "Luohu government overview",
-        url: "https://www.szlh.gov.cn/English/about/overview/content/mpost_9380767.html",
-      },
-      {
-        label: "Luohu government research center update",
-        url: "https://www.sz.gov.cn/cn/xxgk/zfxxgj/gqdt/content/post_11452932.html",
-      },
-    ],
   },
   {
     title: "Changchun Economic Zone",
     officialName: "Changchun Economic and Technological Development Zone",
     location: "Changchun, Jilin",
-    role: "Medical-device manufacturing, bonded-zone, and Northeast Asia access option",
+    role: "Manufacturing & bonded logistics",
     summary:
-      "A state-level economic and technological development zone where public sources describe medical devices as part of the strategic emerging industry structure, supported by Changchun Xinglong Comprehensive Bonded Zone.",
-    fitPoints: [
-      "Relevant for rehabilitation medical, diagnostics, medical materials, high-end instruments, and import-localization discussion.",
-      "Potential fit for companies evaluating bonded-zone logistics, manufacturing localization, and Northeast China market access.",
-      "Useful where cost, manufacturing, import equipment, and open-platform policies are central to the China entry pathway.",
+      "A state-level development zone combining a planned medical-health industrial system with manufacturing capacity and the Xinglong Comprehensive Bonded Zone.",
+    verifiedFacts: [
+      {
+        value: "3.91 km²",
+        label: "Planned footprint for the medical-health industrial system",
+        period: "Official planning materials",
+      },
+      {
+        value: "1.0m sqm",
+        label: "Planned gross floor area of the medical-device park",
+        period: "Official planning materials",
+      },
+      {
+        value: "RMB 5bn",
+        label: "Planned investment in the medical-device park",
+        period: "Official planning materials",
+      },
     ],
-    uncertainties: [
-      "Specific subsidy eligibility, customs treatment, and investment requirements require current authority confirmation.",
-      "Public industrial positioning does not imply a confirmed Haoyi partnership.",
-      "Rehabilitation-device fit should be verified against the product's technical category and local platform capacity.",
+    relevance: [
+      "Medical-device manufacturing, assembly, and import-equipment planning.",
+      "Bonded logistics, cross-border trade, and Northeast China market access.",
+      "Cost-sensitive hardware, consumables, diagnostics, and medical materials.",
     ],
+    asOf: "Official planning materials provided May 2026",
     image: {
-      src: "/images/governments/changchun-xinglong-bonded-zone.jpg",
+      src: "/images/governments/changchun-economic-zone.webp",
       alt: "Aerial view of Changchun Xinglong Comprehensive Bonded Zone",
     },
-    sources: [
-      {
-        label: "Jilin Department of Commerce development-zone profile",
-        url: "https://swt.jl.gov.cn/fzhzgj/syzc/202306/t20230627_8729955.html",
-      },
-      {
-        label: "Jilin investment project profile",
-        url: "https://www.jl.gov.cn/szfzt/tzcj/zdxm/xyyxm/202604/t20260430_3628074.html",
-      },
-      {
-        label: "China Daily / Invest in China zone profile",
-        url: "https://investinchina.chinadaily.com.cn/s/201810/24/WS5c8766af498e27e33803a206/changchun-economic-technological-development-zone.html",
-      },
-    ],
   },
 ];
 
@@ -310,7 +341,7 @@ export const workflowPrinciples = [
   {
     title: "Evidence",
     description:
-      "AI-assisted research and human review organize public sources, company materials, policy documents, and visible evidence gaps.",
+      "AI-assisted research and human review organize company materials, policy documents, regulatory evidence, and remaining information gaps.",
   },
   {
     title: "Pathway",
