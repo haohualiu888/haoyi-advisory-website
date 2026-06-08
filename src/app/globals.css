@@ -27,10 +27,24 @@ a {
   text-underline-offset: 0.18em;
 }
 
-@keyframes hero-copy-enter {
+/* ===================================================================
+   Hero motion system — restrained, professional, purposeful.
+   Pure CSS + SVG. No client JS. Honors prefers-reduced-motion.
+   =================================================================== */
+
+/* Gradient accent for headline phrase (Tailwind-version independent) */
+.text-gradient {
+  background: linear-gradient(92deg, #0891b2 0%, #0ea5e9 52%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Staggered copy reveal */
+@keyframes hero-reveal {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -38,40 +52,152 @@ a {
   }
 }
 
-@keyframes route-endpoint-pulse {
+.hero-reveal {
+  opacity: 0;
+  animation: hero-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Visual panel entrance */
+@keyframes hero-visual-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.hero-visual {
+  opacity: 0;
+  animation: hero-visual-in 0.9s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Soft aurora glow drift behind the panel */
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate3d(2%, -3%, 0) scale(1.08);
+    opacity: 0.95;
+  }
+}
+
+.hero-aurora {
+  animation: aurora-drift 15s ease-in-out infinite;
+}
+
+/* Corridor arc draws itself (path uses pathLength="1") */
+@keyframes corridor-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.corridor-arc {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: corridor-draw 1.8s 0.35s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* Endpoint node breathing pulse */
+@keyframes node-pulse {
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+}
+
+.node-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-pulse 3.4s ease-in-out infinite;
+}
+
+.node-pulse-delay {
+  animation-delay: 1.7s;
+}
+
+/* Expanding radar ring around the market node */
+@keyframes radar-expand {
+  0% {
+    transform: scale(0.45);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+.radar-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: radar-expand 3.8s ease-out infinite;
+}
+
+/* Ecosystem chips fade in, staggered via inline animation-delay */
+@keyframes eco-in {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.eco-node {
+  opacity: 0;
+  transform-box: fill-box;
+  animation: eco-in 0.6s ease-out both;
+}
+
+/* Small status / live indicator dot */
+@keyframes live-dot {
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
   50% {
-    opacity: 0.82;
-    transform: scale(1.12);
+    opacity: 0.4;
+    transform: scale(0.78);
   }
 }
 
-.hero-copy {
-  animation: hero-copy-enter 600ms ease-out both;
-}
-
-.hero-map {
-  animation: hero-copy-enter 700ms 100ms ease-out both;
-}
-
-.route-endpoint {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: route-endpoint-pulse 3.2s ease-in-out infinite;
-}
-
-.route-endpoint-delay {
-  animation-delay: 1.6s;
+.live-dot {
+  animation: live-dot 2.2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-copy,
-  .hero-map,
-  .route-endpoint {
+  .hero-reveal,
+  .hero-visual,
+  .eco-node {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .corridor-arc {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+
+  .node-pulse,
+  .radar-ring,
+  .hero-aurora,
+  .live-dot {
     animation: none;
   }
 
