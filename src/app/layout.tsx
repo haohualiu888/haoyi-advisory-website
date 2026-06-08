@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/haoyi-cross-border-medtech.png",
-        width: 1400,
-        height: 900,
-        alt: "Haoyi Advisory cross-border medical technology visual",
+        url: "/images/haoyi-europe-china-map.png",
+        width: 1536,
+        height: 1024,
+        alt: "Haoyi Advisory Europe-China commercialization map",
       },
     ],
   },

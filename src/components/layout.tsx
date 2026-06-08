@@ -2,41 +2,9 @@ import Link from "next/link";
 import type { ComponentType } from "react";
 import { ArrowRight } from "lucide-react";
 import { navItems } from "@/lib/site-content";
+import { SiteHeader } from "@/components/site-header";
 
 type IconType = ComponentType<{ className?: string; strokeWidth?: number }>;
-
-export function SiteHeader() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-        <Link href="/" className="flex items-center gap-3" aria-label="Haoyi Advisory home">
-          <span className="grid h-10 w-10 place-items-center rounded-lg bg-slate-950 text-sm font-semibold text-cyan-300">
-            HA
-          </span>
-          <span>
-            <span className="block text-base font-semibold tracking-tight text-slate-950">
-              Haoyi Advisory
-            </span>
-            <span className="block text-xs font-medium text-slate-500">
-              Europe-China healthcare commercialization
-            </span>
-          </span>
-        </Link>
-        <nav aria-label="Main navigation" className="flex flex-wrap items-center gap-2">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </div>
-    </header>
-  );
-}
 
 export function SiteFooter() {
   return (
