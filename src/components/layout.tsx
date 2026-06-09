@@ -123,7 +123,7 @@ export function CtaBand() {
         <div className="rounded-lg border border-slate-200 bg-white p-8 shadow-sm sm:p-10 lg:flex lg:items-center lg:justify-between">
           <div>
             <h2 className="text-2xl font-semibold tracking-tight text-slate-950">
-              Start with a focused conversation.
+              Start with a focused conversation
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
               Haoyi Advisory is best suited for companies and partners seeking practical,

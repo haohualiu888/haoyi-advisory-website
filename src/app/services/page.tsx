@@ -25,7 +25,7 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
           <div>
             <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-              Three core capabilities.
+              Three core capabilities
             </h2>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
               A single, integrated commercialization model that works in both directions — European

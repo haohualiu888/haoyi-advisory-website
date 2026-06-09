@@ -27,7 +27,7 @@ export default function FocusPage() {
           <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
             <div>
               <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-                Medical device sectors.
+                Medical device sectors
               </h2>
               <p className="mt-4 max-w-lg text-base leading-7 text-slate-600">
                 Six broad product groups define the technologies we evaluate and support across

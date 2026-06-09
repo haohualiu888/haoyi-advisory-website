@@ -131,10 +131,10 @@ export function HomeHero() {
               Medical Device
             </span>
             <span className="hero-reveal block" style={{ animationDelay: "0.2s" }}>
-              Commercialization.
+              Commercialization
             </span>
             <span className="hero-reveal mt-2 block text-gradient" style={{ animationDelay: "0.28s" }}>
-              Europe ↔ China.
+              Europe ↔ China
             </span>
           </h1>
 

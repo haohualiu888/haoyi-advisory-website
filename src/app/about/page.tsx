@@ -42,7 +42,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
           <div className="max-w-2xl">
             <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-              Europe-China medical device commercialization.
+              Europe-China medical device commercialization
             </h1>
             <p className="mt-6 text-lg leading-8 text-slate-600">
               Haoyi Advisory connects European and Chinese medical device and healthcare companies
