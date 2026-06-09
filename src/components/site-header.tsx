@@ -13,9 +13,18 @@ export function SiteHeader() {
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="flex min-h-18 items-center justify-between gap-5">
           <Link href="/" className="flex min-w-0 items-center gap-3" aria-label="Haoyi Advisory home">
-            <span className="grid h-10 w-10 flex-none place-items-center rounded-md bg-slate-950 text-sm font-semibold text-cyan-300">
-              HA
-            </span>
+            <svg viewBox="0 0 32 32" className="h-10 w-10 flex-none" aria-hidden="true">
+              <rect width="32" height="32" rx="7" fill="#07172f" />
+              <rect x="8.5" y="6" width="3" height="20" rx="1.5" fill="#ffffff" />
+              <rect x="20.5" y="6" width="3" height="20" rx="1.5" fill="#ffffff" />
+              <path
+                d="M10 16 Q16 11 22 16"
+                fill="none"
+                stroke="#22d3ee"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+              />
+            </svg>
             <span className="min-w-0">
               <span className="block text-base font-semibold tracking-tight text-slate-950">
                 Haoyi Advisory

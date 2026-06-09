@@ -11,7 +11,20 @@ export function SiteFooter() {
     <footer className="border-t border-slate-200 bg-slate-950 text-white">
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
         <div>
-          <p className="text-lg font-semibold">Haoyi Advisory</p>
+          <div className="flex items-center gap-2.5">
+            <svg viewBox="0 0 32 32" className="h-7 w-7 flex-none" aria-hidden="true">
+              <rect x="8.5" y="6" width="3" height="20" rx="1.5" fill="#ffffff" />
+              <rect x="20.5" y="6" width="3" height="20" rx="1.5" fill="#ffffff" />
+              <path
+                d="M10 16 Q16 11 22 16"
+                fill="none"
+                stroke="#22d3ee"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <p className="text-lg font-semibold">Haoyi Advisory</p>
+          </div>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
             Cross-border medical device and healthcare commercialization between Europe and China.
             Public partner names, legal entity details, and representative project examples are
