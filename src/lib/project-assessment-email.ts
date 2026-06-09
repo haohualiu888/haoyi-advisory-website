@@ -87,7 +87,7 @@ export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmiss
             "Files and Comments",
             row("Pitch deck / brochure link", submission.pitchDeckLink) +
               row("Additional comments", submission.additionalComments) +
-              row("Non-confidential consent", submission.consent ? "Confirmed" : "Not confirmed"),
+              row("Consent", submission.consent ? "Confirmed" : "Not confirmed"),
           )}
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { ArrowRight, CheckCircle2, Info, LockKeyhole } from "lucide-react";
+import { ArrowRight, CheckCircle2, LockKeyhole } from "lucide-react";
 import {
   chinaEntryModels,
   chinaInterestOptions,
@@ -207,21 +207,26 @@ function CheckboxGroup({
 function FormSection({
   number,
   title,
+  description,
   children,
 }: {
   number: number;
   title: string;
+  description?: string;
   children: ReactNode;
 }) {
   return (
-    <fieldset className="border-t border-slate-200 pt-8">
+    <fieldset className="border-t border-slate-200 pt-10">
       <legend className="flex items-center gap-3 pr-4 text-xl font-semibold tracking-tight text-slate-950">
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-cyan-700 text-sm text-white">
+        <span className="grid h-8 w-8 flex-none place-items-center rounded-full bg-cyan-700 text-sm font-semibold text-white">
           {number}
         </span>
         {title}
       </legend>
-      <div className="mt-7">{children}</div>
+      {description ? (
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-500">{description}</p>
+      ) : null}
+      <div className="mt-8">{children}</div>
     </fieldset>
   );
 }
@@ -395,16 +400,17 @@ export function ProjectAssessmentForm({
         </div>
       ) : null}
 
-      <div className="flex items-center justify-between gap-4 border-b border-slate-200 pb-5">
-        <p className="text-sm text-slate-600">
-          Fields marked with <RequiredMark /> are required.
-        </p>
-        <p className="text-sm text-slate-500">Non-confidential information only</p>
-      </div>
+      <p className="border-b border-slate-200 pb-6 text-sm leading-6 text-slate-600">
+        Fields marked with <RequiredMark /> are required. The form takes about five minutes.
+      </p>
 
       <fieldset disabled={!submissionEnabled} className="contents">
-        <FormSection number={1} title="Company Information">
-          <div className="grid gap-6 sm:grid-cols-2">
+        <FormSection
+          number={1}
+          title="Company Information"
+          description="Tell us who you are and where the company is based."
+        >
+          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2">
             <InputField
               name="companyName"
               label="Company name"
@@ -476,8 +482,12 @@ export function ProjectAssessmentForm({
           </div>
         </FormSection>
 
-        <FormSection number={2} title="Product Information">
-          <div className="grid gap-6 sm:grid-cols-2">
+        <FormSection
+          number={2}
+          title="Product Information"
+          description="Describe the product or technology and what it is used for."
+        >
+          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2">
             <InputField
               name="productName"
               label="Product / technology name"
@@ -520,8 +530,12 @@ export function ProjectAssessmentForm({
           </div>
         </FormSection>
 
-        <FormSection number={3} title="Evidence and Regulation">
-          <div className="grid gap-6 sm:grid-cols-2">
+        <FormSection
+          number={3}
+          title="Evidence and Regulation"
+          description="Where the product stands on regulatory approvals and clinical evidence."
+        >
+          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2">
             <SelectField
               name="regulatoryStatus"
               label="Current regulatory status"
@@ -551,7 +565,7 @@ export function ProjectAssessmentForm({
                 label="Key evidence summary"
                 required
                 rows={5}
-                placeholder="Summarize the available non-confidential clinical or validation evidence."
+                placeholder="Summarize the available clinical or validation evidence."
                 error={errors.keyEvidenceSummary}
               />
             </div>
@@ -564,7 +578,11 @@ export function ProjectAssessmentForm({
           </div>
         </FormSection>
 
-        <FormSection number={4} title="China Interest">
+        <FormSection
+          number={4}
+          title="China Interest"
+          description="What you are looking for in China and your preferred entry path."
+        >
           <div className="space-y-8">
             <CheckboxGroup
               name="chinaInterest"
@@ -589,7 +607,7 @@ export function ProjectAssessmentForm({
               required
               error={errors.preferredEntryModel}
             />
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2">
               <SelectField
                 name="targetTimeline"
                 label="Target timeline"
@@ -608,7 +626,11 @@ export function ProjectAssessmentForm({
           </div>
         </FormSection>
 
-        <FormSection number={5} title="Files and Consent">
+        <FormSection
+          number={5}
+          title="Files and Consent"
+          description="Optional supporting links, and how we may use your submission."
+        >
           <div className="space-y-7">
             <InputField
               name="pitchDeckLink"
@@ -623,15 +645,6 @@ export function ProjectAssessmentForm({
               rows={5}
               error={errors.additionalComments}
             />
-
-            <div className="flex gap-3 rounded-lg border border-cyan-200 bg-cyan-50 p-5 text-sm leading-6 text-slate-700">
-              <Info className="mt-0.5 h-5 w-5 flex-none text-cyan-700" />
-              <p>
-                <strong className="text-slate-950">Please do not submit confidential</strong>{" "}
-                technical, clinical, financial, or IP-sensitive information at this stage. If
-                needed, we can arrange NDA-protected information exchange later.
-              </p>
-            </div>
 
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-600">
               <div className="flex gap-3">
@@ -663,9 +676,8 @@ export function ProjectAssessmentForm({
                 className="mt-1 h-4 w-4 flex-none accent-cyan-700"
               />
               <span>
-                I confirm that the information submitted is non-confidential, and I agree that
-                Haoyi Advisory may review this information and contact me regarding potential China
-                market entry or partnership opportunities. <RequiredMark />
+                I agree that Haoyi Advisory may review this information and contact me regarding
+                potential China market entry or partnership opportunities. <RequiredMark />
               </span>
             </label>
             <ErrorText id="consent-error" error={errors.consent} />

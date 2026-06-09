@@ -5,7 +5,7 @@ import { governmentProfiles, partnerGroups } from "@/lib/site-content";
 export const metadata = {
   title: "Partners",
   description:
-    "Partner ecosystem and six strategic China landing regions for Haoyi Advisory's Europe-China medical device commercialization work.",
+    "Partner ecosystem and seven strategic China landing regions for Haoyi Advisory's Europe-China medical device commercialization work.",
 };
 
 export default function PartnersPage() {
@@ -32,7 +32,7 @@ export default function PartnersPage() {
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
           <SectionIntro
             title="Parks"
-            description="Six strategic China landing regions with distinct roles across clinical access, product development, manufacturing, digital health, and commercialization."
+            description="Seven strategic China landing regions with distinct roles across clinical access, product development, manufacturing, digital health, elderly care, and commercialization."
           />
           <div className="mt-12 space-y-16">
             {governmentProfiles.map((profile, index) => (
@@ -76,7 +76,6 @@ export default function PartnersPage() {
                             {fact.value}
                           </p>
                           <p className="mt-2 text-xs leading-5 text-slate-600">{fact.label}</p>
-                          <p className="mt-2 text-xs font-medium text-cyan-700">{fact.period}</p>
                         </div>
                       ))}
                     </div>
@@ -91,7 +90,6 @@ export default function PartnersPage() {
                           </li>
                         ))}
                       </ul>
-                      <p className="mt-5 text-xs text-slate-500">Data reference: {profile.asOf}.</p>
                     </div>
                   </div>
                 </div>

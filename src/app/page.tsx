@@ -10,7 +10,7 @@ export default function Home() {
       <HomeHero />
 
       <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto grid max-w-7xl gap-4 px-5 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-4 px-5 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
           {differentiators.map((item) => {
             const Icon = item.icon;
             return (
@@ -21,12 +21,6 @@ export default function Home() {
               </div>
             );
           })}
-          <div className="rounded-lg border border-dashed border-slate-300 bg-white p-5">
-            <p className="text-sm font-semibold text-slate-950">Publication discipline</p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Partner names, project examples, and legal details are listed only after approval.
-            </p>
-          </div>
         </div>
       </section>
 

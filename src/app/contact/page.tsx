@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, LockKeyhole, Mail, Send } from "lucide-react";
+import { ArrowRight, Mail, Send } from "lucide-react";
 import { PageHero, PageShell } from "@/components/layout";
 import { generalEnquiryTopics } from "@/lib/site-content";
 
@@ -70,10 +70,6 @@ export default function ContactPage() {
               Submit a Project
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <div className="mt-7 flex gap-3 border-t border-slate-200 pt-6 text-sm leading-6 text-slate-500">
-              <LockKeyhole className="mt-0.5 h-5 w-5 flex-none" />
-              <p>Please provide basic non-confidential information only at this stage.</p>
-            </div>
           </article>
         </div>
       </section>

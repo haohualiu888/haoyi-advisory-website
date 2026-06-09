@@ -28,8 +28,8 @@ export default function ServicesPage() {
               Three core capabilities.
             </h2>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-              One integrated commercialization model for Europe → China and China → overseas
-              markets.
+              A single, integrated commercialization model that works in both directions — European
+              companies entering China, and Chinese companies expanding into overseas markets.
             </p>
           </div>
 

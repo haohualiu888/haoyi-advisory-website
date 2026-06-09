@@ -184,8 +184,8 @@ export const governmentProfiles: GovernmentProfile[] = [
     ],
     asOf: "Official park profile accessed June 2026",
     image: {
-      src: "/images/governments/wuhan-medical-device-park.webp",
-      alt: "Wuhan Hi-tech Medical Devices Incubator building",
+      src: "/images/governments/wuhan-medical-device-park-campus.webp",
+      alt: "Campus view of the Wuhan Hi-tech Medical Devices Park",
     },
   },
   {
@@ -256,6 +256,41 @@ export const governmentProfiles: GovernmentProfile[] = [
     image: {
       src: "/images/governments/tongxiang.webp",
       alt: "Aerial view of Tongxiang in Zhejiang Province",
+    },
+  },
+  {
+    title: "Shanghai Greater Zero Bay",
+    officialName: "Shanghai Elderly-care Technology Park (Greater Zero Bay)",
+    location: "Minhang, Shanghai",
+    role: "Silver economy & elderly-care technology",
+    summary:
+      "A Shanghai municipal park in the Greater Zero Bay innovation zone next to Shanghai Jiao Tong University, focused on the silver economy — assistive, rehabilitation, care, and health-monitoring technologies — backed by municipal subsidies, hospital scenario access, and dedicated investment.",
+    verifiedFacts: [
+      {
+        value: "85",
+        label: "Enterprises registered in the park, with 27 physically based on-site",
+        period: "2026 park promotion materials",
+      },
+      {
+        value: "RMB 5m",
+        label: "Maximum municipal subsidy per supported elderly-care technology project",
+        period: "Shanghai sci-tech action plan",
+      },
+      {
+        value: "RMB 50.1m",
+        label: "First-phase elderly-care venture fund, planned to expand to RMB 200m+",
+        period: "2026 plan",
+      },
+    ],
+    relevance: [
+      "Rehabilitation, assistive, home-care, and health-monitoring devices for China's ageing population.",
+      "Hospital, elderly-care institution, and community scenario access for validation and adoption.",
+      "Municipal subsidy, dedicated investment fund, and silver-economy ecosystem support.",
+    ],
+    asOf: "2026 Shanghai elderly-care technology park promotion materials",
+    image: {
+      src: "/images/governments/shanghai-zero-bay.webp",
+      alt: "Modern elderly-care campus in the Greater Zero Bay area of Minhang, Shanghai",
     },
   },
   {

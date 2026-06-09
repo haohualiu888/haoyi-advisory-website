@@ -21,7 +21,7 @@ const aboutStats = [
   {
     value: String(governmentProfiles.length),
     label: "Strategic China landing regions",
-    description: "Boao, Wuhan, Taizhou, Tongxiang, Shenzhen, and Changchun.",
+    description: "Boao, Wuhan, Taizhou, Tongxiang, Shanghai, Shenzhen, and Changchun.",
   },
   {
     value: String(focusAreas.length),

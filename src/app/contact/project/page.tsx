@@ -4,7 +4,7 @@ import { PageHero, PageShell } from "@/components/layout";
 export const metadata = {
   title: "Project Assessment Form",
   description:
-    "Submit non-confidential medical device project information for an initial China market, regulatory, clinical, and partnership assessment.",
+    "Submit your medical device project for an initial China market, regulatory, clinical, and partnership assessment.",
 };
 
 export default function ProjectAssessmentPage() {
@@ -16,7 +16,7 @@ export default function ProjectAssessmentPage() {
     <PageShell>
       <PageHero
         title="Project Assessment Form"
-        description="Please provide basic non-confidential information about your company and product. Our team will review market fit, regulatory feasibility, clinical relevance, and potential China partnership pathways."
+        description="Tell us about your company and product. Our team will review market fit, regulatory feasibility, clinical relevance, and potential China partnership pathways."
       />
 
       <section className="bg-slate-50">
