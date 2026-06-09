@@ -13,10 +13,12 @@ export function SiteFooter() {
         <div>
           <div className="flex items-center gap-2.5">
             <svg viewBox="0 0 40 40" className="h-8 w-8 flex-none" aria-hidden="true">
-              <circle cx="20" cy="20" r="15.2" fill="none" stroke="#c8a85f" strokeWidth="1.4" />
-              <rect x="13.3" y="12.5" width="2.7" height="15" rx="1.1" fill="#c8a85f" />
-              <rect x="24" y="12.5" width="2.7" height="15" rx="1.1" fill="#c8a85f" />
-              <rect x="13.3" y="18.65" width="13.4" height="2.7" rx="0.5" fill="#c8a85f" />
+              <g fill="none" stroke="#f1ede3" strokeWidth="2">
+                <circle cx="20" cy="20" r="15" />
+                <ellipse cx="20" cy="20" rx="6.3" ry="15" />
+                <circle cx="13.1" cy="13.7" r="2.7" strokeWidth="1.6" />
+              </g>
+              <circle cx="27.5" cy="24.5" r="2.5" fill="#f1ede3" />
             </svg>
             <p className="text-lg font-semibold">Haoyi Advisory</p>
           </div>

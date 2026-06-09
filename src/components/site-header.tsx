@@ -13,17 +13,13 @@ export function SiteHeader() {
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="flex min-h-18 items-center justify-between gap-5">
           <Link href="/" className="flex min-w-0 items-center gap-3" aria-label="Haoyi Advisory home">
-            <svg viewBox="0 0 32 32" className="h-10 w-10 flex-none" aria-hidden="true">
-              <rect width="32" height="32" rx="7" fill="#07172f" />
-              <rect x="8.5" y="6" width="3" height="20" rx="1.5" fill="#ffffff" />
-              <rect x="20.5" y="6" width="3" height="20" rx="1.5" fill="#ffffff" />
-              <path
-                d="M10 16 Q16 11 22 16"
-                fill="none"
-                stroke="#22d3ee"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-              />
+            <svg viewBox="0 0 40 40" className="h-10 w-10 flex-none" aria-hidden="true">
+              <g fill="none" stroke="#15241c" strokeWidth="2">
+                <circle cx="20" cy="20" r="15" />
+                <ellipse cx="20" cy="20" rx="6.3" ry="15" />
+                <circle cx="13.1" cy="13.7" r="2.7" strokeWidth="1.6" />
+              </g>
+              <circle cx="27.5" cy="24.5" r="2.5" fill="#15241c" />
             </svg>
             <span className="min-w-0">
               <span className="block text-base font-semibold tracking-tight text-slate-950">
