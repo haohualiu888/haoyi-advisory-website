@@ -1,8 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #07172f;
+  --background: #f1ede3; /* bone */
+  --foreground: #15241c; /* ink */
+}
+
+/* ===== Brand: Forest & Bone ========================================
+   Deep forest green + antique gold on warm bone.
+   The slate (neutral) and cyan (accent) scales and `white` are remapped
+   at the token level, so existing utility classes across the whole site
+   adopt the brand automatically. */
+@theme {
+  --color-forest: #103a20;
+  --color-forest-600: #1a5e37;
+  --color-gold: #b08d43;
+  --color-bone: #f1ede3;
+  --color-ink: #15241c;
+
+  --color-white: #fcfaf4; /* warm surface instead of pure white */
+
+  --color-slate-50: #f4f1e9;
+  --color-slate-100: #ece7da;
+  --color-slate-200: #e1dbcc;
+  --color-slate-300: #d0c8b6;
+  --color-slate-400: #9ba093;
+  --color-slate-500: #767b6e;
+  --color-slate-600: #515a4f;
+  --color-slate-700: #3c4339;
+  --color-slate-800: #2a3128;
+  --color-slate-900: #1d271f;
+  --color-slate-950: #15241c;
+
+  --color-cyan-50: #f3ecd9;
+  --color-cyan-100: #ebe0c2;
+  --color-cyan-200: #ddca97;
+  --color-cyan-300: #d0b87a;
+  --color-cyan-400: #c2a661;
+  --color-cyan-500: #b08d43;
+  --color-cyan-600: #9c7d39;
+  --color-cyan-700: #876b2f;
+  --color-cyan-800: #6f5726;
+  --color-cyan-900: #5b471f;
 }
 
 @theme inline {
@@ -19,8 +57,8 @@ body {
 }
 
 ::selection {
-  background: #a5f3fc;
-  color: #07172f;
+  background: #e6d3a3;
+  color: #15241c;
 }
 
 a {
@@ -34,7 +72,7 @@ a {
 
 /* Gradient accent for headline phrase (Tailwind-version independent) */
 .text-gradient {
-  background: linear-gradient(92deg, #0891b2 0%, #0ea5e9 52%, #38bdf8 100%);
+  background: linear-gradient(95deg, #1c5e37 0%, #7e8a3f 55%, #b88f3f 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

@@ -8,20 +8,15 @@ type IconType = ComponentType<{ className?: string; strokeWidth?: number }>;
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-slate-200 bg-slate-950 text-white">
+    <footer className="border-t border-slate-200 bg-[#103a20] text-white">
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
         <div>
           <div className="flex items-center gap-2.5">
-            <svg viewBox="0 0 32 32" className="h-7 w-7 flex-none" aria-hidden="true">
-              <rect x="8.5" y="6" width="3" height="20" rx="1.5" fill="#ffffff" />
-              <rect x="20.5" y="6" width="3" height="20" rx="1.5" fill="#ffffff" />
-              <path
-                d="M10 16 Q16 11 22 16"
-                fill="none"
-                stroke="#22d3ee"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-              />
+            <svg viewBox="0 0 40 40" className="h-8 w-8 flex-none" aria-hidden="true">
+              <circle cx="20" cy="20" r="15.2" fill="none" stroke="#c8a85f" strokeWidth="1.4" />
+              <rect x="13.3" y="12.5" width="2.7" height="15" rx="1.1" fill="#c8a85f" />
+              <rect x="24" y="12.5" width="2.7" height="15" rx="1.1" fill="#c8a85f" />
+              <rect x="13.3" y="18.65" width="13.4" height="2.7" rx="0.5" fill="#c8a85f" />
             </svg>
             <p className="text-lg font-semibold">Haoyi Advisory</p>
           </div>

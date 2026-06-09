@@ -20,7 +20,7 @@ function row(label: string, value?: string) {
 }
 
 function section(title: string, rows: string) {
-  return `<h2 style="margin:28px 0 10px;color:#07172f;font-size:18px">${escapeHtml(title)}</h2>
+  return `<h2 style="margin:28px 0 10px;color:#15241c;font-size:18px">${escapeHtml(title)}</h2>
     <table role="presentation" style="width:100%;border-collapse:collapse;border:1px solid #e2e8f0">${rows}</table>`;
 }
 
@@ -41,9 +41,9 @@ export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmiss
   <html>
     <body style="margin:0;background:#f8fafc;font-family:Arial,sans-serif">
       <div style="max-width:720px;margin:0 auto;padding:32px 20px">
-        <div style="border-top:4px solid #0891b2;background:#ffffff;padding:28px;border-radius:8px">
-          <p style="margin:0;color:#0891b2;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Haoyi Advisory</p>
-          <h1 style="margin:10px 0 8px;color:#07172f;font-size:26px">New project assessment</h1>
+        <div style="border-top:4px solid #103a20;background:#ffffff;padding:28px;border-radius:8px">
+          <p style="margin:0;color:#b08d43;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Haoyi Advisory</p>
+          <h1 style="margin:10px 0 8px;color:#15241c;font-size:26px">New project assessment</h1>
           <p style="margin:0;color:#64748b;font-size:14px">Submission ID: ${escapeHtml(submission.submissionId)}</p>
 
           ${section(

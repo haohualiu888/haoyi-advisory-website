@@ -9,7 +9,7 @@ function CommercializationMap() {
   return (
     <div className="hero-visual relative">
       <div
-        className="hero-aurora pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] bg-[radial-gradient(60%_60%_at_72%_38%,rgba(34,211,238,0.2),transparent_70%)] blur-2xl"
+        className="hero-aurora pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] bg-[radial-gradient(60%_60%_at_72%_38%,rgba(176,141,67,0.16),transparent_70%)] blur-2xl"
         aria-hidden="true"
       />
       <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5">
@@ -31,23 +31,23 @@ function CommercializationMap() {
           >
             <defs>
               <linearGradient id="corridorGrad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stopColor="#0e7490" />
-                <stop offset="0.5" stopColor="#06b6d4" />
-                <stop offset="1" stopColor="#0284c7" />
+                <stop offset="0" stopColor="#1a5e37" />
+                <stop offset="0.5" stopColor="#5f8242" />
+                <stop offset="1" stopColor="#b08d43" />
               </linearGradient>
             </defs>
 
             {/* Market radar around China */}
-            <circle cx="1260" cy="512" r="118" fill="none" stroke="#0891b2" strokeOpacity="0.08" />
-            <circle cx="1260" cy="512" r="80" fill="none" stroke="#0891b2" strokeOpacity="0.12" />
-            <circle className="radar-ring" cx="1260" cy="512" r="70" fill="none" stroke="#06b6d4" strokeWidth="2.5" />
+            <circle cx="1260" cy="512" r="118" fill="none" stroke="#9c7d39" strokeOpacity="0.08" />
+            <circle cx="1260" cy="512" r="80" fill="none" stroke="#9c7d39" strokeOpacity="0.12" />
+            <circle className="radar-ring" cx="1260" cy="512" r="70" fill="none" stroke="#b08d43" strokeWidth="2.5" />
             <circle
               className="radar-ring"
               cx="1260"
               cy="512"
               r="70"
               fill="none"
-              stroke="#06b6d4"
+              stroke="#b08d43"
               strokeWidth="2.5"
               style={{ animationDelay: "1.9s" }}
             />
@@ -66,33 +66,33 @@ function CommercializationMap() {
 
             {/* Bi-directional traveling pulses */}
             <g className="route-motion-dot">
-              <circle r="18" fill="#22d3ee" opacity="0.18" />
-              <circle r="7" fill="#0e7490" />
+              <circle r="18" fill="#b08d43" opacity="0.18" />
+              <circle r="7" fill="#1a5e37" />
               <animateMotion dur="5.4s" repeatCount="indefinite" path={routeForward} />
             </g>
             <g className="route-motion-dot">
-              <circle r="15" fill="#38bdf8" opacity="0.16" />
-              <circle r="6" fill="#0284c7" />
+              <circle r="15" fill="#c8a85f" opacity="0.16" />
+              <circle r="6" fill="#b08d43" />
               <animateMotion dur="6.6s" begin="1.6s" repeatCount="indefinite" path={routeReverse} />
             </g>
 
             {/* Endpoint nodes */}
             <g className="node-pulse node-pulse-delay">
               <circle cx="620" cy="476" r="22" fill="#ffffff" />
-              <circle cx="620" cy="476" r="12" fill="#0f6092" />
+              <circle cx="620" cy="476" r="12" fill="#103a20" />
               <circle cx="620" cy="476" r="5" fill="#ffffff" />
             </g>
             <g className="node-pulse">
               <circle cx="1260" cy="512" r="22" fill="#ffffff" />
-              <circle cx="1260" cy="512" r="12" fill="#0789b8" />
+              <circle cx="1260" cy="512" r="12" fill="#103a20" />
               <circle cx="1260" cy="512" r="5" fill="#ffffff" />
             </g>
 
             {/* Labels */}
-            <text x="620" y="430" textAnchor="middle" fontSize="26" fontWeight={600} letterSpacing="0.16em" fill="#475569">
+            <text x="620" y="430" textAnchor="middle" fontSize="26" fontWeight={600} letterSpacing="0.16em" fill="#3c4339">
               EUROPE
             </text>
-            <text x="1260" y="466" textAnchor="middle" fontSize="26" fontWeight={600} letterSpacing="0.16em" fill="#475569">
+            <text x="1260" y="466" textAnchor="middle" fontSize="26" fontWeight={600} letterSpacing="0.16em" fill="#3c4339">
               CHINA
             </text>
           </svg>
@@ -104,7 +104,7 @@ function CommercializationMap() {
             Europe → China market entry
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#1a5e37]" />
             China → overseas expansion
           </span>
         </div>
