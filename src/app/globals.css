@@ -1,46 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f3f2ee; /* ivory */
+  --background: #f6f9fc; /* cool white */
   --foreground: #14202e; /* navy ink */
 }
 
-/* ===== Brand: Midnight & Sand ======================================
-   Deep navy + warm sand on cool ivory.
+/* ===== Brand: Blue & White =========================================
+   Deep navy blue on clean cool white.
    The slate (neutral) and cyan (accent) scales and `white` are remapped
    at the token level, so existing utility classes across the whole site
    adopt the brand automatically. */
 @theme {
   --color-navy: #0e2138;
   --color-navy-600: #1e3a5f;
-  --color-sand: #c4a66a;
-  --color-ivory: #f3f2ee;
+  --color-blue: #2d63aa;
   --color-ink: #14202e;
 
-  --color-white: #fcfcfa; /* cool warm surface instead of pure white */
+  --color-white: #ffffff;
 
-  --color-slate-50: #f5f4f0;
-  --color-slate-100: #ebeae4;
-  --color-slate-200: #dddbd2;
-  --color-slate-300: #c7c5ba;
-  --color-slate-400: #989aa1;
-  --color-slate-500: #6b7280;
-  --color-slate-600: #495363;
-  --color-slate-700: #344052;
-  --color-slate-800: #232f41;
-  --color-slate-900: #16222f;
+  --color-slate-50: #f1f5fb;
+  --color-slate-100: #e6edf7;
+  --color-slate-200: #d7e1ef;
+  --color-slate-300: #b9c6dc;
+  --color-slate-400: #8a9bb6;
+  --color-slate-500: #62718c;
+  --color-slate-600: #455168;
+  --color-slate-700: #323d52;
+  --color-slate-800: #212b3e;
+  --color-slate-900: #141d2e;
   --color-slate-950: #0e2138;
 
-  --color-cyan-50: #f6f0e3;
-  --color-cyan-100: #ece0c7;
-  --color-cyan-200: #ddca9d;
-  --color-cyan-300: #d1ba83;
-  --color-cyan-400: #c9ab70;
-  --color-cyan-500: #c4a66a;
-  --color-cyan-600: #ad8f53;
-  --color-cyan-700: #8a6f3c;
-  --color-cyan-800: #725c34;
-  --color-cyan-900: #5d4b2c;
+  --color-cyan-50: #eaf2fc;
+  --color-cyan-100: #d3e4f8;
+  --color-cyan-200: #aeccf0;
+  --color-cyan-300: #83afe6;
+  --color-cyan-400: #5790d8;
+  --color-cyan-500: #3a78c4;
+  --color-cyan-600: #2d63aa;
+  --color-cyan-700: #275488;
+  --color-cyan-800: #224873;
+  --color-cyan-900: #1e3c60;
 }
 
 @theme inline {
@@ -57,7 +56,7 @@ body {
 }
 
 ::selection {
-  background: #e3d3ab;
+  background: #cfe1f6;
   color: #14202e;
 }
 
@@ -72,7 +71,7 @@ a {
 
 /* Gradient accent for headline phrase (Tailwind-version independent) */
 .text-gradient {
-  background: linear-gradient(95deg, #21456e 0%, #7a7053 55%, #c2a36a 100%);
+  background: linear-gradient(95deg, #16355f 0%, #2d63aa 52%, #4f8fd6 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

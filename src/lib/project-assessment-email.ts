@@ -42,7 +42,7 @@ export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmiss
     <body style="margin:0;background:#f8fafc;font-family:Arial,sans-serif">
       <div style="max-width:720px;margin:0 auto;padding:32px 20px">
         <div style="border-top:4px solid #0e2138;background:#ffffff;padding:28px;border-radius:8px">
-          <p style="margin:0;color:#a8893f;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Haoyi Advisory</p>
+          <p style="margin:0;color:#2d63aa;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">Haoyi Advisory</p>
           <h1 style="margin:10px 0 8px;color:#14202e;font-size:26px">New project assessment</h1>
           <p style="margin:0;color:#64748b;font-size:14px">Submission ID: ${escapeHtml(submission.submissionId)}</p>
 
