@@ -8,17 +8,17 @@ type IconType = ComponentType<{ className?: string; strokeWidth?: number }>;
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-slate-200 bg-[#103a20] text-white">
+    <footer className="border-t border-slate-200 bg-[#0e2138] text-white">
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
         <div>
           <div className="flex items-center gap-2.5">
             <svg viewBox="0 0 40 40" className="h-8 w-8 flex-none" aria-hidden="true">
-              <g fill="none" stroke="#f1ede3" strokeWidth="2">
+              <g fill="none" stroke="#f3f2ee" strokeWidth="2">
                 <circle cx="20" cy="20" r="15" />
                 <ellipse cx="20" cy="20" rx="6.3" ry="15" />
                 <circle cx="13.1" cy="13.7" r="2.7" strokeWidth="1.6" />
               </g>
-              <circle cx="27.5" cy="24.5" r="2.5" fill="#f1ede3" />
+              <circle cx="27.5" cy="24.5" r="2.5" fill="#f3f2ee" />
             </svg>
             <p className="text-lg font-semibold">Haoyi Advisory</p>
           </div>

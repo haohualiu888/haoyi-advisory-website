@@ -1,46 +1,46 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f1ede3; /* bone */
-  --foreground: #15241c; /* ink */
+  --background: #f3f2ee; /* ivory */
+  --foreground: #14202e; /* navy ink */
 }
 
-/* ===== Brand: Forest & Bone ========================================
-   Deep forest green + antique gold on warm bone.
+/* ===== Brand: Midnight & Sand ======================================
+   Deep navy + warm sand on cool ivory.
    The slate (neutral) and cyan (accent) scales and `white` are remapped
    at the token level, so existing utility classes across the whole site
    adopt the brand automatically. */
 @theme {
-  --color-forest: #103a20;
-  --color-forest-600: #1a5e37;
-  --color-gold: #b08d43;
-  --color-bone: #f1ede3;
-  --color-ink: #15241c;
+  --color-navy: #0e2138;
+  --color-navy-600: #1e3a5f;
+  --color-sand: #c4a66a;
+  --color-ivory: #f3f2ee;
+  --color-ink: #14202e;
 
-  --color-white: #fcfaf4; /* warm surface instead of pure white */
+  --color-white: #fcfcfa; /* cool warm surface instead of pure white */
 
-  --color-slate-50: #f4f1e9;
-  --color-slate-100: #ece7da;
-  --color-slate-200: #e1dbcc;
-  --color-slate-300: #d0c8b6;
-  --color-slate-400: #9ba093;
-  --color-slate-500: #767b6e;
-  --color-slate-600: #515a4f;
-  --color-slate-700: #3c4339;
-  --color-slate-800: #2a3128;
-  --color-slate-900: #1d271f;
-  --color-slate-950: #15241c;
+  --color-slate-50: #f5f4f0;
+  --color-slate-100: #ebeae4;
+  --color-slate-200: #dddbd2;
+  --color-slate-300: #c7c5ba;
+  --color-slate-400: #989aa1;
+  --color-slate-500: #6b7280;
+  --color-slate-600: #495363;
+  --color-slate-700: #344052;
+  --color-slate-800: #232f41;
+  --color-slate-900: #16222f;
+  --color-slate-950: #0e2138;
 
-  --color-cyan-50: #f3ecd9;
-  --color-cyan-100: #ebe0c2;
-  --color-cyan-200: #ddca97;
-  --color-cyan-300: #d0b87a;
-  --color-cyan-400: #c2a661;
-  --color-cyan-500: #b08d43;
-  --color-cyan-600: #9c7d39;
-  --color-cyan-700: #876b2f;
-  --color-cyan-800: #6f5726;
-  --color-cyan-900: #5b471f;
+  --color-cyan-50: #f6f0e3;
+  --color-cyan-100: #ece0c7;
+  --color-cyan-200: #ddca9d;
+  --color-cyan-300: #d1ba83;
+  --color-cyan-400: #c9ab70;
+  --color-cyan-500: #c4a66a;
+  --color-cyan-600: #ad8f53;
+  --color-cyan-700: #8a6f3c;
+  --color-cyan-800: #725c34;
+  --color-cyan-900: #5d4b2c;
 }
 
 @theme inline {
@@ -57,8 +57,8 @@ body {
 }
 
 ::selection {
-  background: #e6d3a3;
-  color: #15241c;
+  background: #e3d3ab;
+  color: #14202e;
 }
 
 a {
@@ -72,7 +72,7 @@ a {
 
 /* Gradient accent for headline phrase (Tailwind-version independent) */
 .text-gradient {
-  background: linear-gradient(95deg, #1c5e37 0%, #7e8a3f 55%, #b88f3f 100%);
+  background: linear-gradient(95deg, #21456e 0%, #7a7053 55%, #c2a36a 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
