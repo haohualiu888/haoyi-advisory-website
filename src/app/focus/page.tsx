@@ -24,40 +24,38 @@ export default function FocusPage() {
 
       <section className="bg-slate-50">
         <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
-          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
-            <div>
-              <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-                Medical device sectors
-              </h2>
-              <p className="mt-4 max-w-lg text-base leading-7 text-slate-600">
-                Six broad product groups define the technologies we evaluate and support across
-                Europe and China.
-              </p>
-            </div>
-
-            <div className="grid border-t border-slate-300 sm:grid-cols-2">
-              {focusAreas.map((area, index) => (
-                <article
-                  key={area.title}
-                  className={`border-b border-slate-300 py-7 sm:min-h-52 sm:px-7 ${
-                    index % 2 === 0 ? "sm:border-r sm:pl-0" : "sm:pr-0"
-                  }`}
-                >
-                  <p className="text-sm font-semibold text-cyan-700">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-4 max-w-md text-xl font-semibold tracking-tight text-slate-950">
-                    {area.title}
-                  </h3>
-                  <p className="mt-3 max-w-md text-sm leading-6 text-slate-600">
-                    {area.description}
-                  </p>
-                </article>
-              ))}
-            </div>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              Medical device sectors
+            </h2>
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              Six broad product groups define the technologies we evaluate and support across
+              Europe and China.
+            </p>
           </div>
 
-          <div className="mt-12 border-t border-slate-300 pt-6 lg:ml-[calc(36%+2.5rem)] lg:flex lg:items-start lg:gap-10">
+          <div className="mt-12 grid border-t border-slate-300 sm:grid-cols-2">
+            {focusAreas.map((area, index) => (
+              <article
+                key={area.title}
+                className={`border-b border-slate-300 py-7 sm:min-h-52 sm:px-7 ${
+                  index % 2 === 0 ? "sm:border-r sm:pl-0" : "sm:pr-0"
+                }`}
+              >
+                <p className="text-sm font-semibold text-cyan-700">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-4 max-w-md text-xl font-semibold tracking-tight text-slate-950">
+                  {area.title}
+                </h3>
+                <p className="mt-3 max-w-md text-sm leading-6 text-slate-600">
+                  {area.description}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-12 border-t border-slate-300 pt-6 lg:flex lg:items-start lg:gap-10">
             <h2 className="flex-none text-base font-semibold text-slate-950">Commercial lens</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600 lg:mt-0">
               Each opportunity is assessed by intended use, clinical pathway, regulatory status,

@@ -117,7 +117,7 @@ export const projectAssessmentSubmissionSchema = z
   .object({
     submissionId: z.uuid("A valid submission ID is required."),
     companyName: requiredText("Company name", 200),
-    companyWebsite: httpUrl("Company website", true),
+    companyWebsite: httpUrl("Company website").optional().default(""),
     countryRegion: requiredText("Country / region", 120),
     companyStage: z.enum(companyStages, { error: "Company stage is required." }),
     companyStageOther: z.string().trim().max(120).optional().default(""),
@@ -128,8 +128,18 @@ export const projectAssessmentSubmissionSchema = z
 
     productName: requiredText("Product / technology name", 240),
     productCategory: z.enum(productCategories, { error: "Product category is required." }),
-    productDescription: requiredText("Short product description", 2000),
-    targetIndication: requiredText("Target indication / use case", 1000),
+    productDescription: z
+      .string()
+      .trim()
+      .max(2000, "Short product description is too long.")
+      .optional()
+      .default(""),
+    targetIndication: z
+      .string()
+      .trim()
+      .max(1000, "Target indication / use case is too long.")
+      .optional()
+      .default(""),
     developmentStage: z.enum(developmentStages, {
       error: "Current development stage is required.",
     }),
@@ -141,7 +151,12 @@ export const projectAssessmentSubmissionSchema = z
     clinicalEvidence: z.enum(clinicalEvidenceOptions, {
       error: "Clinical evidence available is required.",
     }),
-    keyEvidenceSummary: requiredText("Key evidence summary", 2500),
+    keyEvidenceSummary: z
+      .string()
+      .trim()
+      .max(2500, "Key evidence summary is too long.")
+      .optional()
+      .default(""),
     chinaRegulatoryStatus: z
       .union([z.enum(chinaRegulatoryStatuses), z.literal("")])
       .optional()

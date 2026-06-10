@@ -1,7 +1,15 @@
 "use client";
 
-import { useCallback, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { ArrowRight, CheckCircle2, LockKeyhole } from "lucide-react";
+import {
+  useCallback,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+  type ReactNode,
+} from "react";
+import { ArrowRight, CheckCircle2, Loader2, LockKeyhole, Paperclip } from "lucide-react";
+import { upload } from "@vercel/blob/client";
 import {
   chinaEntryModels,
   chinaInterestOptions,
@@ -236,6 +244,88 @@ const formValue = (data: FormData, name: string) => String(data.get(name) ?? "")
 const formValues = (data: FormData, name: string) =>
   data.getAll(name).map((value) => String(value));
 
+function PitchDeckUpload({ error }: { error?: string }) {
+  const [status, setStatus] = useState<"idle" | "uploading" | "done" | "error">("idle");
+  const [fileName, setFileName] = useState("");
+  const [url, setUrl] = useState("");
+  const [message, setMessage] = useState("");
+
+  async function handleFile(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (file.size > 20 * 1024 * 1024) {
+      setStatus("error");
+      setMessage("File is larger than 20 MB.");
+      return;
+    }
+    setFileName(file.name);
+    setStatus("uploading");
+    setMessage("");
+    setUrl("");
+    try {
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/project-assessment/upload",
+      });
+      setUrl(blob.url);
+      setStatus("done");
+    } catch (uploadError) {
+      setStatus("error");
+      setMessage(
+        uploadError instanceof Error
+          ? uploadError.message
+          : "Upload failed. Please try again or paste a link in Additional comments.",
+      );
+    }
+  }
+
+  return (
+    <div>
+      <p className="text-sm font-semibold text-slate-900">Pitch deck or product brochure</p>
+      <p className="mt-1 text-xs text-slate-500">
+        Optional · PDF, PowerPoint, Word, or image — up to 20 MB
+      </p>
+      <label
+        htmlFor="pitchDeckFile"
+        className="mt-2 flex cursor-pointer items-center gap-3 rounded-lg border border-dashed border-slate-300 bg-white px-4 py-5 text-sm text-slate-600 transition hover:border-cyan-400 hover:bg-slate-50"
+      >
+        <Paperclip className="h-5 w-5 flex-none text-cyan-700" />
+        <span className="min-w-0 flex-1 truncate">{fileName || "Choose a file to upload"}</span>
+        {status === "uploading" ? (
+          <Loader2 className="h-4 w-4 flex-none animate-spin text-slate-400" />
+        ) : status === "done" ? (
+          <CheckCircle2 className="h-4 w-4 flex-none text-emerald-600" />
+        ) : null}
+        <input
+          id="pitchDeckFile"
+          type="file"
+          accept=".pdf,.ppt,.pptx,.doc,.docx,.png,.jpg,.jpeg"
+          onChange={handleFile}
+          className="sr-only"
+        />
+      </label>
+      {status === "done" && url ? (
+        <p className="mt-2 text-sm text-slate-600">
+          Uploaded ·{" "}
+          <a
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-cyan-800 underline"
+          >
+            view file
+          </a>
+        </p>
+      ) : null}
+      {status === "error" ? (
+        <p className="mt-2 text-sm font-medium text-red-700">{message}</p>
+      ) : null}
+      <ErrorText id="pitchDeckLink-error" error={error} />
+      <input type="hidden" name="pitchDeckLink" value={url} />
+    </div>
+  );
+}
+
 export function ProjectAssessmentForm({
   submissionEnabled,
   turnstileSiteKey,
@@ -379,17 +469,6 @@ export function ProjectAssessmentForm({
 
   return (
     <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-12">
-      {!submissionEnabled ? (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950">
-          Online project submission is temporarily unavailable while secure email delivery and
-          domain verification are completed. You can contact{" "}
-          <a className="font-semibold underline" href="mailto:contact@haoyiadvisory.com">
-            contact@haoyiadvisory.com
-          </a>
-          .
-        </div>
-      ) : null}
-
       {formError ? (
         <div
           id="form-error-summary"
@@ -423,7 +502,6 @@ export function ProjectAssessmentForm({
               name="companyWebsite"
               label="Company website"
               type="url"
-              required
               placeholder="https://"
               error={errors.companyWebsite}
               autoComplete="url"
@@ -506,7 +584,6 @@ export function ProjectAssessmentForm({
               <TextAreaField
                 name="productDescription"
                 label="Short product description"
-                required
                 rows={5}
                 placeholder="Describe the product, how it works, and the primary user."
                 error={errors.productDescription}
@@ -516,7 +593,6 @@ export function ProjectAssessmentForm({
               <TextAreaField
                 name="targetIndication"
                 label="Target indication / use case"
-                required
                 rows={4}
                 error={errors.targetIndication}
               />
@@ -564,7 +640,6 @@ export function ProjectAssessmentForm({
               <TextAreaField
                 name="keyEvidenceSummary"
                 label="Key evidence summary"
-                required
                 rows={5}
                 placeholder="Summarize the available clinical or validation evidence."
                 error={errors.keyEvidenceSummary}
@@ -633,13 +708,7 @@ export function ProjectAssessmentForm({
           description="Optional supporting links, and how we may use your submission."
         >
           <div className="space-y-7">
-            <InputField
-              name="pitchDeckLink"
-              label="Pitch deck or product brochure link"
-              type="url"
-              placeholder="https://"
-              error={errors.pitchDeckLink}
-            />
+            <PitchDeckUpload error={errors.pitchDeckLink} />
             <TextAreaField
               name="additionalComments"
               label="Additional comments"
