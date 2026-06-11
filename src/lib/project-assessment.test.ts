@@ -22,8 +22,14 @@ export const validProjectAssessment = {
   targetIndication: "Post-operative lower-limb recovery.",
   productLifecycleStage: "Commercial launch / early market",
   productLifecycleStageOther: "",
-  regulatoryStatus: "CE marked",
-  regulatoryStatusOther: "",
+  marketAuthorizations: [
+    "CE marked (European Union / EEA)",
+    "FDA cleared / approved (United States)",
+  ],
+  marketAuthorizationOther: "",
+  authorizationCoverage: "Varies by market / jurisdiction",
+  marketAuthorizationDetails:
+    "CE marking covers the full product family; FDA clearance covers the lead model only.",
   clinicalEvidence: "Published clinical study",
   keyEvidenceSummary: "A peer-reviewed study and a multi-site usability evaluation are available.",
   chinaRegulatoryStatus: "No China activity yet",
@@ -96,8 +102,9 @@ describe("projectAssessmentSubmissionSchema", () => {
       productCategoryOther: "",
       productLifecycleStage: "Other",
       productLifecycleStageOther: "",
-      regulatoryStatus: "Other",
-      regulatoryStatusOther: "",
+      marketAuthorizations: ["Other market authorization"],
+      marketAuthorizationOther: "",
+      authorizationCoverage: "Selected products, models or indications only",
       chinaInterest: ["Other"],
       chinaInterestOther: "",
     });
@@ -109,7 +116,37 @@ describe("projectAssessmentSubmissionSchema", () => {
     expect(errors.organizationTypeOther).toBeDefined();
     expect(errors.productCategoryOther).toBeDefined();
     expect(errors.productLifecycleStageOther).toBeDefined();
-    expect(errors.regulatoryStatusOther).toBeDefined();
+    expect(errors.marketAuthorizationOther).toBeDefined();
     expect(errors.chinaInterestOther).toBeDefined();
+  });
+
+  it("supports multiple authorizations and requires their coverage", () => {
+    const result = projectAssessmentSubmissionSchema.safeParse({
+      ...validProjectAssessment,
+      marketAuthorizations: [
+        "CE marked (European Union / EEA)",
+        "UKCA marked (Great Britain)",
+        "FDA cleared / approved (United States)",
+      ],
+      authorizationCoverage: "",
+    });
+
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    expect(getProjectAssessmentFieldErrors(result.error).authorizationCoverage).toBeDefined();
+  });
+
+  it("keeps no authorization mutually exclusive", () => {
+    const result = projectAssessmentSubmissionSchema.safeParse({
+      ...validProjectAssessment,
+      marketAuthorizations: [
+        "CE marked (European Union / EEA)",
+        "No market authorization yet",
+      ],
+    });
+
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    expect(getProjectAssessmentFieldErrors(result.error).marketAuthorizations).toBeDefined();
   });
 });

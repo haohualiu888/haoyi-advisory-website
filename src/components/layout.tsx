@@ -1,12 +1,14 @@
 import Link from "next/link";
 import type { ComponentType } from "react";
 import { ArrowRight } from "lucide-react";
-import { navItems } from "@/lib/site-content";
 import { SiteHeader } from "@/components/site-header";
+import { getNavItems, type SiteLocale } from "@/lib/site-navigation";
 
 type IconType = ComponentType<{ className?: string; strokeWidth?: number }>;
 
-export function SiteFooter() {
+export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
+  const navItems = getNavItems(locale);
+
   return (
     <footer className="border-t border-slate-200 bg-[#0e2138] text-white">
       <div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
@@ -23,9 +25,9 @@ export function SiteFooter() {
             <p className="text-lg font-semibold">Haoyi Advisory</p>
           </div>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-            Cross-border medical device and healthcare commercialization between Europe and China.
-            Public partner names, legal entity details, and representative project examples are
-            marked To be confirmed until approved for publication.
+            {locale === "zh"
+              ? "连接中国与欧洲的医疗器械和医疗健康商业化平台。公开合作伙伴名称、法律实体信息及代表性项目案例，在获准发布前均标注为待确认。"
+              : "Cross-border medical device and healthcare commercialization between Europe and China. Public partner names, legal entity details, and representative project examples are marked To be confirmed until approved for publication."}
           </p>
         </div>
         <div className="grid grid-cols-3 gap-2 text-sm">
@@ -40,12 +42,21 @@ export function SiteFooter() {
   );
 }
 
-export function PageShell({ children }: { children: React.ReactNode }) {
+export function PageShell({
+  children,
+  locale = "en",
+}: {
+  children: React.ReactNode;
+  locale?: SiteLocale;
+}) {
   return (
-    <div className="min-h-screen bg-white text-slate-950">
-      <SiteHeader />
+    <div
+      lang={locale === "zh" ? "zh-CN" : "en"}
+      className="min-h-screen bg-white text-slate-950"
+    >
+      <SiteHeader locale={locale} />
       <main>{children}</main>
-      <SiteFooter />
+      <SiteFooter locale={locale} />
     </div>
   );
 }
@@ -126,25 +137,26 @@ export function CardGrid({
   );
 }
 
-export function CtaBand() {
+export function CtaBand({ locale = "en" }: { locale?: SiteLocale }) {
   return (
     <section className="bg-slate-50">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
         <div className="rounded-lg border border-slate-200 bg-white p-8 shadow-sm sm:p-10 lg:flex lg:items-center lg:justify-between">
           <div>
             <h2 className="text-2xl font-semibold tracking-tight text-slate-950">
-              Start with a focused conversation
+              {locale === "zh" ? "从一次聚焦的沟通开始" : "Start with a focused conversation"}
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-              Haoyi Advisory is best suited for companies and partners seeking practical,
-              evidence-aware commercialization routes across Europe and China.
+              {locale === "zh"
+                ? "Haoyi Advisory 适合希望在中国与欧洲之间寻找务实、以证据为基础的商业化路径的企业及合作伙伴。"
+                : "Haoyi Advisory is best suited for companies and partners seeking practical, evidence-aware commercialization routes across Europe and China."}
             </p>
           </div>
           <Link
-            href="/contact"
+            href={locale === "zh" ? "/zh/contact" : "/contact"}
             className="mt-6 inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-700 lg:mt-0"
           >
-            Contact
+            {locale === "zh" ? "联系我们" : "Contact"}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

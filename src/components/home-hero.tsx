@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import type { SiteLocale } from "@/lib/site-navigation";
 
 const routeForward = "M 620 476 C 812 344, 1098 350, 1260 512";
 const routeReverse = "M 1260 512 C 1098 350, 812 344, 620 476";
 
-function CommercializationMap() {
+function CommercializationMap({ locale }: { locale: SiteLocale }) {
   return (
     <div className="hero-visual relative">
       <div
@@ -90,10 +91,10 @@ function CommercializationMap() {
 
             {/* Labels */}
             <text x="620" y="430" textAnchor="middle" fontSize="26" fontWeight={600} letterSpacing="0.16em" fill="#2f3a4a">
-              EUROPE
+              {locale === "zh" ? "欧洲" : "EUROPE"}
             </text>
             <text x="1260" y="466" textAnchor="middle" fontSize="26" fontWeight={600} letterSpacing="0.16em" fill="#2f3a4a">
-              CHINA
+              {locale === "zh" ? "中国" : "CHINA"}
             </text>
           </svg>
         </div>
@@ -101,11 +102,11 @@ function CommercializationMap() {
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 px-5 py-3 text-[11px] font-medium text-slate-500">
           <span className="inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-cyan-500" />
-            Europe → China market entry
+            {locale === "zh" ? "欧洲 → 中国市场进入" : "Europe → China market entry"}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#1e3a5f]" />
-            China → overseas expansion
+            {locale === "zh" ? "中国 → 海外市场拓展" : "China → overseas expansion"}
           </span>
         </div>
       </div>
@@ -113,7 +114,7 @@ function CommercializationMap() {
   );
 }
 
-export function HomeHero() {
+export function HomeHero({ locale = "en" }: { locale?: SiteLocale }) {
   return (
     <section className="relative overflow-hidden border-b border-slate-100 bg-white">
       <div className="mx-auto grid min-h-[calc(100svh-97px)] max-w-7xl items-center gap-7 px-5 py-10 sm:px-6 sm:py-12 lg:grid-cols-[0.84fr_1.16fr] lg:gap-10 lg:px-8 lg:py-8">
@@ -123,18 +124,18 @@ export function HomeHero() {
             style={{ animationDelay: "0.05s" }}
           >
             <span className="live-dot h-2 w-2 rounded-full bg-cyan-500" />
-            Europe ⇄ China · Cross-border medtech
+            {locale === "zh" ? "中国 ↔ 欧洲 · 跨境医疗科技" : "Europe ↔ China · Cross-border medtech"}
           </span>
 
           <h1 className="mt-6 text-4xl font-semibold leading-[1.05] tracking-tight text-slate-950 sm:text-6xl lg:text-[4.25rem]">
             <span className="hero-reveal block" style={{ animationDelay: "0.12s" }}>
-              Medical Device
+              {locale === "zh" ? "医疗器械" : "Medical Device"}
             </span>
             <span className="hero-reveal block" style={{ animationDelay: "0.2s" }}>
-              Commercialization
+              {locale === "zh" ? "商业化落地" : "Commercialization"}
             </span>
             <span className="hero-reveal mt-2 block text-gradient" style={{ animationDelay: "0.28s" }}>
-              Europe ↔ China
+              {locale === "zh" ? "中国 ↔ 欧洲" : "Europe ↔ China"}
             </span>
           </h1>
 
@@ -142,8 +143,9 @@ export function HomeHero() {
             className="hero-reveal mt-6 max-w-lg text-lg leading-8 text-slate-600"
             style={{ animationDelay: "0.4s" }}
           >
-            Practical market entry, partner development, and commercialization support across
-            Europe and China.
+            {locale === "zh"
+              ? "为中国与欧洲之间的市场进入、合作伙伴拓展和商业化执行提供务实支持。"
+              : "Practical market entry, partner development, and commercialization support across Europe and China."}
           </p>
 
           <div
@@ -151,17 +153,17 @@ export function HomeHero() {
             style={{ animationDelay: "0.5s" }}
           >
             <Link
-              href="/contact/project"
+              href={locale === "zh" ? "/zh/contact/project" : "/contact/project"}
               className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
             >
-              Submit a Project
+              {locale === "zh" ? "提交项目" : "Submit a Project"}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <Link
-              href="/services"
+              href={locale === "zh" ? "/zh/services" : "/services"}
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:border-cyan-500 hover:text-cyan-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2"
             >
-              Explore Services
+              {locale === "zh" ? "查看服务" : "Explore Services"}
             </Link>
           </div>
 
@@ -169,7 +171,10 @@ export function HomeHero() {
             className="hero-reveal mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-slate-600"
             style={{ animationDelay: "0.6s" }}
           >
-            {["Evidence-led", "Healthcare-specific", "Partner-ready"].map((item) => (
+            {(locale === "zh"
+              ? ["证据驱动", "医疗行业专注", "面向合作落地"]
+              : ["Evidence-led", "Healthcare-specific", "Partner-ready"]
+            ).map((item) => (
               <div key={item} className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-cyan-600" />
                 <span>{item}</span>
@@ -178,7 +183,7 @@ export function HomeHero() {
           </div>
         </div>
 
-        <CommercializationMap />
+        <CommercializationMap locale={locale} />
       </div>
     </section>
   );

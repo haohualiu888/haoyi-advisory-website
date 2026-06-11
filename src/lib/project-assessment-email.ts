@@ -37,10 +37,11 @@ export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmiss
     submission.productLifecycleStage === "Other"
       ? `Other: ${submission.productLifecycleStageOther}`
       : submission.productLifecycleStage;
-  const regulatoryStatus =
-    submission.regulatoryStatus === "Other"
-      ? `Other: ${submission.regulatoryStatusOther}`
-      : submission.regulatoryStatus;
+  const marketAuthorizations = submission.marketAuthorizations.map((value) =>
+    value === "Other market authorization"
+      ? `Other: ${submission.marketAuthorizationOther}`
+      : value,
+  );
   const chinaInterest = submission.chinaInterest.map((value) =>
     value === "Other" ? `Other: ${submission.chinaInterestOther}` : value,
   );
@@ -77,7 +78,9 @@ export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmiss
 
           ${section(
             "Evidence and Regulation",
-            row("Regulatory status", regulatoryStatus) +
+            row("Market authorizations", listValue(marketAuthorizations)) +
+              row("Authorization coverage", submission.authorizationCoverage) +
+              row("Authorization details", submission.marketAuthorizationDetails) +
               row("Clinical evidence", submission.clinicalEvidence) +
               row("Key evidence summary", submission.keyEvidenceSummary) +
               row("China regulatory status", submission.chinaRegulatoryStatus),

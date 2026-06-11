@@ -35,13 +35,19 @@ export const productLifecycleStages = [
   "Other",
 ] as const;
 
-export const regulatoryStatuses = [
-  "CE marked",
-  "UKCA marked",
-  "FDA cleared / approved",
-  "In clinical trial",
-  "Not yet approved",
-  "Other",
+export const marketAuthorizationOptions = [
+  "CE marked (European Union / EEA)",
+  "UKCA marked (Great Britain)",
+  "FDA cleared / approved (United States)",
+  "Other market authorization",
+  "No market authorization yet",
+] as const;
+
+export const authorizationCoverageOptions = [
+  "All current products, models and indications",
+  "Selected products, models or indications only",
+  "Varies by market / jurisdiction",
+  "Not sure / requires review",
 ] as const;
 
 export const clinicalEvidenceOptions = [
@@ -150,10 +156,21 @@ export const projectAssessmentSubmissionSchema = z
     }),
     productLifecycleStageOther: z.string().trim().max(160).optional().default(""),
 
-    regulatoryStatus: z.enum(regulatoryStatuses, {
-      error: "Current regulatory status is required.",
-    }),
-    regulatoryStatusOther: z.string().trim().max(160).optional().default(""),
+    marketAuthorizations: z
+      .array(z.enum(marketAuthorizationOptions))
+      .min(1, "Select at least one market authorization status.")
+      .max(marketAuthorizationOptions.length),
+    marketAuthorizationOther: z.string().trim().max(240).optional().default(""),
+    authorizationCoverage: z
+      .union([z.enum(authorizationCoverageOptions), z.literal("")])
+      .optional()
+      .default(""),
+    marketAuthorizationDetails: z
+      .string()
+      .trim()
+      .max(1500, "Market authorization details are too long.")
+      .optional()
+      .default(""),
     clinicalEvidence: z.enum(clinicalEvidenceOptions, {
       error: "Clinical evidence available is required.",
     }),
@@ -217,11 +234,38 @@ export const projectAssessmentSubmissionSchema = z
       });
     }
 
-    if (data.regulatoryStatus === "Other" && !data.regulatoryStatusOther) {
+    const noAuthorization = "No market authorization yet";
+    const hasAuthorization = data.marketAuthorizations.some(
+      (value) => value !== noAuthorization,
+    );
+
+    if (
+      data.marketAuthorizations.includes(noAuthorization) &&
+      data.marketAuthorizations.length > 1
+    ) {
       context.addIssue({
         code: "custom",
-        path: ["regulatoryStatusOther"],
-        message: "Please specify the regulatory status.",
+        path: ["marketAuthorizations"],
+        message: "No market authorization yet cannot be combined with other selections.",
+      });
+    }
+
+    if (
+      data.marketAuthorizations.includes("Other market authorization") &&
+      !data.marketAuthorizationOther
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["marketAuthorizationOther"],
+        message: "Please specify the other market authorization.",
+      });
+    }
+
+    if (hasAuthorization && !data.authorizationCoverage) {
+      context.addIssue({
+        code: "custom",
+        path: ["authorizationCoverage"],
+        message: "Authorization coverage is required when an authorization is selected.",
       });
     }
 

@@ -1,0 +1,210 @@
+import type { SiteLocale } from "@/lib/site-navigation";
+
+const chineseText: Record<string, string> = {
+  "Select an option": "请选择",
+  "Not provided": "暂不提供",
+  "File is larger than 20 MB.": "文件不能超过 20 MB。",
+  "Choose a PDF, PowerPoint, Word, PNG, or JPEG file.":
+    "请选择 PDF、PowerPoint、Word、PNG 或 JPEG 文件。",
+  "Upload failed. Please try again or add a share link in Additional comments.":
+    "上传失败，请重试，或在补充说明中提供共享链接。",
+  "Pitch deck or product brochure": "商业计划书或产品资料",
+  "Optional - PDF, PowerPoint, Word, PNG, or JPEG - up to 20 MB":
+    "选填，可上传 PDF、PowerPoint、Word、PNG 或 JPEG，最大 20 MB",
+  "Choose a file to upload": "选择要上传的文件",
+  "Uploaded": "已上传",
+  "view file": "查看文件",
+  "Please review the highlighted fields before submitting.": "提交前请检查标出的字段。",
+  "The project could not be submitted.": "项目暂时无法提交，请检查后重试。",
+  "Your project could not be submitted at this time. Please try again or email contact@haoyiadvisory.com.":
+    "项目暂时无法提交，请稍后重试或发送邮件至 contact@haoyiadvisory.com。",
+  "Thank you for submitting your project.": "感谢您提交项目。",
+  "Our team will review the information and assess whether there is a potential fit with China market entry, clinical access, regulatory pathway, or partnership opportunities.":
+    "我们的团队将审核相关信息，并评估项目在中国市场进入、临床资源、监管路径及合作机会方面的匹配度。",
+  "Fields marked with * are required. The form takes about five minutes.":
+    "标有 * 的字段为必填项，填写约需五分钟。",
+  "Company Information": "公司信息",
+  "Tell us who you are and where the company is based.": "请介绍您的机构及所在地。",
+  "Company name": "公司名称",
+  "Company website": "公司网站",
+  "Country / region": "国家 / 地区",
+  "Organization type": "机构类型",
+  "Please specify organization type": "请说明机构类型",
+  "Contact person name": "联系人姓名",
+  "Job title": "职位",
+  Email: "电子邮箱",
+  "LinkedIn profile": "LinkedIn 个人主页",
+  "Product Information": "产品信息",
+  "Describe the product or technology and what it is used for.": "请介绍产品或技术及其用途。",
+  "Product / technology name": "产品 / 技术名称",
+  "Product category": "医疗器械类别",
+  "Please specify medical device category": "请说明医疗器械类别",
+  "Short product description": "产品简介",
+  "Describe the product, how it works, and the primary user.":
+    "请说明产品、工作原理及主要使用者。",
+  "Target indication / use case": "目标适应症 / 应用场景",
+  "Product lifecycle stage": "产品生命周期阶段",
+  "Please specify product lifecycle stage": "请说明产品生命周期阶段",
+  "Evidence and Regulation": "临床证据与监管",
+  "Where the product stands on market authorizations and clinical evidence.":
+    "请说明产品已取得的市场准入、授权覆盖范围及临床证据。",
+  "Market authorizations held": "已取得的市场准入",
+  "Select all that apply. \"No market authorization yet\" cannot be combined with another option.":
+    "可多选。“尚未取得市场准入”不能与其他选项同时选择。",
+  "Please specify other market authorization": "请说明其他市场准入",
+  "Authorization coverage": "授权覆盖范围",
+  "Market authorization details": "市场准入详情",
+  "Specify the products, models, indications and jurisdictions covered, including any partial approvals or pending variants.":
+    "请说明已获授权的产品、型号、适应症和司法辖区，并注明部分获批或仍在审评的范围。",
+  "Clinical evidence available": "现有临床证据",
+  "Key evidence summary": "关键证据摘要",
+  "Summarize the available clinical or validation evidence.": "请概述现有临床或验证证据。",
+  "China regulatory status": "中国监管进展",
+  "China Interest": "中国市场需求",
+  "What you are looking for in China and your preferred entry path.":
+    "请选择您在中国寻求的资源及偏好的进入模式。",
+  "What are you looking for in China?": "您希望在中国获得哪些支持？",
+  "Please specify the other China objective": "请说明其他中国市场目标",
+  "Preferred China entry model": "偏好的中国市场进入模式",
+  "Target timeline": "目标时间",
+  "Existing China partner or activity": "是否已有中国合作伙伴或业务活动",
+  "Files and Consent": "文件与授权",
+  "Optional supporting links, and how we may use your submission.":
+    "可选的支持材料，以及我们如何使用您提交的信息。",
+  "Additional comments": "补充说明",
+  "I agree that Haoyi Advisory may review this information and contact me regarding potential China market entry or partnership opportunities.":
+    "我同意 Haoyi Advisory 审阅这些信息，并就潜在的中国市场进入或合作机会与我联系。",
+  "Company fax": "公司传真",
+  "Security verification will appear after the production Turnstile key is configured.":
+    "生产环境 Turnstile 密钥配置后，此处将显示安全验证。",
+  "Submitting...": "提交中...",
+  "Submit Project": "提交项目",
+};
+
+const optionLabelsZh: Record<string, string> = {
+  "University / research institution project": "高校 / 科研机构项目",
+  "University / research institution spin-out": "高校 / 科研机构成果转化企业",
+  "Privately held company": "非上市公司",
+  "Publicly listed company": "上市公司",
+  "Corporate subsidiary / business unit": "集团子公司 / 业务单元",
+  "Non-profit / public-sector organization": "非营利 / 公共部门机构",
+  Other: "其他",
+  "Diagnostic, imaging & IVD devices": "诊断、医学影像及体外诊断设备",
+  "Surgical, interventional & implantable devices": "外科、介入及植入类设备",
+  "Therapeutic & life-support devices": "治疗及生命支持设备",
+  "Monitoring & measurement devices": "监护及测量设备",
+  "Rehabilitation, assistive & prosthetic devices": "康复、辅助及假肢矫形设备",
+  "Medical device software / SaMD": "医疗器械软件 / SaMD",
+  "General hospital, dental & laboratory equipment": "医院通用、口腔及实验室设备",
+  "Medical consumables & disposable devices": "医用耗材及一次性器械",
+  "Other medical device": "其他医疗器械",
+  "Concept / feasibility": "概念 / 可行性评估",
+  "Prototype / engineering development": "原型 / 工程开发",
+  "Design verification & validation": "设计验证与确认",
+  "Preclinical / bench testing": "临床前 / 台架测试",
+  "Clinical evaluation / investigation": "临床评价 / 临床试验",
+  "Regulatory submission / review": "监管申报 / 审评",
+  "Approved / market-ready, not yet launched": "已获准入 / 可上市，尚未发布",
+  "Commercial launch / early market": "商业发布 / 市场早期",
+  "Established commercial product": "成熟商业化产品",
+  "CE marked (European Union / EEA)": "已获 CE 标志（欧盟 / 欧洲经济区）",
+  "UKCA marked (Great Britain)": "已获 UKCA 标志（英国大不列颠）",
+  "FDA cleared / approved (United States)": "已获 FDA 许可 / 批准（美国）",
+  "Other market authorization": "其他市场准入",
+  "No market authorization yet": "尚未取得市场准入",
+  "All current products, models and indications": "覆盖当前全部产品、型号及适应症",
+  "Selected products, models or indications only": "仅覆盖部分产品、型号或适应症",
+  "Varies by market / jurisdiction": "不同市场 / 司法辖区的覆盖范围不同",
+  "Not sure / requires review": "尚不确定 / 需要评估",
+  "Published clinical study": "已发表临床研究",
+  "Clinical trial data": "临床试验数据",
+  "Real-world evidence": "真实世界证据",
+  "Pilot hospital data": "医院试点数据",
+  "Usability data": "可用性数据",
+  "No clinical data yet": "暂无临床数据",
+  "No China activity yet": "尚未开展中国业务",
+  "Early discussion": "初步沟通阶段",
+  "Local agent identified": "已确定境内代理人",
+  "NMPA pathway assessed": "已评估 NMPA 路径",
+  "NMPA submission started": "已启动 NMPA 申报",
+  "Already approved in China": "已在中国获批",
+  "Market assessment": "市场评估",
+  "Regulatory pathway": "监管路径",
+  "Clinical partner": "临床合作伙伴",
+  Distributor: "经销商",
+  "Strategic partner": "战略合作伙伴",
+  "License partner": "许可合作伙伴",
+  "Local manufacturing partner": "本地生产合作伙伴",
+  Investor: "投资方",
+  "Government / industrial park support": "政府 / 产业园支持",
+  Distribution: "经销",
+  Licensing: "许可",
+  "Joint venture": "合资",
+  "Co-development": "共同开发",
+  "Local manufacturing": "本地生产",
+  "Clinical pilot first": "先开展临床试点",
+  "Not sure yet": "尚未确定",
+  "0 to 6 months": "0 至 6 个月",
+  "6 to 12 months": "6 至 12 个月",
+  "12 to 24 months": "12 至 24 个月",
+  "Exploring only": "仅处于探索阶段",
+  Yes: "是",
+  No: "否",
+  "Under discussion": "正在讨论",
+};
+
+const fieldErrorsZh: Record<string, string> = {
+  companyName: "请填写公司名称。",
+  companyWebsite: "请输入有效的公司网站链接。",
+  countryRegion: "请填写国家或地区。",
+  organizationType: "请选择机构类型。",
+  organizationTypeOther: "请说明机构类型。",
+  contactPersonName: "请填写联系人姓名。",
+  jobTitle: "请填写职位。",
+  email: "请输入有效的电子邮箱地址。",
+  linkedInProfile: "请输入有效的 LinkedIn 链接。",
+  productName: "请填写产品或技术名称。",
+  productCategory: "请选择医疗器械类别。",
+  productCategoryOther: "请说明医疗器械类别。",
+  productDescription: "产品简介过长，请精简后重试。",
+  targetIndication: "目标适应症或应用场景过长，请精简后重试。",
+  productLifecycleStage: "请选择产品生命周期阶段。",
+  productLifecycleStageOther: "请说明产品生命周期阶段。",
+  marketAuthorizations: "请选择至少一项市场准入状态。",
+  marketAuthorizationOther: "请说明其他市场准入。",
+  authorizationCoverage: "请选择授权覆盖范围。",
+  marketAuthorizationDetails: "市场准入详情过长，请精简后重试。",
+  clinicalEvidence: "请选择现有临床证据。",
+  keyEvidenceSummary: "关键证据摘要过长，请精简后重试。",
+  chinaInterest: "请至少选择一项中国市场目标。",
+  chinaInterestOther: "请说明其他中国市场目标。",
+  preferredEntryModel: "请至少选择一种中国市场进入模式。",
+  targetTimeline: "请选择目标时间。",
+  existingChinaActivity: "请选择是否已有中国合作伙伴或业务活动。",
+  pitchDeckLink: "上传文件链接无效，请重新上传。",
+  additionalComments: "补充说明过长，请精简后重试。",
+  consent: "请确认授权后再提交。",
+  turnstileToken: "请完成安全验证。",
+};
+
+export function translateProjectAssessmentText(text: string, locale: SiteLocale) {
+  return locale === "zh" ? chineseText[text] ?? text : text;
+}
+
+export function translateProjectAssessmentOption(option: string, locale: SiteLocale) {
+  return locale === "zh" ? optionLabelsZh[option] ?? option : option;
+}
+
+export function localizeProjectAssessmentErrors(
+  errors: Record<string, string>,
+  locale: SiteLocale,
+) {
+  if (locale === "en") return errors;
+
+  return Object.fromEntries(
+    Object.entries(errors).map(([field, message]) => [
+      field,
+      fieldErrorsZh[field] ?? message,
+    ]),
+  );
+}

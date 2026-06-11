@@ -1,7 +1,9 @@
 "use client";
 
 import {
+  createContext,
   useCallback,
+  useContext,
   useRef,
   useState,
   type ChangeEvent,
@@ -11,6 +13,7 @@ import {
 import { ArrowRight, CheckCircle2, Loader2, LockKeyhole, Paperclip } from "lucide-react";
 import { uploadPresigned } from "@vercel/blob/client";
 import {
+  authorizationCoverageOptions,
   chinaEntryModels,
   chinaInterestOptions,
   chinaRegulatoryStatuses,
@@ -21,9 +24,15 @@ import {
   productCategories,
   productLifecycleStages,
   projectAssessmentSubmissionSchema,
-  regulatoryStatuses,
+  marketAuthorizationOptions,
   targetTimelines,
 } from "@/lib/project-assessment";
+import {
+  localizeProjectAssessmentErrors,
+  translateProjectAssessmentOption,
+  translateProjectAssessmentText,
+} from "@/lib/project-assessment-i18n";
+import type { SiteLocale } from "@/lib/site-navigation";
 import {
   createProjectAssessmentUploadPath,
   MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES,
@@ -35,6 +44,16 @@ type FieldErrors = Record<string, string>;
 
 const inputClass =
   "mt-2 w-full rounded-lg border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100 disabled:cursor-not-allowed disabled:bg-slate-100";
+
+const FormLocaleContext = createContext<SiteLocale>("en");
+
+function useFormLocale() {
+  const locale = useContext(FormLocaleContext);
+  return {
+    locale,
+    t: (text: string) => translateProjectAssessmentText(text, locale),
+  };
+}
 
 function RequiredMark() {
   return (
@@ -69,18 +88,19 @@ function InputField({
   placeholder?: string;
   autoComplete?: string;
 }) {
+  const { t } = useFormLocale();
   const errorId = `${name}-error`;
   return (
     <div>
       <label htmlFor={name} className="text-sm font-semibold text-slate-900">
-        {label} {required ? <RequiredMark /> : null}
+        {t(label)} {required ? <RequiredMark /> : null}
       </label>
       <input
         id={name}
         name={name}
         type={type}
         required={required}
-        placeholder={placeholder}
+        placeholder={placeholder ? t(placeholder) : undefined}
         autoComplete={autoComplete}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
@@ -106,11 +126,12 @@ function SelectField({
   required?: boolean;
   onChange?: (value: string) => void;
 }) {
+  const { locale, t } = useFormLocale();
   const errorId = `${name}-error`;
   return (
     <div>
       <label htmlFor={name} className="text-sm font-semibold text-slate-900">
-        {label} {required ? <RequiredMark /> : null}
+        {t(label)} {required ? <RequiredMark /> : null}
       </label>
       <select
         id={name}
@@ -122,10 +143,12 @@ function SelectField({
         aria-describedby={error ? errorId : undefined}
         className={inputClass}
       >
-        <option value="">{required ? "Select an option" : "Not provided"}</option>
+        <option value="">
+          {required ? t("Select an option") : t("Not provided")}
+        </option>
         {options.map((option) => (
           <option key={option} value={option}>
-            {option}
+            {translateProjectAssessmentOption(option, locale)}
           </option>
         ))}
       </select>
@@ -149,18 +172,19 @@ function TextAreaField({
   placeholder?: string;
   rows?: number;
 }) {
+  const { t } = useFormLocale();
   const errorId = `${name}-error`;
   return (
     <div>
       <label htmlFor={name} className="text-sm font-semibold text-slate-900">
-        {label} {required ? <RequiredMark /> : null}
+        {t(label)} {required ? <RequiredMark /> : null}
       </label>
       <textarea
         id={name}
         name={name}
         required={required}
         rows={rows}
-        placeholder={placeholder}
+        placeholder={placeholder ? t(placeholder) : undefined}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? errorId : undefined}
         className={`${inputClass} resize-y leading-6`}
@@ -177,6 +201,10 @@ function CheckboxGroup({
   error,
   required = false,
   onOtherChange,
+  selectedValues,
+  onSelectionChange,
+  exclusiveOption,
+  helpText,
 }: {
   name: string;
   label: string;
@@ -184,33 +212,51 @@ function CheckboxGroup({
   error?: string;
   required?: boolean;
   onOtherChange?: (checked: boolean) => void;
+  selectedValues?: readonly string[];
+  onSelectionChange?: (values: string[]) => void;
+  exclusiveOption?: string;
+  helpText?: string;
 }) {
+  const { locale, t } = useFormLocale();
   const errorId = `${name}-error`;
   return (
     <fieldset aria-describedby={error ? errorId : undefined}>
       <legend className="text-sm font-semibold text-slate-900">
-        {label} {required ? <RequiredMark /> : null}
+        {t(label)} {required ? <RequiredMark /> : null}
       </legend>
+      {helpText ? <p className="mt-1 text-xs leading-5 text-slate-500">{t(helpText)}</p> : null}
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
-        {options.map((option) => (
-          <label
-            key={option}
-            className="flex min-h-11 items-start gap-3 rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm leading-5 text-slate-700 transition hover:border-cyan-300"
-          >
-            <input
-              type="checkbox"
-              name={name}
-              value={option}
-              onChange={
-                option === "Other"
-                  ? (event) => onOtherChange?.(event.target.checked)
-                  : undefined
-              }
-              className="mt-0.5 h-4 w-4 flex-none accent-cyan-700"
-            />
-            <span>{option}</span>
-          </label>
-        ))}
+        {options.map((option) => {
+          const controlled = selectedValues !== undefined;
+          const checked = controlled ? selectedValues.includes(option) : undefined;
+
+          return (
+            <label
+              key={option}
+              className="flex min-h-11 items-start gap-3 rounded-lg border border-slate-200 bg-white px-3.5 py-3 text-sm leading-5 text-slate-700 transition hover:border-cyan-300"
+            >
+              <input
+                type="checkbox"
+                name={name}
+                value={option}
+                checked={checked}
+                onChange={(event) => {
+                  if (option === "Other") onOtherChange?.(event.target.checked);
+                  if (!controlled || !onSelectionChange) return;
+
+                  const nextValues = event.target.checked
+                    ? option === exclusiveOption
+                      ? [option]
+                      : [...selectedValues.filter((value) => value !== exclusiveOption), option]
+                    : selectedValues.filter((value) => value !== option);
+                  onSelectionChange(nextValues);
+                }}
+                className="mt-0.5 h-4 w-4 flex-none accent-cyan-700"
+              />
+              <span>{translateProjectAssessmentOption(option, locale)}</span>
+            </label>
+          );
+        })}
       </div>
       <ErrorText id={errorId} error={error} />
     </fieldset>
@@ -228,17 +274,22 @@ function FormSection({
   description?: string;
   children: ReactNode;
 }) {
+  const { locale, t } = useFormLocale();
   return (
     <fieldset className="border-t border-slate-200 pt-10">
-      <legend className="sr-only">{`Section ${number}: ${title}`}</legend>
+      <legend className="sr-only">
+        {locale === "zh" ? `第 ${number} 部分：${t(title)}` : `Section ${number}: ${title}`}
+      </legend>
       <div className="flex items-center gap-3 text-xl font-semibold tracking-tight text-slate-950">
         <span className="grid h-8 w-8 flex-none place-items-center rounded-full bg-cyan-700 text-sm font-semibold text-white">
           {number}
         </span>
-        {title}
+        {t(title)}
       </div>
       {description ? (
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500">{description}</p>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500">
+          {t(description)}
+        </p>
       ) : null}
       <div className="mt-8">{children}</div>
     </fieldset>
@@ -250,6 +301,7 @@ const formValues = (data: FormData, name: string) =>
   data.getAll(name).map((value) => String(value));
 
 function PitchDeckUpload({ error }: { error?: string }) {
+  const { locale, t } = useFormLocale();
   const [status, setStatus] = useState<"idle" | "uploading" | "done" | "error">("idle");
   const [fileName, setFileName] = useState("");
   const [url, setUrl] = useState("");
@@ -261,7 +313,7 @@ function PitchDeckUpload({ error }: { error?: string }) {
 
     if (file.size > MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES) {
       setStatus("error");
-      setMessage("File is larger than 20 MB.");
+      setMessage(t("File is larger than 20 MB."));
       event.target.value = "";
       return;
     }
@@ -273,7 +325,7 @@ function PitchDeckUpload({ error }: { error?: string }) {
       )
     ) {
       setStatus("error");
-      setMessage("Choose a PDF, PowerPoint, Word, PNG, or JPEG file.");
+      setMessage(t("Choose a PDF, PowerPoint, Word, PNG, or JPEG file."));
       event.target.value = "";
       return;
     }
@@ -298,25 +350,29 @@ function PitchDeckUpload({ error }: { error?: string }) {
     } catch (uploadError) {
       setStatus("error");
       setMessage(
-        uploadError instanceof Error
+        locale === "en" && uploadError instanceof Error
           ? `Upload failed: ${uploadError.message}`
-          : "Upload failed. Please try again or add a share link in Additional comments.",
+          : t("Upload failed. Please try again or add a share link in Additional comments."),
       );
     }
   }
 
   return (
     <div>
-      <p className="text-sm font-semibold text-slate-900">Pitch deck or product brochure</p>
+      <p className="text-sm font-semibold text-slate-900">
+        {t("Pitch deck or product brochure")}
+      </p>
       <p className="mt-1 text-xs text-slate-500">
-        Optional - PDF, PowerPoint, Word, PNG, or JPEG - up to 20 MB
+        {t("Optional - PDF, PowerPoint, Word, PNG, or JPEG - up to 20 MB")}
       </p>
       <label
         htmlFor="pitchDeckFile"
         className="mt-2 flex cursor-pointer items-center gap-3 rounded-lg border border-dashed border-slate-300 bg-white px-4 py-5 text-sm text-slate-600 transition hover:border-cyan-400 hover:bg-slate-50"
       >
         <Paperclip className="h-5 w-5 flex-none text-cyan-700" />
-        <span className="min-w-0 flex-1 truncate">{fileName || "Choose a file to upload"}</span>
+        <span className="min-w-0 flex-1 truncate">
+          {fileName || t("Choose a file to upload")}
+        </span>
         {status === "uploading" ? (
           <Loader2 className="h-4 w-4 flex-none animate-spin text-slate-400" />
         ) : status === "done" ? (
@@ -332,14 +388,14 @@ function PitchDeckUpload({ error }: { error?: string }) {
       </label>
       {status === "done" && url ? (
         <p className="mt-2 text-sm text-slate-600">
-          Uploaded -{" "}
+          {t("Uploaded")} -{" "}
           <a
             href={url}
             target="_blank"
             rel="noreferrer"
             className="font-semibold text-cyan-800 underline"
           >
-            view file
+            {t("view file")}
           </a>
         </p>
       ) : null}
@@ -358,19 +414,21 @@ export function ProjectAssessmentForm({
   privacyController,
   privacyContact,
   retentionMonths,
+  locale = "en",
 }: {
   submissionEnabled: boolean;
   turnstileSiteKey: string;
   privacyController: string;
   privacyContact: string;
   retentionMonths: string;
+  locale?: SiteLocale;
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const submissionIdRef = useRef<string | null>(null);
   const [organizationType, setOrganizationType] = useState("");
   const [productCategory, setProductCategory] = useState("");
   const [productLifecycleStage, setProductLifecycleStage] = useState("");
-  const [regulatoryStatus, setRegulatoryStatus] = useState("");
+  const [marketAuthorizations, setMarketAuthorizations] = useState<string[]>([]);
   const [otherChinaInterest, setOtherChinaInterest] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileReset, setTurnstileReset] = useState(0);
@@ -378,6 +436,10 @@ export function ProjectAssessmentForm({
   const [formError, setFormError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const t = (text: string) => translateProjectAssessmentText(text, locale);
+  const hasMarketAuthorization = marketAuthorizations.some(
+    (value) => value !== "No market authorization yet",
+  );
 
   const handleTurnstileToken = useCallback((token: string) => {
     setTurnstileToken(token);
@@ -417,8 +479,10 @@ export function ProjectAssessmentForm({
       targetIndication: formValue(data, "targetIndication"),
       productLifecycleStage: formValue(data, "productLifecycleStage"),
       productLifecycleStageOther: formValue(data, "productLifecycleStageOther"),
-      regulatoryStatus: formValue(data, "regulatoryStatus"),
-      regulatoryStatusOther: formValue(data, "regulatoryStatusOther"),
+      marketAuthorizations: formValues(data, "marketAuthorizations"),
+      marketAuthorizationOther: formValue(data, "marketAuthorizationOther"),
+      authorizationCoverage: formValue(data, "authorizationCoverage"),
+      marketAuthorizationDetails: formValue(data, "marketAuthorizationDetails"),
       clinicalEvidence: formValue(data, "clinicalEvidence"),
       keyEvidenceSummary: formValue(data, "keyEvidenceSummary"),
       chinaRegulatoryStatus: formValue(data, "chinaRegulatoryStatus"),
@@ -436,8 +500,13 @@ export function ProjectAssessmentForm({
 
     const validated = projectAssessmentSubmissionSchema.safeParse(payload);
     if (!validated.success) {
-      setErrors(getProjectAssessmentFieldErrors(validated.error));
-      setFormError("Please review the highlighted fields before submitting.");
+      setErrors(
+        localizeProjectAssessmentErrors(
+          getProjectAssessmentFieldErrors(validated.error),
+          locale,
+        ),
+      );
+      setFormError(t("Please review the highlighted fields before submitting."));
       requestAnimationFrame(() => document.getElementById("form-error-summary")?.focus());
       return;
     }
@@ -459,8 +528,12 @@ export function ProjectAssessmentForm({
       };
 
       if (!response.ok || !result.success) {
-        setErrors(result.fieldErrors ?? {});
-        setFormError(result.error ?? "The project could not be submitted.");
+        setErrors(localizeProjectAssessmentErrors(result.fieldErrors ?? {}, locale));
+        setFormError(
+          locale === "zh"
+            ? t("The project could not be submitted.")
+            : result.error ?? "The project could not be submitted.",
+        );
         setTurnstileReset((value) => value + 1);
         requestAnimationFrame(() => document.getElementById("form-error-summary")?.focus());
         return;
@@ -470,7 +543,9 @@ export function ProjectAssessmentForm({
       form.reset();
     } catch {
       setFormError(
-        "Your project could not be submitted at this time. Please try again or email contact@haoyiadvisory.com.",
+        t(
+          "Your project could not be submitted at this time. Please try again or email contact@haoyiadvisory.com.",
+        ),
       );
       setTurnstileReset((value) => value + 1);
       requestAnimationFrame(() => document.getElementById("form-error-summary")?.focus());
@@ -481,24 +556,28 @@ export function ProjectAssessmentForm({
 
   if (submitted) {
     return (
-      <div
-        className="rounded-lg border border-emerald-200 bg-emerald-50 p-7 sm:p-9"
-        role="status"
-      >
-        <CheckCircle2 className="h-8 w-8 text-emerald-700" />
-        <h2 className="mt-5 text-2xl font-semibold tracking-tight text-slate-950">
-          Thank you for submitting your project.
-        </h2>
-        <p className="mt-3 max-w-3xl text-base leading-7 text-slate-700">
-          Our team will review the information and assess whether there is a potential fit with
-          China market entry, clinical access, regulatory pathway, or partnership opportunities.
-        </p>
-      </div>
+      <FormLocaleContext.Provider value={locale}>
+        <div
+          className="rounded-lg border border-emerald-200 bg-emerald-50 p-7 sm:p-9"
+          role="status"
+        >
+          <CheckCircle2 className="h-8 w-8 text-emerald-700" />
+          <h2 className="mt-5 text-2xl font-semibold tracking-tight text-slate-950">
+            {t("Thank you for submitting your project.")}
+          </h2>
+          <p className="mt-3 max-w-3xl text-base leading-7 text-slate-700">
+            {t(
+              "Our team will review the information and assess whether there is a potential fit with China market entry, clinical access, regulatory pathway, or partnership opportunities.",
+            )}
+          </p>
+        </div>
+      </FormLocaleContext.Provider>
     );
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-12">
+    <FormLocaleContext.Provider value={locale}>
+      <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-12">
       {formError ? (
         <div
           id="form-error-summary"
@@ -511,7 +590,15 @@ export function ProjectAssessmentForm({
       ) : null}
 
       <p className="border-b border-slate-200 pb-6 text-sm leading-6 text-slate-600">
-        Fields marked with <RequiredMark /> are required. The form takes about five minutes.
+        {locale === "zh" ? (
+          <>
+            标有 <RequiredMark /> 的字段为必填项，填写约需五分钟。
+          </>
+        ) : (
+          <>
+            Fields marked with <RequiredMark /> are required. The form takes about five minutes.
+          </>
+        )}
       </p>
 
       <fieldset disabled={!submissionEnabled} className="contents">
@@ -658,17 +745,39 @@ export function ProjectAssessmentForm({
         <FormSection
           number={3}
           title="Evidence and Regulation"
-          description="Where the product stands on regulatory approvals and clinical evidence."
+          description="Where the product stands on market authorizations and clinical evidence."
         >
           <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2">
-            <SelectField
-              name="regulatoryStatus"
-              label="Current regulatory status"
-              options={regulatoryStatuses}
-              required
-              error={errors.regulatoryStatus}
-              onChange={setRegulatoryStatus}
-            />
+            <div className="sm:col-span-2">
+              <CheckboxGroup
+                name="marketAuthorizations"
+                label="Market authorizations held"
+                options={marketAuthorizationOptions}
+                required
+                error={errors.marketAuthorizations}
+                selectedValues={marketAuthorizations}
+                onSelectionChange={setMarketAuthorizations}
+                exclusiveOption="No market authorization yet"
+                helpText='Select all that apply. "No market authorization yet" cannot be combined with another option.'
+              />
+            </div>
+            {marketAuthorizations.includes("Other market authorization") ? (
+              <InputField
+                name="marketAuthorizationOther"
+                label="Please specify other market authorization"
+                required
+                error={errors.marketAuthorizationOther}
+              />
+            ) : null}
+            {hasMarketAuthorization ? (
+              <SelectField
+                name="authorizationCoverage"
+                label="Authorization coverage"
+                options={authorizationCoverageOptions}
+                required
+                error={errors.authorizationCoverage}
+              />
+            ) : null}
             <SelectField
               name="clinicalEvidence"
               label="Clinical evidence available"
@@ -676,14 +785,15 @@ export function ProjectAssessmentForm({
               required
               error={errors.clinicalEvidence}
             />
-            {regulatoryStatus === "Other" ? (
-              <InputField
-                name="regulatoryStatusOther"
-                label="Please specify regulatory status"
-                required
-                error={errors.regulatoryStatusOther}
+            <div className="sm:col-span-2">
+              <TextAreaField
+                name="marketAuthorizationDetails"
+                label="Market authorization details"
+                rows={4}
+                placeholder="Specify the products, models, indications and jurisdictions covered, including any partial approvals or pending variants."
+                error={errors.marketAuthorizationDetails}
               />
-            ) : null}
+            </div>
             <div className="sm:col-span-2">
               <TextAreaField
                 name="keyEvidenceSummary"
@@ -768,13 +878,24 @@ export function ProjectAssessmentForm({
               <div className="flex gap-3">
                 <LockKeyhole className="mt-0.5 h-5 w-5 flex-none text-cyan-700" />
                 <p>
-                  {privacyController} uses this information to assess potential China market and
-                  partnership fit and to contact you about the submission. Form delivery is
-                  processed through Vercel, Vercel Blob, Cloudflare Turnstile, and Resend. Uploaded
-                  files are shared through an unlisted file URL; do not upload confidential,
-                  patient-identifiable, or commercially sensitive material. Submission emails are
-                  retained only in the email service for up to {retentionMonths} months. Request
-                  access or deletion at{" "}
+                  {locale === "zh" ? (
+                    <>
+                      {privacyController} 使用这些信息评估中国市场及合作匹配度，并就本次提交与您联系。
+                      表单通过 Vercel、Vercel Blob、Cloudflare Turnstile 和 Resend
+                      处理。上传文件通过非公开链接共享，请勿上传机密、可识别患者身份或商业敏感材料。
+                      提交邮件仅在邮件服务中保留最多 {retentionMonths} 个月。如需访问或删除信息，请联系{" "}
+                    </>
+                  ) : (
+                    <>
+                      {privacyController} uses this information to assess potential China market and
+                      partnership fit and to contact you about the submission. Form delivery is
+                      processed through Vercel, Vercel Blob, Cloudflare Turnstile, and Resend.
+                      Uploaded files are shared through an unlisted file URL; do not upload
+                      confidential, patient-identifiable, or commercially sensitive material.
+                      Submission emails are retained only in the email service for up to{" "}
+                      {retentionMonths} months. Request access or deletion at{" "}
+                    </>
+                  )}
                   <a
                     href={`mailto:${privacyContact}`}
                     className="font-semibold text-cyan-800 underline"
@@ -796,14 +917,16 @@ export function ProjectAssessmentForm({
                 className="mt-1 h-4 w-4 flex-none accent-cyan-700"
               />
               <span>
-                I agree that Haoyi Advisory may review this information and contact me regarding
-                potential China market entry or partnership opportunities. <RequiredMark />
+                {t(
+                  "I agree that Haoyi Advisory may review this information and contact me regarding potential China market entry or partnership opportunities.",
+                )}{" "}
+                <RequiredMark />
               </span>
             </label>
             <ErrorText id="consent-error" error={errors.consent} />
 
             <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden>
-              <label htmlFor="companyFax">Company fax</label>
+              <label htmlFor="companyFax">{t("Company fax")}</label>
               <input
                 id="companyFax"
                 name="companyFax"
@@ -824,7 +947,9 @@ export function ProjectAssessmentForm({
               </div>
             ) : (
               <p className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-                Security verification will appear after the production Turnstile key is configured.
+                {t(
+                  "Security verification will appear after the production Turnstile key is configured.",
+                )}
               </p>
             )}
 
@@ -833,12 +958,13 @@ export function ProjectAssessmentForm({
               disabled={!submissionEnabled || isSubmitting}
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-400"
             >
-              {isSubmitting ? "Submitting..." : "Submit Project"}
+              {isSubmitting ? t("Submitting...") : t("Submit Project")}
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </FormSection>
       </fieldset>
-    </form>
+      </form>
+    </FormLocaleContext.Provider>
   );
 }

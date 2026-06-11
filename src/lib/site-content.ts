@@ -7,15 +7,9 @@ import {
   Network,
   Target,
 } from "lucide-react";
+import { getNavItems } from "@/lib/site-navigation";
 
-export const navItems = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Focus", href: "/focus" },
-  { label: "Services", href: "/services" },
-  { label: "Partners", href: "/partners" },
-  { label: "Contact", href: "/contact" },
-];
+export const navItems = getNavItems("en");
 
 export const focusAreas = [
   {
