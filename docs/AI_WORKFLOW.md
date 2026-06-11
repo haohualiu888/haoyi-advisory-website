@@ -2,7 +2,9 @@
 
 This repository is the single source of truth for the Haoyi Advisory website.
 
-Production URL: `https://haoyi-advisory-website.vercel.app`
+Canonical production URL: `https://haoyiadvisory.co`
+
+Vercel alias: `https://haoyi-advisory-website.vercel.app`
 
 GitHub repository: `https://github.com/haohualiu888/haoyi-advisory-website`
 
@@ -22,7 +24,9 @@ npm.cmd run build
 3. Commit the changes to Git.
 4. Push the commit to the GitHub `main` branch.
 5. Let Vercel deploy automatically from GitHub.
-6. Verify the production deployment after Vercel finishes.
+6. Verify the production deployment at `https://haoyiadvisory.co` after Vercel finishes.
+
+A task is not production-complete until the expected change is visible on the canonical domain.
 
 ## Vercel Rule
 

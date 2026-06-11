@@ -4,7 +4,8 @@ Official independent website codebase for Haoyi Advisory, a cross-border medical
 
 ## Live Links
 
-- Production: https://haoyi-advisory-website.vercel.app
+- Production: https://haoyiadvisory.co
+- Vercel alias: https://haoyi-advisory-website.vercel.app
 - GitHub: https://github.com/haohualiu888/haoyi-advisory-website
 
 ## Stack
@@ -42,7 +43,7 @@ npm.cmd run lint
 npm.cmd run build
 ```
 
-The default production URL is `https://haoyi-advisory-website.vercel.app`. For a custom production domain, set `NEXT_PUBLIC_SITE_URL` in Vercel so social metadata resolves to the final domain.
+The canonical production URL is `https://haoyiadvisory.co`. Keep `NEXT_PUBLIC_SITE_URL` set to this value in Vercel so social metadata always resolves to the public domain.
 
 ## Content Rules
 
@@ -65,7 +66,7 @@ Required activation steps are documented in [docs/PROJECT_ASSESSMENT_SETUP.md](d
 
 ## Deployment Workflow
 
-GitHub is the single source of truth. Future website changes must be made in this codebase, committed to GitHub, pushed to `main`, and deployed through Vercel auto-deployment.
+GitHub is the single source of truth. Future website changes must be made in this codebase, committed to GitHub, pushed to `main`, deployed through Vercel auto-deployment, and verified at `https://haoyiadvisory.co`.
 
 See [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md).
 
