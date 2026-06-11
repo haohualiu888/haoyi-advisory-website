@@ -1,9 +1,16 @@
 import { Resend } from "resend";
-import { buildProjectAssessmentEmail } from "@/lib/project-assessment-email";
+import {
+  buildProjectAssessmentEmail,
+  buildProjectAssessmentEmailAttachment,
+} from "@/lib/project-assessment-email";
 import {
   handleProjectAssessmentRequest,
   type ProjectAssessmentServiceDependencies,
 } from "@/lib/project-assessment-service";
+import {
+  verifyProjectAssessmentUpload,
+  type ProjectAssessmentUploadContentType,
+} from "@/lib/project-assessment-upload";
 
 export const runtime = "nodejs";
 
@@ -44,11 +51,21 @@ const dependencies: ProjectAssessmentServiceDependencies = {
     return result.success === true;
   },
 
+  async verifyUpload(url, expectedSize, expectedContentType) {
+    return verifyProjectAssessmentUpload({
+      url,
+      expectedSize,
+      expectedContentType:
+        expectedContentType as ProjectAssessmentUploadContentType,
+    });
+  },
+
   async sendSubmission(submission) {
     const from = process.env.RESEND_FROM_EMAIL;
     const to = process.env.PROJECT_SUBMISSION_TO_EMAIL;
     if (!from || !to) throw new Error("Email routing is not configured.");
 
+    const attachment = buildProjectAssessmentEmailAttachment(submission);
     const { error } = await getResend().emails.send(
       {
         from,
@@ -56,6 +73,7 @@ const dependencies: ProjectAssessmentServiceDependencies = {
         replyTo: submission.email,
         subject: `[Project Assessment] ${submission.companyName} — ${submission.productName}`,
         html: buildProjectAssessmentEmail(submission),
+        attachments: attachment ? [attachment] : undefined,
       },
       {
         idempotencyKey: `project-assessment-${submission.submissionId}`,

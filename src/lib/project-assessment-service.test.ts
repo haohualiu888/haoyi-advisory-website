@@ -25,6 +25,7 @@ function requestFor(
 function dependencies(overrides: Partial<ProjectAssessmentServiceDependencies> = {}) {
   return {
     verifyTurnstile: vi.fn().mockResolvedValue(true),
+    verifyUpload: vi.fn().mockResolvedValue(true),
     sendSubmission: vi.fn().mockResolvedValue(undefined),
     ...overrides,
   } satisfies ProjectAssessmentServiceDependencies;
@@ -79,6 +80,23 @@ describe("handleProjectAssessmentRequest", () => {
     );
 
     expect(response.status).toBe(400);
+    expect(deps.verifyTurnstile).not.toHaveBeenCalled();
+    expect(deps.verifyUpload).not.toHaveBeenCalled();
+    expect(deps.sendSubmission).not.toHaveBeenCalled();
+  });
+
+  it("rejects an empty or unavailable uploaded file before sending", async () => {
+    const deps = dependencies({
+      verifyUpload: vi.fn().mockResolvedValue(false),
+    });
+    const response = await handleProjectAssessmentRequest(
+      requestFor(validProjectAssessment),
+      { enabled: true, dependencies: deps },
+    );
+    const result = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(result.fieldErrors.pitchDeckLink).toContain("empty or unavailable");
     expect(deps.verifyTurnstile).not.toHaveBeenCalled();
     expect(deps.sendSubmission).not.toHaveBeenCalled();
   });
@@ -141,6 +159,11 @@ describe("handleProjectAssessmentRequest", () => {
       validProjectAssessment.turnstileToken,
       undefined,
       validProjectAssessment.submissionId,
+    );
+    expect(deps.verifyUpload).toHaveBeenCalledWith(
+      validProjectAssessment.pitchDeckLink,
+      validProjectAssessment.pitchDeckFileSize,
+      validProjectAssessment.pitchDeckContentType,
     );
     expect(deps.sendSubmission).toHaveBeenCalledWith(
       expect.objectContaining({ submissionId: validProjectAssessment.submissionId }),

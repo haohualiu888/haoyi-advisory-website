@@ -38,7 +38,11 @@ export const validProjectAssessment = {
   preferredEntryModel: ["Distribution", "Clinical pilot first"],
   targetTimeline: "6 to 12 months",
   existingChinaActivity: "No",
-  pitchDeckLink: "https://example.com/brochure",
+  pitchDeckLink:
+    "https://store.public.blob.vercel-storage.com/project-assessments/765d1128-deck.pdf",
+  pitchDeckFileName: "Clinical deck.pdf",
+  pitchDeckFileSize: 1024,
+  pitchDeckContentType: "application/pdf",
   additionalComments: "No confidential information included.",
   consent: true,
   turnstileToken: "turnstile-token",
@@ -118,6 +122,31 @@ describe("projectAssessmentSubmissionSchema", () => {
     expect(errors.productLifecycleStageOther).toBeDefined();
     expect(errors.marketAuthorizationOther).toBeDefined();
     expect(errors.chinaInterestOther).toBeDefined();
+  });
+
+  it("rejects empty uploaded files", () => {
+    const result = projectAssessmentSubmissionSchema.safeParse({
+      ...validProjectAssessment,
+      pitchDeckFileSize: 0,
+    });
+
+    expect(result.success).toBe(false);
+    if (result.success) return;
+    expect(getProjectAssessmentFieldErrors(result.error).pitchDeckLink).toContain(
+      "empty",
+    );
+  });
+
+  it("accepts a submission without an optional supporting file", () => {
+    const result = projectAssessmentSubmissionSchema.safeParse({
+      ...validProjectAssessment,
+      pitchDeckLink: "",
+      pitchDeckFileName: "",
+      pitchDeckFileSize: 0,
+      pitchDeckContentType: "",
+    });
+
+    expect(result.success).toBe(true);
   });
 
   it("supports multiple authorizations and requires their coverage", () => {

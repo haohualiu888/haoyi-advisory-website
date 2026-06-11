@@ -37,6 +37,7 @@ import {
   createProjectAssessmentUploadPath,
   MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES,
   PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES,
+  sanitizeProjectAssessmentOriginalFileName,
 } from "@/lib/project-assessment-upload";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 
@@ -44,6 +45,7 @@ type FieldErrors = Record<string, string>;
 
 const inputClass =
   "mt-2 w-full rounded-lg border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100 disabled:cursor-not-allowed disabled:bg-slate-100";
+const EMPTY_FILE_ETAG = "d41d8cd98f00b204e9800998ecf8427e";
 
 const FormLocaleContext = createContext<SiteLocale>("en");
 
@@ -300,16 +302,32 @@ const formValue = (data: FormData, name: string) => String(data.get(name) ?? "")
 const formValues = (data: FormData, name: string) =>
   data.getAll(name).map((value) => String(value));
 
-function PitchDeckUpload({ error }: { error?: string }) {
+function PitchDeckUpload({
+  error,
+  onUploadingChange,
+}: {
+  error?: string;
+  onUploadingChange: (uploading: boolean) => void;
+}) {
   const { locale, t } = useFormLocale();
   const [status, setStatus] = useState<"idle" | "uploading" | "done" | "error">("idle");
   const [fileName, setFileName] = useState("");
   const [url, setUrl] = useState("");
+  const [downloadUrl, setDownloadUrl] = useState("");
+  const [fileSize, setFileSize] = useState(0);
+  const [contentType, setContentType] = useState("");
   const [message, setMessage] = useState("");
 
   async function handleFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    if (file.size === 0) {
+      setStatus("error");
+      setMessage(t("The selected file is empty. Please choose the original file."));
+      event.target.value = "";
+      return;
+    }
 
     if (file.size > MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES) {
       setStatus("error");
@@ -330,10 +348,15 @@ function PitchDeckUpload({ error }: { error?: string }) {
       return;
     }
 
-    setFileName(file.name);
+    const safeFileName = sanitizeProjectAssessmentOriginalFileName(file.name);
+    setFileName(safeFileName);
     setStatus("uploading");
+    onUploadingChange(true);
     setMessage("");
     setUrl("");
+    setDownloadUrl("");
+    setFileSize(0);
+    setContentType("");
 
     try {
       const blob = await uploadPresigned(
@@ -345,7 +368,15 @@ function PitchDeckUpload({ error }: { error?: string }) {
           contentType: file.type || undefined,
         },
       );
+
+      if (blob.etag.replaceAll('"', "").toLowerCase() === EMPTY_FILE_ETAG) {
+        throw new Error("The stored file is empty.");
+      }
+
       setUrl(blob.url);
+      setDownloadUrl(blob.downloadUrl);
+      setFileSize(file.size);
+      setContentType(blob.contentType);
       setStatus("done");
     } catch (uploadError) {
       setStatus("error");
@@ -354,6 +385,8 @@ function PitchDeckUpload({ error }: { error?: string }) {
           ? `Upload failed: ${uploadError.message}`
           : t("Upload failed. Please try again or add a share link in Additional comments."),
       );
+    } finally {
+      onUploadingChange(false);
     }
   }
 
@@ -386,16 +419,17 @@ function PitchDeckUpload({ error }: { error?: string }) {
           className="sr-only"
         />
       </label>
-      {status === "done" && url ? (
+      {status === "done" && downloadUrl ? (
         <p className="mt-2 text-sm text-slate-600">
           {t("Uploaded")} -{" "}
           <a
-            href={url}
+            href={downloadUrl}
             target="_blank"
             rel="noreferrer"
+            download={fileName}
             className="font-semibold text-cyan-800 underline"
           >
-            {t("view file")}
+            {t("download original file")}
           </a>
         </p>
       ) : null}
@@ -404,6 +438,9 @@ function PitchDeckUpload({ error }: { error?: string }) {
       ) : null}
       <ErrorText id="pitchDeckLink-error" error={error} />
       <input type="hidden" name="pitchDeckLink" value={url} />
+      <input type="hidden" name="pitchDeckFileName" value={fileName} />
+      <input type="hidden" name="pitchDeckFileSize" value={fileSize || ""} />
+      <input type="hidden" name="pitchDeckContentType" value={contentType} />
     </div>
   );
 }
@@ -434,6 +471,7 @@ export function ProjectAssessmentForm({
   const [turnstileReset, setTurnstileReset] = useState(0);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState("");
+  const [isFileUploading, setIsFileUploading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const t = (text: string) => translateProjectAssessmentText(text, locale);
@@ -455,7 +493,7 @@ export function ProjectAssessmentForm({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!submissionEnabled || isSubmitting) return;
+    if (!submissionEnabled || isSubmitting || isFileUploading) return;
 
     const form = event.currentTarget;
     const data = new FormData(form);
@@ -492,6 +530,9 @@ export function ProjectAssessmentForm({
       targetTimeline: formValue(data, "targetTimeline"),
       existingChinaActivity: formValue(data, "existingChinaActivity"),
       pitchDeckLink: formValue(data, "pitchDeckLink"),
+      pitchDeckFileName: formValue(data, "pitchDeckFileName"),
+      pitchDeckFileSize: Number(formValue(data, "pitchDeckFileSize")) || 0,
+      pitchDeckContentType: formValue(data, "pitchDeckContentType"),
       additionalComments: formValue(data, "additionalComments"),
       consent: data.get("consent") === "on",
       turnstileToken,
@@ -866,7 +907,10 @@ export function ProjectAssessmentForm({
           description="Optional supporting links, and how we may use your submission."
         >
           <div className="space-y-7">
-            <PitchDeckUpload error={errors.pitchDeckLink} />
+            <PitchDeckUpload
+              error={errors.pitchDeckLink}
+              onUploadingChange={setIsFileUploading}
+            />
             <TextAreaField
               name="additionalComments"
               label="Additional comments"
@@ -955,10 +999,14 @@ export function ProjectAssessmentForm({
 
             <button
               type="submit"
-              disabled={!submissionEnabled || isSubmitting}
+              disabled={!submissionEnabled || isSubmitting || isFileUploading}
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-400"
             >
-              {isSubmitting ? t("Submitting...") : t("Submit Project")}
+              {isFileUploading
+                ? t("Uploading file...")
+                : isSubmitting
+                  ? t("Submitting...")
+                  : t("Submit Project")}
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>

@@ -12,8 +12,12 @@ const chineseText: Record<string, string> = {
   "Optional - PDF, PowerPoint, Word, PNG, or JPEG - up to 20 MB":
     "选填，可上传 PDF、PowerPoint、Word、PNG 或 JPEG，最大 20 MB",
   "Choose a file to upload": "选择要上传的文件",
+  "The selected file is empty. Please choose the original file.":
+    "所选文件为空，请重新选择原始文件。",
   "Uploaded": "已上传",
   "view file": "查看文件",
+  "download original file": "下载原文件",
+  "Uploading file...": "文件上传中...",
   "Please review the highlighted fields before submitting.": "提交前请检查标出的字段。",
   "The project could not be submitted.": "项目暂时无法提交，请检查后重试。",
   "Your project could not be submitted at this time. Please try again or email contact@haoyiadvisory.com.":

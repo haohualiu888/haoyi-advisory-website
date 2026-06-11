@@ -1,4 +1,9 @@
 import { z } from "zod";
+import {
+  MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES,
+  PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES,
+  sanitizeProjectAssessmentOriginalFileName,
+} from "@/lib/project-assessment-upload";
 
 export const organizationTypes = [
   "University / research institution project",
@@ -200,6 +205,18 @@ export const projectAssessmentSubmissionSchema = z
     }),
 
     pitchDeckLink: httpUrl("Pitch deck or product brochure link").optional().default(""),
+    pitchDeckFileName: z.string().trim().max(255).optional().default(""),
+    pitchDeckFileSize: z
+      .number()
+      .int()
+      .min(0)
+      .max(MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES)
+      .optional()
+      .default(0),
+    pitchDeckContentType: z
+      .union([z.enum(PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES), z.literal("")])
+      .optional()
+      .default(""),
     additionalComments: z.string().trim().max(2500).optional().default(""),
     consent: z.boolean().refine((value) => value, "Consent is required."),
 
@@ -274,6 +291,51 @@ export const projectAssessmentSubmissionSchema = z
         code: "custom",
         path: ["chinaInterestOther"],
         message: "Please specify the other China objective.",
+      });
+    }
+
+    if (data.pitchDeckLink) {
+      if (!data.pitchDeckFileName) {
+        context.addIssue({
+          code: "custom",
+          path: ["pitchDeckLink"],
+          message: "The uploaded file name is missing. Please upload the file again.",
+        });
+      } else if (
+        sanitizeProjectAssessmentOriginalFileName(data.pitchDeckFileName) !==
+        data.pitchDeckFileName
+      ) {
+        context.addIssue({
+          code: "custom",
+          path: ["pitchDeckLink"],
+          message: "The uploaded file name is invalid. Please upload the file again.",
+        });
+      }
+
+      if (data.pitchDeckFileSize <= 0) {
+        context.addIssue({
+          code: "custom",
+          path: ["pitchDeckLink"],
+          message: "The uploaded file is empty. Please upload the original file again.",
+        });
+      }
+
+      if (!data.pitchDeckContentType) {
+        context.addIssue({
+          code: "custom",
+          path: ["pitchDeckLink"],
+          message: "The uploaded file type is missing. Please upload the file again.",
+        });
+      }
+    } else if (
+      data.pitchDeckFileName ||
+      data.pitchDeckFileSize ||
+      data.pitchDeckContentType
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["pitchDeckLink"],
+        message: "The uploaded file link is missing. Please upload the file again.",
       });
     }
   });

@@ -1,4 +1,5 @@
 import type { ProjectAssessmentSubmission } from "@/lib/project-assessment";
+import { createProjectAssessmentDownloadUrl } from "@/lib/project-assessment-upload";
 
 const escapeHtml = (value: string) =>
   value
@@ -19,9 +20,42 @@ function row(label: string, value?: string) {
   </tr>`;
 }
 
+function formatFileSize(size: number) {
+  if (size < 1024) return `${size} bytes`;
+  if (size < 1024 * 1024) return `${Math.ceil(size / 1024)} KB`;
+  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function fileRow(submission: ProjectAssessmentSubmission) {
+  if (!submission.pitchDeckLink) {
+    return row("Original uploaded file");
+  }
+
+  const downloadUrl = createProjectAssessmentDownloadUrl(submission.pitchDeckLink);
+  return `<tr>
+    <th style="width:32%;padding:10px 12px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top;color:#475569;font-size:13px;font-weight:600">Original uploaded file</th>
+    <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#0f172a;font-size:14px;line-height:1.5">
+      <div style="margin-bottom:8px">${escapeHtml(submission.pitchDeckFileName)} (${escapeHtml(formatFileSize(submission.pitchDeckFileSize))})</div>
+      <a href="${escapeHtml(downloadUrl)}" style="display:inline-block;border-radius:6px;background:#0e2138;padding:9px 14px;color:#ffffff;text-decoration:none;font-weight:700">Download original file</a>
+    </td>
+  </tr>`;
+}
+
 function section(title: string, rows: string) {
   return `<h2 style="margin:28px 0 10px;color:#14202e;font-size:18px">${escapeHtml(title)}</h2>
     <table role="presentation" style="width:100%;border-collapse:collapse;border:1px solid #e2e8f0">${rows}</table>`;
+}
+
+export function buildProjectAssessmentEmailAttachment(
+  submission: ProjectAssessmentSubmission,
+) {
+  if (!submission.pitchDeckLink) return undefined;
+
+  return {
+    path: createProjectAssessmentDownloadUrl(submission.pitchDeckLink),
+    filename: submission.pitchDeckFileName,
+    contentType: submission.pitchDeckContentType,
+  };
 }
 
 export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmission) {
@@ -96,7 +130,7 @@ export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmiss
 
           ${section(
             "Files and Comments",
-            row("Pitch deck / brochure link", submission.pitchDeckLink) +
+            fileRow(submission) +
               row("Additional comments", submission.additionalComments) +
               row("Consent", submission.consent ? "Confirmed" : "Not confirmed"),
           )}

@@ -12,6 +12,11 @@ export type ProjectAssessmentServiceDependencies = {
     remoteIp: string | undefined,
     submissionId: string,
   ) => Promise<boolean>;
+  verifyUpload: (
+    url: string,
+    expectedSize: number,
+    expectedContentType: string,
+  ) => Promise<boolean>;
   sendSubmission: (submission: ProjectAssessmentSubmission) => Promise<void>;
 };
 
@@ -96,6 +101,41 @@ export async function handleProjectAssessmentRequest(
 
   if (parsed.data.companyFax) {
     return jsonResponse({ error: "The submission could not be accepted." }, 400);
+  }
+
+  if (parsed.data.pitchDeckLink) {
+    let uploadValid = false;
+    try {
+      uploadValid = await options.dependencies.verifyUpload(
+        parsed.data.pitchDeckLink,
+        parsed.data.pitchDeckFileSize,
+        parsed.data.pitchDeckContentType,
+      );
+    } catch {
+      return jsonResponse(
+        {
+          error: "The uploaded file could not be verified. Please upload it again.",
+          fieldErrors: {
+            pitchDeckLink: "The uploaded file could not be verified. Please upload it again.",
+          },
+        },
+        502,
+      );
+    }
+
+    if (!uploadValid) {
+      return jsonResponse(
+        {
+          error:
+            "The uploaded file is empty or unavailable. Please upload the original file again.",
+          fieldErrors: {
+            pitchDeckLink:
+              "The uploaded file is empty or unavailable. Please upload the original file again.",
+          },
+        },
+        400,
+      );
+    }
   }
 
   const remoteIp =

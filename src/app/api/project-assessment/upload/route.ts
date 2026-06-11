@@ -59,7 +59,8 @@ export async function POST(request: Request): Promise<Response> {
             allowedContentTypes: [...PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES],
             maximumSizeInBytes: MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES,
             validUntil,
-            addRandomSuffix: true,
+            // The pathname already contains a UUID, so preserve the real file extension.
+            addRandomSuffix: false,
           },
         };
       },

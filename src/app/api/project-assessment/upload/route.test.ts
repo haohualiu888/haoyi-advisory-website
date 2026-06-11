@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({
   handleUploadPresigned: vi.fn(),
   issueSignedToken: vi.fn(),
+  signedTokenResult: undefined as unknown,
 }));
 
 vi.mock("@vercel/blob", () => ({
@@ -43,6 +44,7 @@ function uploadRequest(
 describe("project assessment upload route", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mocks.signedTokenResult = undefined;
     mocks.issueSignedToken.mockResolvedValue({
       delegationToken: "delegation-token",
       clientSigningToken: "client-signing-token",
@@ -50,7 +52,7 @@ describe("project assessment upload route", () => {
     });
     mocks.handleUploadPresigned.mockImplementation(
       async ({ getSignedToken }: { getSignedToken: (pathname: string) => Promise<unknown> }) => {
-        await getSignedToken(uploadEvent.payload.pathname);
+        mocks.signedTokenResult = await getSignedToken(uploadEvent.payload.pathname);
         return {
           type: "blob.generate-presigned-url",
           presignedUrlPayload: { presignedUrl: "https://blob.example/upload" },
@@ -68,6 +70,14 @@ describe("project assessment upload route", () => {
         pathname: uploadEvent.payload.pathname,
         operations: ["put"],
         maximumSizeInBytes: 20 * 1024 * 1024,
+      }),
+    );
+    expect(mocks.handleUploadPresigned).toHaveBeenCalled();
+    expect(mocks.signedTokenResult).toEqual(
+      expect.objectContaining({
+        urlOptions: expect.objectContaining({
+          addRandomSuffix: false,
+        }),
       }),
     );
   });

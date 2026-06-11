@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DocumentLanguage } from "@/components/document-language";
 
 export const metadata: Metadata = {
   title: {
@@ -14,5 +15,10 @@ export default function ChineseLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return (
+    <>
+      <DocumentLanguage lang="zh-CN" />
+      {children}
+    </>
+  );
 }
