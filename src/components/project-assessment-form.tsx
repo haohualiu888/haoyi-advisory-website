@@ -9,21 +9,26 @@ import {
   type ReactNode,
 } from "react";
 import { ArrowRight, CheckCircle2, Loader2, LockKeyhole, Paperclip } from "lucide-react";
-import { upload } from "@vercel/blob/client";
+import { uploadPresigned } from "@vercel/blob/client";
 import {
   chinaEntryModels,
   chinaInterestOptions,
   chinaRegulatoryStatuses,
   clinicalEvidenceOptions,
-  companyStages,
-  developmentStages,
   existingChinaActivityOptions,
   getProjectAssessmentFieldErrors,
+  organizationTypes,
   productCategories,
+  productLifecycleStages,
   projectAssessmentSubmissionSchema,
   regulatoryStatuses,
   targetTimelines,
 } from "@/lib/project-assessment";
+import {
+  createProjectAssessmentUploadPath,
+  MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES,
+  PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES,
+} from "@/lib/project-assessment-upload";
 import { TurnstileWidget } from "@/components/turnstile-widget";
 
 type FieldErrors = Record<string, string>;
@@ -253,28 +258,49 @@ function PitchDeckUpload({ error }: { error?: string }) {
   async function handleFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    if (file.size > 20 * 1024 * 1024) {
+
+    if (file.size > MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES) {
       setStatus("error");
       setMessage("File is larger than 20 MB.");
+      event.target.value = "";
       return;
     }
+
+    if (
+      file.type &&
+      !PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES.includes(
+        file.type as (typeof PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES)[number],
+      )
+    ) {
+      setStatus("error");
+      setMessage("Choose a PDF, PowerPoint, Word, PNG, or JPEG file.");
+      event.target.value = "";
+      return;
+    }
+
     setFileName(file.name);
     setStatus("uploading");
     setMessage("");
     setUrl("");
+
     try {
-      const blob = await upload(file.name, file, {
-        access: "public",
-        handleUploadUrl: "/api/project-assessment/upload",
-      });
+      const blob = await uploadPresigned(
+        createProjectAssessmentUploadPath(file.name),
+        file,
+        {
+          access: "public",
+          handleUploadUrl: "/api/project-assessment/upload",
+          contentType: file.type || undefined,
+        },
+      );
       setUrl(blob.url);
       setStatus("done");
     } catch (uploadError) {
       setStatus("error");
       setMessage(
         uploadError instanceof Error
-          ? uploadError.message
-          : "Upload failed. Please try again or paste a link in Additional comments.",
+          ? `Upload failed: ${uploadError.message}`
+          : "Upload failed. Please try again or add a share link in Additional comments.",
       );
     }
   }
@@ -283,7 +309,7 @@ function PitchDeckUpload({ error }: { error?: string }) {
     <div>
       <p className="text-sm font-semibold text-slate-900">Pitch deck or product brochure</p>
       <p className="mt-1 text-xs text-slate-500">
-        Optional · PDF, PowerPoint, Word, or image — up to 20 MB
+        Optional - PDF, PowerPoint, Word, PNG, or JPEG - up to 20 MB
       </p>
       <label
         htmlFor="pitchDeckFile"
@@ -306,7 +332,7 @@ function PitchDeckUpload({ error }: { error?: string }) {
       </label>
       {status === "done" && url ? (
         <p className="mt-2 text-sm text-slate-600">
-          Uploaded ·{" "}
+          Uploaded -{" "}
           <a
             href={url}
             target="_blank"
@@ -341,7 +367,9 @@ export function ProjectAssessmentForm({
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const submissionIdRef = useRef<string | null>(null);
-  const [companyStage, setCompanyStage] = useState("");
+  const [organizationType, setOrganizationType] = useState("");
+  const [productCategory, setProductCategory] = useState("");
+  const [productLifecycleStage, setProductLifecycleStage] = useState("");
   const [regulatoryStatus, setRegulatoryStatus] = useState("");
   const [otherChinaInterest, setOtherChinaInterest] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
@@ -376,17 +404,19 @@ export function ProjectAssessmentForm({
       companyName: formValue(data, "companyName"),
       companyWebsite: formValue(data, "companyWebsite"),
       countryRegion: formValue(data, "countryRegion"),
-      companyStage: formValue(data, "companyStage"),
-      companyStageOther: formValue(data, "companyStageOther"),
+      organizationType: formValue(data, "organizationType"),
+      organizationTypeOther: formValue(data, "organizationTypeOther"),
       contactPersonName: formValue(data, "contactPersonName"),
       jobTitle: formValue(data, "jobTitle"),
       email: formValue(data, "email"),
       linkedInProfile: formValue(data, "linkedInProfile"),
       productName: formValue(data, "productName"),
       productCategory: formValue(data, "productCategory"),
+      productCategoryOther: formValue(data, "productCategoryOther"),
       productDescription: formValue(data, "productDescription"),
       targetIndication: formValue(data, "targetIndication"),
-      developmentStage: formValue(data, "developmentStage"),
+      productLifecycleStage: formValue(data, "productLifecycleStage"),
+      productLifecycleStageOther: formValue(data, "productLifecycleStageOther"),
       regulatoryStatus: formValue(data, "regulatoryStatus"),
       regulatoryStatusOther: formValue(data, "regulatoryStatusOther"),
       clinicalEvidence: formValue(data, "clinicalEvidence"),
@@ -514,19 +544,19 @@ export function ProjectAssessmentForm({
               autoComplete="country-name"
             />
             <SelectField
-              name="companyStage"
-              label="Company stage"
-              options={companyStages}
+              name="organizationType"
+              label="Organization type"
+              options={organizationTypes}
               required
-              error={errors.companyStage}
-              onChange={setCompanyStage}
+              error={errors.organizationType}
+              onChange={setOrganizationType}
             />
-            {companyStage === "Other" ? (
+            {organizationType === "Other" ? (
               <InputField
-                name="companyStageOther"
-                label="Please specify company stage"
+                name="organizationTypeOther"
+                label="Please specify organization type"
                 required
-                error={errors.companyStageOther}
+                error={errors.organizationTypeOther}
               />
             ) : null}
             <InputField
@@ -579,7 +609,16 @@ export function ProjectAssessmentForm({
               options={productCategories}
               required
               error={errors.productCategory}
+              onChange={setProductCategory}
             />
+            {productCategory === "Other medical device" ? (
+              <InputField
+                name="productCategoryOther"
+                label="Please specify medical device category"
+                required
+                error={errors.productCategoryOther}
+              />
+            ) : null}
             <div className="sm:col-span-2">
               <TextAreaField
                 name="productDescription"
@@ -598,12 +637,21 @@ export function ProjectAssessmentForm({
               />
             </div>
             <SelectField
-              name="developmentStage"
-              label="Current development stage"
-              options={developmentStages}
+              name="productLifecycleStage"
+              label="Product lifecycle stage"
+              options={productLifecycleStages}
               required
-              error={errors.developmentStage}
+              error={errors.productLifecycleStage}
+              onChange={setProductLifecycleStage}
             />
+            {productLifecycleStage === "Other" ? (
+              <InputField
+                name="productLifecycleStageOther"
+                label="Please specify product lifecycle stage"
+                required
+                error={errors.productLifecycleStageOther}
+              />
+            ) : null}
           </div>
         </FormSection>
 
@@ -722,7 +770,9 @@ export function ProjectAssessmentForm({
                 <p>
                   {privacyController} uses this information to assess potential China market and
                   partnership fit and to contact you about the submission. Form delivery is
-                  processed through Vercel, Cloudflare Turnstile, and Resend. Submission emails are
+                  processed through Vercel, Vercel Blob, Cloudflare Turnstile, and Resend. Uploaded
+                  files are shared through an unlisted file URL; do not upload confidential,
+                  patient-identifiable, or commercially sensitive material. Submission emails are
                   retained only in the email service for up to {retentionMonths} months. Request
                   access or deletion at{" "}
                   <a

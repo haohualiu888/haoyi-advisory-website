@@ -1,39 +1,84 @@
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { issueSignedToken } from "@vercel/blob";
+import {
+  handleUploadPresigned,
+  type HandleUploadPresignedBody,
+} from "@vercel/blob/client";
 import { NextResponse } from "next/server";
+import { requestOriginMatchesHost } from "@/lib/project-assessment-service";
+import {
+  isAllowedProjectAssessmentUploadPath,
+  MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES,
+  PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES,
+} from "@/lib/project-assessment-upload";
 
 export const runtime = "nodejs";
 
-const ALLOWED_CONTENT_TYPES = [
-  "application/pdf",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-  "application/vnd.ms-powerpoint",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "image/png",
-  "image/jpeg",
-];
-
 export async function POST(request: Request): Promise<Response> {
-  const body = (await request.json()) as HandleUploadBody;
+  let body: HandleUploadPresignedBody;
 
   try {
-    const result = await handleUpload({
+    body = (await request.json()) as HandleUploadPresignedBody;
+  } catch {
+    return NextResponse.json(
+      { error: "The upload request format is invalid." },
+      { status: 400 },
+    );
+  }
+
+  if (
+    body.type === "blob.generate-presigned-url" &&
+    !requestOriginMatchesHost(request)
+  ) {
+    return NextResponse.json(
+      { error: "The upload origin could not be verified." },
+      { status: 403 },
+    );
+  }
+
+  try {
+    const result = await handleUploadPresigned({
       body,
       request,
-      onBeforeGenerateToken: async () => ({
-        allowedContentTypes: ALLOWED_CONTENT_TYPES,
-        maximumSizeInBytes: 20 * 1024 * 1024,
-        addRandomSuffix: true,
-      }),
+      getSignedToken: async (pathname) => {
+        if (!isAllowedProjectAssessmentUploadPath(pathname)) {
+          throw new Error("The upload path is invalid.");
+        }
+
+        const validUntil = Date.now() + 15 * 60 * 1000;
+        const token = await issueSignedToken({
+          pathname,
+          operations: ["put"],
+          allowedContentTypes: [...PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES],
+          maximumSizeInBytes: MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES,
+          validUntil,
+        });
+
+        return {
+          token,
+          urlOptions: {
+            allowedContentTypes: [...PROJECT_ASSESSMENT_UPLOAD_CONTENT_TYPES],
+            maximumSizeInBytes: MAX_PROJECT_ASSESSMENT_UPLOAD_BYTES,
+            validUntil,
+            addRandomSuffix: true,
+          },
+        };
+      },
       onUploadCompleted: async () => {
-        // The client receives the uploaded blob URL directly; no extra work needed here.
+        // The uploaded URL is returned to the form and included in the submission email.
       },
     });
 
-    return NextResponse.json(result);
+    return NextResponse.json(result, {
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (error) {
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Upload failed." },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "The file could not be uploaded.",
+      },
       { status: 400 },
     );
   }

@@ -9,17 +9,19 @@ export const validProjectAssessment = {
   companyName: "Example Medical",
   companyWebsite: "https://example.com",
   countryRegion: "Germany",
-  companyStage: "Scale-up",
-  companyStageOther: "",
+  organizationType: "Privately held company",
+  organizationTypeOther: "",
   contactPersonName: "Alex Example",
   jobTitle: "Commercial Director",
   email: "alex@example.com",
   linkedInProfile: "https://www.linkedin.com/in/alex-example",
   productName: "Mobility Platform",
-  productCategory: "Rehabilitation",
+  productCategory: "Rehabilitation, assistive & prosthetic devices",
+  productCategoryOther: "",
   productDescription: "A non-confidential description of a rehabilitation technology.",
   targetIndication: "Post-operative lower-limb recovery.",
-  developmentStage: "CE marked",
+  productLifecycleStage: "Commercial launch / early market",
+  productLifecycleStageOther: "",
   regulatoryStatus: "CE marked",
   regulatoryStatusOther: "",
   clinicalEvidence: "Published clinical study",
@@ -88,8 +90,12 @@ describe("projectAssessmentSubmissionSchema", () => {
   it("requires specification when an Other option is selected", () => {
     const result = projectAssessmentSubmissionSchema.safeParse({
       ...validProjectAssessment,
-      companyStage: "Other",
-      companyStageOther: "",
+      organizationType: "Other",
+      organizationTypeOther: "",
+      productCategory: "Other medical device",
+      productCategoryOther: "",
+      productLifecycleStage: "Other",
+      productLifecycleStageOther: "",
       regulatoryStatus: "Other",
       regulatoryStatusOther: "",
       chinaInterest: ["Other"],
@@ -100,7 +106,9 @@ describe("projectAssessmentSubmissionSchema", () => {
     if (result.success) return;
 
     const errors = getProjectAssessmentFieldErrors(result.error);
-    expect(errors.companyStageOther).toBeDefined();
+    expect(errors.organizationTypeOther).toBeDefined();
+    expect(errors.productCategoryOther).toBeDefined();
+    expect(errors.productLifecycleStageOther).toBeDefined();
     expect(errors.regulatoryStatusOther).toBeDefined();
     expect(errors.chinaInterestOther).toBeDefined();
   });

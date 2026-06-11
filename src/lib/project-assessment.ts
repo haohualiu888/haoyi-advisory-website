@@ -1,34 +1,38 @@
 import { z } from "zod";
 
-export const companyStages = [
-  "University spin-out",
-  "Startup",
-  "Scale-up",
-  "SME",
-  "Public company",
+export const organizationTypes = [
+  "University / research institution project",
+  "University / research institution spin-out",
+  "Privately held company",
+  "Publicly listed company",
+  "Corporate subsidiary / business unit",
+  "Non-profit / public-sector organization",
   "Other",
 ] as const;
 
 export const productCategories = [
-  "Rehabilitation",
-  "Recovery",
-  "Diagnostics",
-  "Digital Health",
-  "Home Care",
-  "Monitoring",
-  "Surgical / interventional device",
-  "Hospital equipment",
+  "Diagnostic, imaging & IVD devices",
+  "Surgical, interventional & implantable devices",
+  "Therapeutic & life-support devices",
+  "Monitoring & measurement devices",
+  "Rehabilitation, assistive & prosthetic devices",
+  "Medical device software / SaMD",
+  "General hospital, dental & laboratory equipment",
+  "Medical consumables & disposable devices",
   "Other medical device",
 ] as const;
 
-export const developmentStages = [
-  "Concept / prototype",
-  "Preclinical validation",
-  "Clinical validation",
-  "CE marked",
-  "FDA cleared / approved",
-  "Commercially available",
-  "Revenue generating",
+export const productLifecycleStages = [
+  "Concept / feasibility",
+  "Prototype / engineering development",
+  "Design verification & validation",
+  "Preclinical / bench testing",
+  "Clinical evaluation / investigation",
+  "Regulatory submission / review",
+  "Approved / market-ready, not yet launched",
+  "Commercial launch / early market",
+  "Established commercial product",
+  "Other",
 ] as const;
 
 export const regulatoryStatuses = [
@@ -119,8 +123,8 @@ export const projectAssessmentSubmissionSchema = z
     companyName: requiredText("Company name", 200),
     companyWebsite: httpUrl("Company website").optional().default(""),
     countryRegion: requiredText("Country / region", 120),
-    companyStage: z.enum(companyStages, { error: "Company stage is required." }),
-    companyStageOther: z.string().trim().max(120).optional().default(""),
+    organizationType: z.enum(organizationTypes, { error: "Organization type is required." }),
+    organizationTypeOther: z.string().trim().max(160).optional().default(""),
     contactPersonName: requiredText("Contact person name", 160),
     jobTitle: requiredText("Job title", 160),
     email: z.email("Enter a valid email address.").max(254),
@@ -128,6 +132,7 @@ export const projectAssessmentSubmissionSchema = z
 
     productName: requiredText("Product / technology name", 240),
     productCategory: z.enum(productCategories, { error: "Product category is required." }),
+    productCategoryOther: z.string().trim().max(160).optional().default(""),
     productDescription: z
       .string()
       .trim()
@@ -140,9 +145,10 @@ export const projectAssessmentSubmissionSchema = z
       .max(1000, "Target indication / use case is too long.")
       .optional()
       .default(""),
-    developmentStage: z.enum(developmentStages, {
-      error: "Current development stage is required.",
+    productLifecycleStage: z.enum(productLifecycleStages, {
+      error: "Product lifecycle stage is required.",
     }),
+    productLifecycleStageOther: z.string().trim().max(160).optional().default(""),
 
     regulatoryStatus: z.enum(regulatoryStatuses, {
       error: "Current regulatory status is required.",
@@ -184,11 +190,30 @@ export const projectAssessmentSubmissionSchema = z
     companyFax: z.string().max(200).optional().default(""),
   })
   .superRefine((data, context) => {
-    if (data.companyStage === "Other" && !data.companyStageOther) {
+    if (data.organizationType === "Other" && !data.organizationTypeOther) {
       context.addIssue({
         code: "custom",
-        path: ["companyStageOther"],
-        message: "Please specify the company stage.",
+        path: ["organizationTypeOther"],
+        message: "Please specify the organization type.",
+      });
+    }
+
+    if (data.productCategory === "Other medical device" && !data.productCategoryOther) {
+      context.addIssue({
+        code: "custom",
+        path: ["productCategoryOther"],
+        message: "Please specify the medical device category.",
+      });
+    }
+
+    if (
+      data.productLifecycleStage === "Other" &&
+      !data.productLifecycleStageOther
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["productLifecycleStageOther"],
+        message: "Please specify the product lifecycle stage.",
       });
     }
 

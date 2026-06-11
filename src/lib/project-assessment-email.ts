@@ -25,10 +25,18 @@ function section(title: string, rows: string) {
 }
 
 export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmission) {
-  const companyStage =
-    submission.companyStage === "Other"
-      ? `Other: ${submission.companyStageOther}`
-      : submission.companyStage;
+  const organizationType =
+    submission.organizationType === "Other"
+      ? `Other: ${submission.organizationTypeOther}`
+      : submission.organizationType;
+  const productCategory =
+    submission.productCategory === "Other medical device"
+      ? `Other: ${submission.productCategoryOther}`
+      : submission.productCategory;
+  const productLifecycleStage =
+    submission.productLifecycleStage === "Other"
+      ? `Other: ${submission.productLifecycleStageOther}`
+      : submission.productLifecycleStage;
   const regulatoryStatus =
     submission.regulatoryStatus === "Other"
       ? `Other: ${submission.regulatoryStatusOther}`
@@ -51,7 +59,7 @@ export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmiss
             row("Company name", submission.companyName) +
               row("Company website", submission.companyWebsite) +
               row("Country / region", submission.countryRegion) +
-              row("Company stage", companyStage) +
+              row("Organization type", organizationType) +
               row("Contact person", submission.contactPersonName) +
               row("Job title", submission.jobTitle) +
               row("Email", submission.email) +
@@ -61,10 +69,10 @@ export function buildProjectAssessmentEmail(submission: ProjectAssessmentSubmiss
           ${section(
             "Product Information",
             row("Product / technology", submission.productName) +
-              row("Product category", submission.productCategory) +
+              row("Product category", productCategory) +
               row("Description", submission.productDescription) +
               row("Target indication / use case", submission.targetIndication) +
-              row("Development stage", submission.developmentStage),
+              row("Product lifecycle stage", productLifecycleStage),
           )}
 
           ${section(

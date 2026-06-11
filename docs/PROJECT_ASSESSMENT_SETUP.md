@@ -24,6 +24,24 @@ NEXT_PUBLIC_TURNSTILE_SITE_KEY
 TURNSTILE_SECRET_KEY
 ```
 
+## File Uploads
+
+The Vercel project must have a Blob store connected. The connection supplies:
+
+```text
+BLOB_STORE_ID
+BLOB_WEBHOOK_PUBLIC_KEY
+VERCEL_OIDC_TOKEN
+```
+
+The upload route uses short-lived OIDC-backed presigned URLs. It does not require a
+`BLOB_READ_WRITE_TOKEN`.
+
+Accepted files are PDF, PowerPoint, Word, PNG, and JPEG up to 20 MB. Uploads are stored under the
+`project-assessments/` prefix and returned as unlisted public URLs for inclusion in the submission
+email. The form must continue to tell users not to upload confidential, patient-identifiable, or
+commercially sensitive material.
+
 ## Email DNS
 
 Preserve the existing mailbox provider.
@@ -49,6 +67,7 @@ Keep `PROJECT_ASSESSMENT_ENABLED=false` until:
 - Mailbox inbound delivery works.
 - The Resend sending domain is verified.
 - Turnstile succeeds on the production page.
+- A supported test file uploads successfully to the connected Vercel Blob store.
 - The privacy controller and contact details are approved.
 - A complete non-confidential test submission arrives at the mailbox.
 
